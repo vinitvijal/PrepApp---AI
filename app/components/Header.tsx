@@ -1,3 +1,4 @@
+import { UserButton, SignedIn, SignedOut } from '@clerk/nextjs'
 import Link from 'next/link'
 import React from 'react'
 
@@ -9,7 +10,13 @@ function Header() {
             <a href="#">Home</a>
             <a href="#">About</a>
             <a href="#">Home</a>
-            <a href="#">About</a>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            <SignedOut>
+                <Link href='/sign-in'>Sign In</Link>
+                <Link href='/sign-up'>Sign Up</Link>
+            </SignedOut>
         </div>
     </div>
   )

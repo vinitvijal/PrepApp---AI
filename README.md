@@ -1,6 +1,6 @@
-# PrepApp---AI
+# PrepApp AI
 
-**PrepApp---AI** is an AI-powered preparation platform designed specifically for Delhi University (DU) students. It offers smart tools for mock test generation, resume building, placement tracking, and more, helping students prepare efficiently for exams and placements.
+**PrepApp AI** is an AI-powered preparation platform designed specifically for Delhi University (DU) students. It offers smart tools for mock test generation, resume building, placement tracking, and more, helping students prepare efficiently for exams and placements.
 
 ---
 
@@ -96,4 +96,4 @@ For support or queries, reach out at [vineet.mca25@cs.du.ac.in](mailto:vineet.mc
 
 ---
 
-**PrepApp---AI**: Empowering DU students for exams and placements
+**PrepApp AI**: Empowering DU students for exams and placements

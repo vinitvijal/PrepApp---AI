@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PrepApp---AI
+
+**PrepApp---AI** is an AI-powered preparation platform designed specifically for Delhi University (DU) students. It offers smart tools for mock test generation, resume building, placement tracking, and more, helping students prepare efficiently for exams and placements.
+
+---
+
+## Features
+
+- **AI Generated Mock Tests**
+  - Create custom mock tests by subject, difficulty, and topic.
+  - Instant scoring and feedback.
+  - Review test history and analytics.
+
+- **Resume Builder & ATS Scoring**
+  - Build, edit, and version your resume.
+  - Get AI-powered ATS (Applicant Tracking System) scoring and suggestions.
+  - Generate sharable resume links for easy sharing.
+
+- **Placement Tracker**
+  - Track placement applications and statuses.
+  - Set reminders for deadlines and interviews.
+  - Add notes and updates for each application.
+
+- **Resources**
+  - Access curated study materials, interview tips, and FAQs.
+
+- **Profile & Settings**
+  - Manage personal information and app preferences.
+
+---
+
+## Sidebar Menu Structure
+
+- **Dashboard**: Overview, reminders, quick links.
+- **Mock Tests**: Take Test, Test History, Custom Test Settings.
+- **Resume Builder**: Create/Edit Resume, Resume Versions, ATS Scoring, Sharable Links.
+- **Placement Tracker**: Applications, Reminders, Notes.
+- **Resources**: Study Materials, Interview Tips, FAQs.
+- **Profile**: Personal Info, Settings.
+- **Support / Help**
+
+---
 
 ## Getting Started
 
-First, run the development server:
+1. **Clone the Repository**
+   ```sh
+   git clone https://github.com/yourusername/PrepApp---AI.git
+   cd PrepApp---AI
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. **Install Dependencies**
+   ```sh
+   npm install
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. **Run the App**
+   ```sh
+   npm start
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. **Access the App**
+   - Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend**: React / Next.js 
+- **Backend**: Node.js / Python (Flask)
+- **Database**: MongoDB / PostgreSQL
+- **AI/ML**: OpenAI API, HuggingFace Transformers
+- **Notifications**: Email, Push (SES, OneSignal)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contributing
 
-## Deploy on Vercel
+1. Fork the repository.
+2. Create your feature branch (`git checkout -b feature/YourFeature`).
+3. Commit your changes (`git commit -am 'Add new feature'`).
+4. Push to the branch (`git push origin feature/YourFeature`).
+5. Create a Pull Request.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+## Contact
+
+For support or queries, reach out at [vineet.mca25@cs.du.ac.in](mailto:vineet.mca25@cs.du.ac.in).
+
+---
+
+**PrepApp---AI**: Empowering DU students for exams and placements

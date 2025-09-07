@@ -1,89 +1,136 @@
 import { login } from './actions'
+import Link from 'next/link'
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Brutalist Header */}
-        <div className="mb-12 text-center">
-          <h1 className="text-6xl font-black uppercase tracking-tighter mb-4 transform -skew-x-12">
-            LOGIN
-          </h1>
-          <div className="w-20 h-1 bg-white mx-auto transform rotate-3"></div>
+        <div className="text-center mb-8">
+          <div className="inline-block bg-black text-white px-6 py-3 mb-4 transform -rotate-1 shadow-lg">
+            <h1 className="text-2xl font-black uppercase tracking-wider">
+              PrepApp
+            </h1>
+          </div>
+          <p className="text-gray-600 text-sm">
+            Professional Learning Platform
+          </p>
         </div>
 
-        {/* Login Form Container */}
-        <div className="bg-white text-black p-8 border-8 border-black transform rotate-1 shadow-[16px_16px_0px_0px_#000000]">
-          <form className="space-y-6">
-            {/* Email Field */}
-            <div className="space-y-2">
-              <label 
-                htmlFor="email" 
-                className="block text-xl font-black uppercase tracking-wider"
+        <div className="bg-white rounded-lg shadow-xl border-l-4 border-black overflow-hidden">
+          <div className="bg-gray-50 px-6 py-4 border-b">
+            <h2 className="text-xl font-bold text-gray-900">
+              Sign in to your account
+            </h2>
+            <p className="text-sm text-gray-600 mt-1">
+              Welcome back! Please enter your details.
+            </p>
+          </div>
+
+          <div className="px-6 py-6">
+            <form className="space-y-5">
+              <div>
+                <label 
+                  htmlFor="email" 
+                  className="block text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wide"
+                >
+                  Email Address
+                </label>
+                <input 
+                  id="email" 
+                  name="email" 
+                  type="email" 
+                  required 
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-md focus:outline-none focus:border-black focus:ring-2 focus:ring-gray-200 transition-all duration-200 text-gray-900 placeholder-gray-500"
+                  placeholder="Enter your email address"
+                />
+              </div>
+
+              <div>
+                <label 
+                  htmlFor="password" 
+                  className="block text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wide"
+                >
+                  Password
+                </label>
+                <input 
+                  id="password" 
+                  name="password" 
+                  type="password" 
+                  required 
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-md focus:outline-none focus:border-black focus:ring-2 focus:ring-gray-200 transition-all duration-200 text-gray-900 placeholder-gray-500"
+                  placeholder="Enter your password"
+                />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <input 
+                    id="remember-me" 
+                    name="remember-me" 
+                    type="checkbox" 
+                    className="h-4 w-4 text-black focus:ring-black border-gray-300 rounded"
+                  />
+                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+                    Remember me
+                  </label>
+                </div>
+                <div className="text-sm">
+                  <Link 
+                    href="/forgot-password" 
+                    className="font-medium text-black hover:text-gray-700 underline decoration-2 underline-offset-2"
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
+              </div>
+
+              <button 
+                formAction={login}
+                className="w-full py-3 px-4 bg-black text-white font-bold uppercase tracking-wide rounded-md hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-300 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
               >
-                EMAIL
-              </label>
-              <input 
-                id="email" 
-                name="email" 
-                type="email" 
-                required 
-                className="w-full px-4 py-4 text-lg font-bold border-4 border-black bg-yellow-300 placeholder-black focus:bg-yellow-400 focus:outline-none focus:border-red-500 transform -skew-x-1"
-                placeholder="YOUR@EMAIL.COM"
-              />
+                Sign In
+              </button>
+            </form>
+
+            <div className="mt-6">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300" />
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white text-gray-500 font-medium">
+                    New to PrepApp?
+                  </span>
+                </div>
+              </div>
             </div>
 
-            {/* Password Field */}
-            <div className="space-y-2">
-              <label 
-                htmlFor="password" 
-                className="block text-xl font-black uppercase tracking-wider"
-              >
-                PASSWORD
-              </label>
-              <input 
-                id="password" 
-                name="password" 
-                type="password" 
-                required 
-                className="w-full px-4 py-4 text-lg font-bold border-4 border-black bg-cyan-300 placeholder-black focus:bg-cyan-400 focus:outline-none focus:border-red-500 transform skew-x-1"
-                placeholder="••••••••"
-              />
-            </div>
-
-            {/* Submit Button */}
-            <button 
-              formAction={login}
-              className="w-full py-6 text-2xl font-black uppercase tracking-widest bg-red-500 border-4 border-black text-white hover:bg-red-600 transform -rotate-1 hover:rotate-0 transition-all duration-200 shadow-[8px_8px_0px_0px_#000000] hover:shadow-[4px_4px_0px_0px_#000000] active:shadow-none active:transform active:translate-x-2 active:translate-y-2"
-            >
-              ENTER
-            </button>
-          </form>
-
-          {/* Footer Links */}
-          <div className="mt-8 pt-6 border-t-4 border-black">
-            <div className="flex justify-between items-center">
-              <a 
+            <div className="mt-4 text-center">
+              <Link 
                 href="/signup" 
-                className="text-lg font-black uppercase underline decoration-4 decoration-yellow-400 hover:decoration-red-500 transform hover:skew-x-12 transition-all"
+                className="inline-block font-medium text-black hover:text-gray-700 underline decoration-2 underline-offset-2"
               >
-                SIGN UP
-              </a>
-              <a 
-                href="/forgot" 
-                className="text-lg font-black uppercase underline decoration-4 decoration-cyan-400 hover:decoration-red-500 transform hover:-skew-x-12 transition-all"
-              >
-                FORGOT?
-              </a>
+                Create your account →
+              </Link>
             </div>
           </div>
         </div>
 
-        {/* Decorative Elements */}
-        <div className="mt-8 flex justify-center space-x-4">
-          <div className="w-4 h-4 bg-yellow-400 transform rotate-45"></div>
-          <div className="w-4 h-4 bg-cyan-400 transform -rotate-45"></div>
-          <div className="w-4 h-4 bg-red-500 transform rotate-45"></div>
+        <div className="mt-8 text-center">
+          <div className="flex justify-center space-x-6 text-sm text-gray-500">
+            <Link href="/privacy" className="hover:text-gray-700 transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-gray-700 transition-colors">
+              Terms of Service
+            </Link>
+            <Link href="/support" className="hover:text-gray-700 transition-colors">
+              Support
+            </Link>
+          </div>
+          <p className="mt-2 text-xs text-gray-400">
+            © 2025 PrepApp. All rights reserved.
+          </p>
         </div>
       </div>
     </div>

@@ -14,8 +14,11 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
+import Image from "next/image";
 // import { Badge } from "@/components/ui/badge";
 // import { User } from "@/entities/User";
+
+
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const location = usePathname();
@@ -75,8 +78,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="lg:hidden bg-white border-b shadow-sm p-4 relative z-50">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <GraduationCap className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center">
+              <Image src='/logo.png' alt="Logo" width={100} height={100} className="w-10 h-10 text-white" />
             </div>
             <div>
               <h1 className="text-lg font-semibold text-gray-900">PrepApp</h1>
@@ -100,8 +103,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-              <GraduationCap className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center">
+              <Image src='/logo.png' alt="Logo" width={100} height={100} className="w-10 h-10 text-white" />
             </div>
             <div>
               <h1 className="text-xl font-semibold text-gray-900">PrepApp</h1>

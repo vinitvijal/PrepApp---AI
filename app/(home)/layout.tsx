@@ -18,6 +18,8 @@ import Image from "next/image";
 // import { Badge } from "@/components/ui/badge";
 // import { User } from "@/entities/User";
 
+
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   const location = usePathname();
   const [user, setUser] = React.useState<User | null>(null);
@@ -77,7 +79,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-              <Image src='/logo.png' alt="Logo" width={100} height={100} className="w-5 h-5 text-white" />
+              <Image src='/logo.png' alt="Logo" width={100} height={100} className="w-10 h-10 text-white" />
             </div>
             <div>
               <h1 className="text-lg font-semibold text-gray-900">PrepApp</h1>

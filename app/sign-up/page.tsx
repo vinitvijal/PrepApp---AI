@@ -1,7 +1,7 @@
-import { login } from './actions'
+import { signup } from '../login/actions'
 import Link from 'next/link'
 
-export default function LoginPage() {
+export default function SignUpPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -19,21 +19,24 @@ export default function LoginPage() {
         <div className="bg-white rounded-lg shadow-xl border-l-4 border-black overflow-hidden">
           <div className="bg-gray-50 px-6 py-4 border-b">
             <h2 className="text-xl font-bold text-gray-900">
-              Sign in to your account
+              Create your account
             </h2>
             <p className="text-sm text-gray-600 mt-1">
-              Welcome back! Please enter your details.
+              Join PrepApp and start your learning journey today.
             </p>
           </div>
-
+        {/* Display Name Field */}
+         
           <div className="px-6 py-6">
             <form className="space-y-5">
+            
+
               <div>
                 <label 
                   htmlFor="email" 
                   className="block text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wide"
                 >
-                  Email Address
+                  DU Email Address
                 </label>
                 <input 
                   id="email" 
@@ -58,37 +61,55 @@ export default function LoginPage() {
                   type="password" 
                   required 
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-md focus:outline-none focus:border-black focus:ring-2 focus:ring-gray-200 transition-all duration-200 text-gray-900 placeholder-gray-500"
-                  placeholder="Enter your password"
+                  placeholder="Create a strong password"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Password must be at least 8 characters long
+                </p>
+              </div>
+
+              <div>
+                <label 
+                  htmlFor="confirmPassword" 
+                  className="block text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wide"
+                >
+                  Confirm Password
+                </label>
+                <input 
+                  id="confirmPassword" 
+                  name="confirmPassword" 
+                  type="password" 
+                  required 
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-md focus:outline-none focus:border-black focus:ring-2 focus:ring-gray-200 transition-all duration-200 text-gray-900 placeholder-gray-500"
+                  placeholder="Confirm your password"
                 />
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input 
-                    id="remember-me" 
-                    name="remember-me" 
-                    type="checkbox" 
-                    className="h-4 w-4 text-black focus:ring-black border-gray-300 rounded"
-                  />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-                    Remember me
-                  </label>
-                </div>
-                <div className="text-sm">
-                  <Link 
-                    href="/forgot-password" 
-                    className="font-medium text-black hover:text-gray-700 underline decoration-2 underline-offset-2"
-                  >
-                    Forgot password?
+              <div className="flex items-start">
+                <input 
+                  id="terms" 
+                  name="terms" 
+                  type="checkbox" 
+                  required
+                  className="h-4 w-4 text-black focus:ring-black border-gray-300 rounded mt-1"
+                />
+                <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
+                  I agree to the{' '}
+                  <Link href="/terms" className="font-medium text-black hover:text-gray-700 underline decoration-2 underline-offset-2">
+                    Terms of Service
                   </Link>
-                </div>
+                  {' '}and{' '}
+                  <Link href="/privacy" className="font-medium text-black hover:text-gray-700 underline decoration-2 underline-offset-2">
+                    Privacy Policy
+                  </Link>
+                </label>
               </div>
 
               <button 
-                formAction={login}
+                formAction={signup}
                 className="w-full py-3 px-4 bg-black text-white font-bold uppercase tracking-wide rounded-md hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-300 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
               >
-                Sign In
+                Create Account
               </button>
             </form>
 
@@ -99,7 +120,7 @@ export default function LoginPage() {
                 </div>
                 <div className="relative flex justify-center text-sm">
                   <span className="px-2 bg-white text-gray-500 font-medium">
-                    New to PrepApp?
+                    Already have an account?
                   </span>
                 </div>
               </div>
@@ -107,10 +128,10 @@ export default function LoginPage() {
 
             <div className="mt-4 text-center">
               <Link 
-                href="/sign-up" 
+                href="/login" 
                 className="inline-block font-medium text-black hover:text-gray-700 underline decoration-2 underline-offset-2"
               >
-                Create your account →
+                Sign in to your account →
               </Link>
             </div>
           </div>

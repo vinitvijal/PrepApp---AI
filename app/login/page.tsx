@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { login } from './actions'
 import Link from 'next/link'
 
@@ -6,11 +7,12 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-block bg-black text-white px-6 py-3 mb-4 transform -rotate-1 shadow-lg">
-            <h1 className="text-2xl font-black uppercase tracking-wider">
-              PrepApp
-            </h1>
+          <div className="inline-block text-white px-6 py-3 mb-4 transform -rotate-1 ">
+            <Image src='/logo.png' alt="Logo" width={100} height={100} />
           </div>
+          <p className="text-2xl text-black font-semibold uppercase tracking-wider">
+            PREPAPP
+          </p>
           <p className="text-gray-600 text-sm">
             Professional Learning Platform
           </p>
@@ -29,34 +31,34 @@ export default function LoginPage() {
           <div className="px-6 py-6">
             <form className="space-y-5">
               <div>
-                <label 
-                  htmlFor="email" 
+                <label
+                  htmlFor="email"
                   className="block text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wide"
                 >
                   Email Address
                 </label>
-                <input 
-                  id="email" 
-                  name="email" 
-                  type="email" 
-                  required 
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-md focus:outline-none focus:border-black focus:ring-2 focus:ring-gray-200 transition-all duration-200 text-gray-900 placeholder-gray-500"
                   placeholder="Enter your email address"
                 />
               </div>
 
               <div>
-                <label 
-                  htmlFor="password" 
+                <label
+                  htmlFor="password"
                   className="block text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wide"
                 >
                   Password
                 </label>
-                <input 
-                  id="password" 
-                  name="password" 
-                  type="password" 
-                  required 
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  required
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-md focus:outline-none focus:border-black focus:ring-2 focus:ring-gray-200 transition-all duration-200 text-gray-900 placeholder-gray-500"
                   placeholder="Enter your password"
                 />
@@ -64,10 +66,10 @@ export default function LoginPage() {
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <input 
-                    id="remember-me" 
-                    name="remember-me" 
-                    type="checkbox" 
+                  <input
+                    id="remember-me"
+                    name="remember-me"
+                    type="checkbox"
                     className="h-4 w-4 text-black focus:ring-black border-gray-300 rounded"
                   />
                   <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
@@ -75,8 +77,8 @@ export default function LoginPage() {
                   </label>
                 </div>
                 <div className="text-sm">
-                  <Link 
-                    href="/forgot-password" 
+                  <Link
+                    href="/forgot-password"
                     className="font-medium text-black hover:text-gray-700 underline decoration-2 underline-offset-2"
                   >
                     Forgot password?
@@ -84,7 +86,7 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              <button 
+              <button
                 formAction={login}
                 className="w-full py-3 px-4 bg-black text-white font-bold uppercase tracking-wide rounded-md hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-300 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
               >
@@ -106,8 +108,8 @@ export default function LoginPage() {
             </div>
 
             <div className="mt-4 text-center">
-              <Link 
-                href="/sign-up" 
+              <Link
+                href="/sign-up"
                 className="inline-block font-medium text-black hover:text-gray-700 underline decoration-2 underline-offset-2"
               >
                 Create your account →

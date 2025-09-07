@@ -5,24 +5,23 @@ import {
   Brain, 
   FileUser, 
   Briefcase, 
-  Settings, 
-  Zap,
-  Crown,
   Menu,
   X,
   GraduationCap
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
-import { SupabaseClient } from "@supabase/supabase-js";
 import Link from "next/link";
+import { createClient } from "@/utils/supabase/client";
+import { User } from "@supabase/supabase-js";
 // import { Badge } from "@/components/ui/badge";
 // import { User } from "@/entities/User";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const location = usePathname();
-  const [user, setUser] = React.useState(null);
+  const [user, setUser] = React.useState<User | null>(null);
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
+  const supabase = createClient();
 
   React.useEffect(() => {
     loadUser();
@@ -32,6 +31,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     try {
     //   const { data: userData } = await SupabaseClient.auth.getUser();
     //   setUser(userData);
+    const { data 
+        
+    } = await supabase.auth.getUser();
+    setUser(data.user);
     } catch (error) {
       console.log("User not logged in");
     }
@@ -40,25 +43,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const navigationItems = [
     {
       title: "Dashboard",
-      url: "Dashboard",
+      url: "dashboard",
       icon: LayoutDashboard,
       color: "text-blue-600"
     },
     {
       title: "Mock Tests",
-      url: "MockTests", 
+      url: "mock-tests", 
       icon: Brain,
       color: "text-purple-600"
     },
     {
       title: "Resume Manager",
-      url: "ResumeManager",
+      url: "resume-manager",
       icon: FileUser,
       color: "text-green-600"
     },
     {
       title: "Placement Tracker",
-      url: "PlacementTracker",
+      url: "placement-tracker",
       icon: Briefcase,
       color: "text-orange-600"
     }
@@ -95,7 +98,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       } lg:translate-x-0`}>
         
-        {/* Header */}
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
@@ -108,24 +110,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
 
-        {/* User Status */}
-        {/* {user && (
-          <div className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 border-b border-gray-200">
-            <div className="space-y-2">
-              <p className="font-medium text-gray-900">{user.full_name}</p>
-              <p className="text-sm text-gray-600">{user.course} • {user.year} Year</p>
-              <Badge variant={user.subscription_status === 'pro' ? 'default' : 'secondary'} className="text-xs">
-                {user.subscription_status === 'pro' ? (
-                  <><Crown className="w-3 h-3 mr-1" />Pro Member</>
-                ) : (
-                  'Free Plan'
-                )}
-              </Badge>
-            </div>
-          </div>
-        )} */}
-
-        {/* Navigation */}
         <nav className="flex-1 p-4 space-y-1">
           {navigationItems.map((item) => (
             <Link
@@ -146,17 +130,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           ))}
         </nav>
 
-        {/* Footer */}
         <div className="p-4 border-t border-gray-200">
           <p className="text-xs text-gray-500 text-center">
-            © 2024 PrepApp for DU Students
+            © 2025 PrepApp for DU Students
           </p>
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="lg:ml-64">
-        {/* Mobile Overlay */}
         {sidebarOpen && (
           <div 
             className="fixed inset-0 bg-black bg-opacity-25 z-30 lg:hidden"

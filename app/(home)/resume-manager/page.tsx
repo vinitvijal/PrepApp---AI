@@ -1,32 +1,53 @@
+'use client'
 import ResumeCard from '@/app/components/ResumeCard'
-import { Upload } from 'lucide-react'
-import React from 'react'
+import { Button } from '@/components/ui/button'
+import { Plus, Upload } from 'lucide-react'
+import React, { useState } from 'react'
 
 function page() {
+  const [showUpload, setShowUpload] = useState(false);
+  const [showBuilder, setShowBuilder] = useState(false);
+
+
+
   return (
-    <main className=' h-screen bg-white'>
-      <Header/>
+    <main className=' h-screen bg-white text-zinc-900 p-4 md:p-8 space-y-8'>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h1 className="text-3xl md:text-5xl font-semibold tracking-tight">
+            RESUME MANAGER
+          </h1>
+          <p className="text-sm font-light text-zinc-500 mt-2">
+            ATS SCORING • VERSIONING • SHARING
+          </p>
+        </div>
+        <div className="flex gap-3">
+          <Button
+            onClick={() => setShowUpload(true)}
+            className="bg-green-400 hover:bg-green-500 text-black brutalist-border brutalist-shadow font-black"
+          >
+            <Upload className="w-4 h-4 mr-2" />
+            UPLOAD RESUME
+          </Button>
+          <Button
+            onClick={() => setShowBuilder(true)}
+            className="bg-blue-400 hover:bg-blue-500 text-black brutalist-border brutalist-shadow font-black"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            BUILD NEW
+          </Button>
+        </div>
+      </div>
+
+
+
+
       <section>
         <ResumeCard/>
       </section>
     </main>
   )
 
-
-
-
-
-  function Header() {
-    return <header className=' w-full flex flex-col md:flex-row md:justify-between items-center px-8  py-4 bg-zinc-100'>
-      <div>
-        <h1 className=' text-black text-3xl'>RESUME MANAGER</h1>
-        <p className=' text-zinc-700 text-xs'>ATS SCORING • VERSIONING • SHARING</p>
-      </div>
-      <div>
-        <button className=' bg-green-500 py-2 px-4 flex'><Upload /> Upload Resume</button>
-      </div>
-    </header>
-  }
 }
 
 export default page

@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ResumeCard() {
+function ResumeUpload() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function ResumeCard() {
   )
 }
 
-export default ResumeCard
+export default ResumeUpload

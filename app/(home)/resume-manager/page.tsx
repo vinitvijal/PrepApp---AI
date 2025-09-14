@@ -1,4 +1,5 @@
 'use client'
+import { getPresignedUploadUrl } from '@/app/server/r2'
 // import ResumeCard from '@/app/components/ResumeCard'
 import ResumeList from '@/components/resume/ResumeList'
 import ResumeUpload from '@/components/resume/ResumeUpload'
@@ -64,6 +65,35 @@ function Page() {
   
   const handleUpload = async (file: File, targetRole: string) => {
     try {
+
+      const fileName = encodeURIComponent(file.name) + '-' + Date.now();
+      const fileType = encodeURIComponent(file.type);
+
+      const response = await getPresignedUploadUrl(fileName, fileType, 'resumes');
+
+      if (!response.success) {
+        throw new Error(response.error || "Failed to get upload URL");
+      }
+      const { url } = response;
+      console.log(url)
+      if (!url) {
+        throw new Error("Invalid upload URL");
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const resp = await fetch(url, {
+          method: 'PUT',
+          body: formData,
+      });
+
+
+      if (!resp.ok) {
+          throw new Error("Upload failed");
+      }
+      console.log("File uploaded successfully");
+
       // const { file_url } = await UploadFile({ file });
       
       

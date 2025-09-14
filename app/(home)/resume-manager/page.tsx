@@ -1,5 +1,6 @@
 'use client'
 import ResumeCard from '@/app/components/ResumeCard'
+import ResumeUpload from '@/components/resume/ResumeUpload'
 import { Button } from '@/components/ui/button'
 import { Plus, Upload } from 'lucide-react'
 import React, { useState } from 'react'
@@ -8,6 +9,32 @@ function page() {
   const [showUpload, setShowUpload] = useState(false);
   const [showBuilder, setShowBuilder] = useState(false);
 
+
+
+  
+  const handleUpload = async (file: File, targetRole: string) => {
+    try {
+      // const { file_url } = await UploadFile({ file });
+      
+      
+      const resumeData = {
+        title: file.name.replace(/\.[^/.]+$/, ""),
+        target_role: targetRole,
+        file_url: file_url,
+        ats_score: atsResult.score,
+        feedback: {
+          strengths: atsResult.strengths,
+          weaknesses: atsResult.weaknesses, 
+          suggestions: atsResult.suggestions
+        },
+        share_link: `${window.location.origin}/resume/${Math.random().toString(36).substring(7)}`
+      };
+
+      setShowUpload(false);
+    } catch (error) {
+      console.error("Error processing resume:", error);
+    }
+  };
 
 
   return (
@@ -41,6 +68,12 @@ function page() {
 
 
 
+      {showUpload && (
+        <ResumeUpload
+          onUpload={handleUpload}
+          onClose={() => setShowUpload(false)}
+        />
+      )}
 
       <section>
         <ResumeCard/>

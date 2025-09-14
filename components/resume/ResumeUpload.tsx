@@ -4,7 +4,7 @@ import { Brain, FileText, Upload, X } from 'lucide-react'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 
-function ResumeUpload({ onUpload, onClose }) {
+function ResumeUpload({ onUpload, onClose }: { onClose: () => void, onUpload:  (file: any, targetRole: any) => Promise<void>}) {
       const [file, setFile] = useState<File | null>(null);
   const [targetRole, setTargetRole] = useState("");
   const [dragActive, setDragActive] = useState(false);

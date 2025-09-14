@@ -1,127 +1,138 @@
-import { Resume } from '@/app/(home)/resume-manager/page';
-import { format } from 'date-fns';
-import { AlertTriangle, ExternalLink, FileUser, Share, Star, Trophy } from 'lucide-react';
+import { Resume } from '@/app/(home)/resume-manager/page'
+import { format } from 'date-fns'
+import { AlertTriangle, ExternalLink, FileUser, Share, Star, Trophy } from 'lucide-react'
 import React from 'react'
-import { Button } from '../ui/button';
+import { Button } from '../ui/button'
 
 
 
-function ResumeList({ resumes }: {resumes: Resume[]}) {
+function ResumeList({ resumes }: { resumes: Resume[] }) {
+  const getScoreStyle = (score: number) => {
+    if (score >= 80) return 'bg-emerald-50 text-emerald-700 border-emerald-200'
+    if (score >= 60) return 'bg-amber-50 text-amber-700 border-amber-200'
+    return 'bg-rose-50 text-rose-700 border-rose-200'
+  }
 
-const getScoreColor = (score: number) => {
-    if (score >= 80) return 'bg-green-400 text-black';
-    if (score >= 60) return 'bg-yellow-400 text-black';
-    return 'bg-red-400 text-black';
-  };
-
-    
   const copyShareLink = (shareLink: string) => {
-    navigator.clipboard.writeText(shareLink);
-    alert('SHARE LINK COPIED!');
-  };
+    navigator.clipboard.writeText(shareLink)
+    console.log('Share link copied!')
+  }
 
 
 
   if (resumes.length === 0) {
     return (
-      <div className="bg-white brutalist-border brutalist-shadow p-8 text-center transform rotate-1">
-        <div className="text-6xl font-black text-gray-400 mb-4">¯\_(ツ)_/¯</div>
-        <h3 className="text-xl font-black text-black mb-2">NO RESUMES YET</h3>
-        <p className="font-bold text-gray-600">Upload your first resume to get started!</p>
+      <div className="bg-white border border-gray-200 rounded-xl p-10 text-center shadow-sm">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50">
+          <FileUser className="h-8 w-8 text-blue-500" />
+        </div>
+        <h3 className="text-xl font-semibold text-gray-900 mb-2">No resumes yet</h3>
+        <p className="text-sm text-gray-600 max-w-sm mx-auto">
+          Upload your first resume to start tracking ATS scores and get improvement feedback.
+        </p>
       </div>
-    );
+    )
   }
 
 
 
   return (
-    <div className="grid gap-6">
+    <div className="gap-6 flex flex-1 flex-col overflow-y-auto pr-2">
       {resumes.map((resume) => (
         <div
           key={resume.id}
-          className={`bg-white brutalist-border brutalist-shadow p-6 `}
+          className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
         >
           <div className="flex flex-col md:flex-row justify-between gap-6">
             <div className="flex-1">
               <div className="flex items-start gap-4 mb-4">
-                <div className="bg-blue-400 brutalist-border p-3">
-                  <FileUser className="w-6 h-6 text-black" />
+                <div className="h-12 w-12 rounded-lg bg-blue-50 flex items-center justify-center border border-blue-100">
+                  <FileUser className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-black tracking-tight text-black">
-                    {resume.title?.toUpperCase()}
+                  <h3 className="text-lg font-semibold tracking-tight text-gray-900">
+                    {resume.title}
                   </h3>
-                  <p className="font-bold text-gray-600">{resume.target_role}</p>
-                  <p className="text-sm font-bold text-gray-500">
-                    Created {format(new Date(resume.created_date), "MMM d, yyyy")}
+                  <p className="text-sm font-medium text-gray-600">{resume.target_role}</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Created {format(new Date(resume.created_date), 'MMM d, yyyy')}
                   </p>
                 </div>
               </div>
 
-              {/* ATS Score */}
               {resume.ats_score && (
-                <div className={`${getScoreColor(resume.ats_score)} brutalist-border p-4 mb-4`}>
+                <div className={`${getScoreStyle(resume.ats_score)} border rounded-lg p-4 mb-4`}> 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Trophy className="w-5 h-5 text-black" />
-                      <span className="font-black text-black">ATS SCORE</span>
+                      <Trophy className="w-5 h-5 text-current" />
+                      <span className="font-semibold text-sm tracking-wide">ATS Score</span>
                     </div>
-                    <span className="text-2xl font-black text-black">
-                      {resume.ats_score}/100
+                    <span className="text-xl font-bold">
+                      {resume.ats_score}
+                      <span className="text-sm font-medium text-gray-500"> /100</span>
                     </span>
                   </div>
                 </div>
               )}
 
-              {/* Feedback Summary */}
               {resume.feedback && (
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {resume.feedback.strengths && resume.feedback.strengths?.length > 0 && (
-                    <div className="bg-green-100 brutalist-border p-3">
-                      <h4 className="font-black text-black mb-2 flex items-center gap-2">
-                        <Star className="w-4 h-4" />
-                        STRENGTHS
+                    <div className="rounded-lg border border-emerald-100 bg-emerald-50 p-4">
+                      <h4 className="font-semibold text-emerald-800 mb-2 flex items-center gap-2 text-sm uppercase tracking-wide">
+                        <Star className="w-4 h-4" /> Strengths
                       </h4>
-                      <div className="text-sm font-bold text-black space-y-1">
+                      <ul className="text-sm text-emerald-800 space-y-1 list-disc list-inside">
                         {resume.feedback.strengths.slice(0, 2).map((strength, i) => (
-                          <div key={i}>• {strength}</div>
+                          <li key={i}>{strength}</li>
                         ))}
-                      </div>
+                      </ul>
                     </div>
                   )}
-                  
+
                   {resume.feedback.weaknesses && resume.feedback.weaknesses?.length > 0 && (
-                    <div className="bg-red-100 brutalist-border p-3">
-                      <h4 className="font-black text-black mb-2 flex items-center gap-2">
-                        <AlertTriangle className="w-4 h-4" />
-                        IMPROVEMENTS
+                    <div className="rounded-lg border border-rose-100 bg-rose-50 p-4">
+                      <h4 className="font-semibold text-rose-800 mb-2 flex items-center gap-2 text-sm uppercase tracking-wide">
+                        <AlertTriangle className="w-4 h-4" /> Improvements
                       </h4>
-                      <div className="text-sm font-bold text-black space-y-1">
+                      <ul className="text-sm text-rose-800 space-y-1 list-disc list-inside">
                         {resume.feedback.weaknesses.slice(0, 2).map((weakness, i) => (
-                          <div key={i}>• {weakness}</div>
+                          <li key={i}>{weakness}</li>
                         ))}
-                      </div>
+                      </ul>
                     </div>
                   )}
+
+                    {resume.feedback.suggestions && resume.feedback.suggestions?.length > 0 && (
+                    <div className="rounded-lg border border-amber-100 bg-amber-50 p-4">
+                      <h4 className="font-semibold text-amber-800 mb-2 flex items-center gap-2 text-sm uppercase tracking-wide">
+                        <AlertTriangle className="w-4 h-4" /> Suggestions
+                        </h4>
+                        <ul className="text-sm text-amber-800 space-y-1 list-disc list-inside">
+                        {resume.feedback.suggestions.slice(0, 2).map((suggestion, i) => (
+                            <li key={i}>{suggestion}</li>
+                        ))}
+                        </ul>   
+                    </div>
+                    )}
                 </div>
               )}
             </div>
 
-            {/* Actions */}
-            <div className="flex flex-col gap-3 md:w-40">
+            <div className="flex flex-row md:flex-col gap-3 md:w-40">
               <Button
                 onClick={() => window.open(resume.file_url, '_blank')}
-                className="bg-gray-400 hover:bg-gray-500 text-black brutalist-border brutalist-shadow font-black"
+                className="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 font-medium rounded-md shadow-sm hover:shadow transition-colors"
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
-                VIEW
+                View
               </Button>
               <Button
                 onClick={() => copyShareLink(resume.share_link)}
-                className="bg-purple-400 hover:bg-purple-500 text-black brutalist-border brutalist-shadow font-black"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm hover:shadow"
               >
                 <Share className="w-4 h-4 mr-2" />
-                SHARE
+                Share
               </Button>
             </div>
           </div>

@@ -58,7 +58,7 @@ interface DropHandler {
     setError(null)
     try {
       await onUpload(file, targetRole)
-    } catch (e) {
+    } catch {
       setError('Upload failed. Please try again.')
     } finally {
       setIsProcessing(false)

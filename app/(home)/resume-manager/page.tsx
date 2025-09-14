@@ -16,14 +16,15 @@ import React, { useEffect, useState } from 'react'
 
 function Page() {
   const [showUpload, setShowUpload] = useState(false);
-  const [showBuilder, setShowBuilder] = useState(false);
   const [resumes, setResumes] = useState<Resume[]>([]);
-
+  const [loading, setLoading] = useState(true);
 
 
   async function loadResumes() {
+    setLoading(true);
     const res = await getUserResumes();
     setResumes(res);
+    setLoading(false);
   }
 
 
@@ -102,11 +103,11 @@ function Page() {
             Upload Resume
           </Button>
           <Button
-            onClick={() => setShowBuilder(true)}
+            // onClick={() => setShowBuilder(true)}
             className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm hover:shadow"
           >
             <Plus className="w-4 h-4 mr-2" />
-            Build New
+            JD Analysis
           </Button>
         </div>
       </div>
@@ -122,10 +123,13 @@ function Page() {
 
       
 
-      <ResumeList 
-        resumes={resumes}
-        // onUpdate={loadData}
-      />
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <ResumeList
+          resumes={resumes}
+        />
+      )}
     </main>
   )
 

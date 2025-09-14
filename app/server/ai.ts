@@ -69,11 +69,11 @@ export async function analyzeResume(resumeUrl: string, targetRole: string) {
                 truncated: fullText.length > truncated.length,
             },
         }
-    } catch (error: any) {
-        console.error('analyzeResume error', error)
+    } catch {
+        console.error('analyzeResume error - ', resumeUrl)
         return {
             ok: false as const,
-            error: error?.message || 'Unknown error',
+            error: 'AI Error',
         }
     }
 }

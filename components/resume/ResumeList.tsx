@@ -75,48 +75,46 @@ function ResumeList({ resumes }: { resumes: Resume[] }) {
                 </div>
               )}
 
-              {resume.feedback && (
                 <div className="space-y-3">
-                  {resume.feedback.strengths && resume.feedback.strengths?.length > 0 && (
+                  {resume.strengths && resume.strengths?.length > 0 && (
                     <div className="rounded-lg border border-emerald-100 bg-emerald-50 p-4">
                       <h4 className="font-semibold text-emerald-800 mb-2 flex items-center gap-2 text-sm uppercase tracking-wide">
                         <Star className="w-4 h-4" /> Strengths
                       </h4>
                       <ul className="text-sm text-emerald-800 space-y-1 list-disc list-inside">
-                        {resume.feedback.strengths.slice(0, 2).map((strength, i) => (
+                        {resume.strengths.slice(0, 2).map((strength, i) => (
                           <li key={i}>{strength}</li>
                         ))}
                       </ul>
                     </div>
                   )}
 
-                  {resume.feedback.weaknesses && resume.feedback.weaknesses?.length > 0 && (
+                  {resume.weaknesses && resume.weaknesses?.length > 0 && (
                     <div className="rounded-lg border border-rose-100 bg-rose-50 p-4">
                       <h4 className="font-semibold text-rose-800 mb-2 flex items-center gap-2 text-sm uppercase tracking-wide">
                         <AlertTriangle className="w-4 h-4" /> Improvements
                       </h4>
                       <ul className="text-sm text-rose-800 space-y-1 list-disc list-inside">
-                        {resume.feedback.weaknesses.slice(0, 2).map((weakness, i) => (
+                        {resume.weaknesses.slice(0, 2).map((weakness, i) => (
                           <li key={i}>{weakness}</li>
                         ))}
                       </ul>
                     </div>
                   )}
 
-                    {resume.feedback.suggestions && resume.feedback.suggestions?.length > 0 && (
+                    {resume.suggestions && resume.suggestions?.length > 0 && (
                     <div className="rounded-lg border border-amber-100 bg-amber-50 p-4">
                       <h4 className="font-semibold text-amber-800 mb-2 flex items-center gap-2 text-sm uppercase tracking-wide">
                         <AlertTriangle className="w-4 h-4" /> Suggestions
                         </h4>
                         <ul className="text-sm text-amber-800 space-y-1 list-disc list-inside">
-                        {resume.feedback.suggestions.slice(0, 2).map((suggestion, i) => (
+                        {resume.suggestions.slice(0, 2).map((suggestion, i) => (
                             <li key={i}>{suggestion}</li>
                         ))}
                         </ul>   
                     </div>
                     )}
                 </div>
-              )}
             </div>
 
             <div className="flex flex-row md:flex-col gap-3 md:w-40">

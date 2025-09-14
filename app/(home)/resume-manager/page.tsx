@@ -15,11 +15,9 @@ export interface Resume {
     file_url: string;
     ats_score: number;
     created_date: string;
-    feedback: {
-        strengths?: string[];
-        weaknesses?: string[];
-        suggestions?: string[];
-    };
+    strengths?: string[];
+    weaknesses?: string[];
+    suggestions?: string[];
     share_link: string;
 }
 
@@ -32,11 +30,9 @@ const resumes: Resume[] = [
     file_url: "/uploads/resume_frontend_engineer.pdf",
     ats_score: 82,
     created_date: new Date('2025-09-01').toISOString(),
-    feedback: {
-      strengths: ["Clear project impact", "Strong React/TypeScript usage", "Good metrics included"],
-      weaknesses: ["Lacks testing details", "No accessibility highlights"],
-      suggestions: ["Add unit/integration testing section", "Mention a11y improvements", "Quantify performance optimizations"]
-    },
+    strengths: ["Clear project impact", "Strong React/TypeScript usage", "Good metrics included"],
+    weaknesses: ["Lacks testing details", "No accessibility highlights"],
+    suggestions: ["Add unit/integration testing section", "Mention a11y improvements", "Quantify performance optimizations"],
     share_link: "/resume/demo123fe"
   },
   {
@@ -46,11 +42,9 @@ const resumes: Resume[] = [
     file_url: "/uploads/resume_data_scientist.pdf",
     ats_score: 76,
     created_date: new Date('2025-09-02').toISOString(),
-    feedback: {
-      strengths: ["Relevant ML stack", "Good problem statements", "Shows collaboration"],
-      weaknesses: ["Sparse model evaluation metrics", "No MLOps tooling listed"],
-      suggestions: ["Include ROC/AUC or F1 scores", "List model monitoring tools", "Add brief on data pipeline scaling"]
-    },
+    strengths: ["Relevant ML stack", "Good problem statements", "Shows collaboration"],
+    weaknesses: ["Sparse model evaluation metrics", "No MLOps tooling listed"],
+    suggestions: ["Include ROC/AUC or F1 scores", "List model monitoring tools", "Add brief on data pipeline scaling"],
     share_link: "/resume/demo456ds"
   }
 ]

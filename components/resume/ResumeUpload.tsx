@@ -1,3 +1,4 @@
+'use client'
 import React, { useRef, useState } from 'react'
 import { Button } from '../ui/button'
 import { Brain, FileText, Upload, X, CheckCircle2, Trash2, Target } from 'lucide-react'

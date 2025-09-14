@@ -1,5 +1,5 @@
 'use client'
-import ResumeCard from '@/app/components/ResumeCard'
+// import ResumeCard from '@/app/components/ResumeCard'
 import ResumeList from '@/components/resume/ResumeList'
 import ResumeUpload from '@/components/resume/ResumeUpload'
 import { Button } from '@/components/ui/button'
@@ -55,7 +55,7 @@ const resumes: Resume[] = [
 ]
 
 
-function page() {
+function Page() {
   const [showUpload, setShowUpload] = useState(false);
   const [showBuilder, setShowBuilder] = useState(false);
 
@@ -136,4 +136,4 @@ function page() {
 
 }
 
-export default page
+export default Page

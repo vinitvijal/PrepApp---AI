@@ -25,7 +25,7 @@ export async function analyzeResume(resumeUrl: string, targetRole: string) {
     try {
         if (!resumeUrl) throw new Error('Missing resumeUrl')
         if (!targetRole) throw new Error('Missing targetRole')
-
+            console.log(resumeUrl)
             const pdfResp = await fetch(resumeUrl)
             if (!pdfResp.ok) throw new Error(`Failed to fetch PDF: ${pdfResp.status}`)
             const pdfBlob = await pdfResp.blob()

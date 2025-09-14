@@ -14,14 +14,14 @@ async function getCurrentUser() {
 } 
 
 
-export async function AnalyzeAndStoreResume(resumeUrl?: string, targetRole?: string, fileName?: string, share_link?: string) {
+export async function AnalyzeAndStoreResume(resumeUrl: string, targetRole: string, fileName: string) {
     const user = await getCurrentUser();
 
     if (!user) {
         console.log("No user logged in");
         return;
     }
-    if (!resumeUrl || !targetRole || !fileName || !share_link) {
+    if (!resumeUrl || !targetRole || !fileName) {
         console.log("Missing parameters");
         return;
     }

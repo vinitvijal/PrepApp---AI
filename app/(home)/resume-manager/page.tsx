@@ -1,4 +1,5 @@
 'use client'
+import { AnalyzeAndStoreResume } from '@/app/server/db'
 import { getPresignedUploadUrl } from '@/app/server/r2'
 // import ResumeCard from '@/app/components/ResumeCard'
 import ResumeList from '@/components/resume/ResumeList'
@@ -90,19 +91,15 @@ function Page() {
 
       // const { file_url } = await UploadFile({ file });
       
-      
-      // const resumeData = {
-      //   title: file.name.replace(/\.[^/.]+$/, ""),
-      //   target_role: targetRole,
-      //   file_url: file_url,
-      //   ats_score: atsResult.score,
-      //   feedback: {
-      //     strengths: atsResult.strengths,
-      //     weaknesses: atsResult.weaknesses, 
-      //     suggestions: atsResult.suggestions
-      //   },
-      //   share_link: `${window.location.origin}/resume/${Math.random().toString(36).substring(7)}`
-      // };
+      console.log("Response After Upload:", response);
+
+      const filePath = url.split('/').slice(3).join('/').split('?')[0]; 
+
+      const share_link = `https://pub-2466a4abe0de40d4b2f7b5ede85b5b21.r2.dev/${filePath}`
+
+
+      const Analysis = await AnalyzeAndStoreResume(share_link, targetRole, file.name);
+      console.log(Analysis);
 
       setShowUpload(false);
     } catch (error) {

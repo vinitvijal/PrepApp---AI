@@ -89,29 +89,29 @@ function page() {
 
   return (
     <main className=' h-screen flex flex-col bg-zinc-50 text-zinc-900 p-4 md:p-8 space-y-8'>
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h1 className="text-3xl md:text-5xl font-semibold tracking-tight">
-            RESUME MANAGER
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div className="space-y-2">
+          <h1 className="text-2xl md:text-4xl font-semibold tracking-tight text-gray-900">
+            Resume Manager
           </h1>
-          <p className="text-sm font-light text-zinc-500 mt-2">
-            ATS SCORING • VERSIONING • SHARING
+          <p className="text-sm text-gray-600">
+            ATS scoring, version history & easy sharing
           </p>
         </div>
         <div className="flex gap-3">
           <Button
             onClick={() => setShowUpload(true)}
-            className="bg-green-400 hover:bg-green-500 text-black brutalist-border brutalist-shadow font-black"
+            className="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 font-medium rounded-md shadow-sm hover:shadow transition-colors"
           >
             <Upload className="w-4 h-4 mr-2" />
-            UPLOAD RESUME
+            Upload Resume
           </Button>
           <Button
             onClick={() => setShowBuilder(true)}
-            className="bg-blue-400 hover:bg-blue-500 text-black brutalist-border brutalist-shadow font-black"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm hover:shadow"
           >
             <Plus className="w-4 h-4 mr-2" />
-            BUILD NEW
+            Build New
           </Button>
         </div>
       </div>

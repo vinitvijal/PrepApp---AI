@@ -62,7 +62,7 @@ function Page() {
 
       const filePath = url.split('/').slice(3).join('/').split('?')[0]; 
 
-      const share_link = `https://prepapp.vinucode.in//${filePath}`
+      const share_link = `https://prepapp.vinucode.in/${filePath}`
 
 
       const Analysis = await AnalyzeAndStoreResume(share_link, targetRole, file.name);

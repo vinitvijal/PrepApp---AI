@@ -8,10 +8,12 @@ import React, { useState } from 'react'
 
 
 export interface Resume {
+    id: string
     title: string;
     target_role: string;
     file_url: string;
     ats_score: number;
+    created_date: string;
     feedback: {
         strengths?: string[];
         weaknesses?: string[];
@@ -21,12 +23,14 @@ export interface Resume {
 }
 
 
-const resumes = [
+const resumes: Resume[] = [
   {
+    id: '1',
     title: "Senior Frontend Engineer",
     target_role: "Frontend Engineer",
     file_url: "/uploads/resume_frontend_engineer.pdf",
     ats_score: 82,
+    created_date: new Date('2025-09-01').toISOString(),
     feedback: {
       strengths: ["Clear project impact", "Strong React/TypeScript usage", "Good metrics included"],
       weaknesses: ["Lacks testing details", "No accessibility highlights"],
@@ -35,10 +39,12 @@ const resumes = [
     share_link: "/resume/demo123fe"
   },
   {
+    id: '2',
     title: "Data Scientist Resume",
     target_role: "Data Scientist",
     file_url: "/uploads/resume_data_scientist.pdf",
     ats_score: 76,
+    created_date: new Date('2025-09-02').toISOString(),
     feedback: {
       strengths: ["Relevant ML stack", "Good problem statements", "Shows collaboration"],
       weaknesses: ["Sparse model evaluation metrics", "No MLOps tooling listed"],

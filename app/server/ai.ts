@@ -77,3 +77,5 @@ export async function analyzeResume(resumeUrl: string, targetRole: string) {
         }
     }
 }
+
+

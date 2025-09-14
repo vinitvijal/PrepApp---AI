@@ -65,7 +65,7 @@ interface DropHandler {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center h-screen p-4 z-50">
       <div className="bg-white w-full max-w-xl rounded-xl shadow-xl border border-gray-200">
         <div className="flex justify-between items-center px-6 py-4 border-b">
           <div className="flex items-center gap-2">
@@ -90,7 +90,7 @@ interface DropHandler {
               placeholder="e.g. Frontend Engineer, Data Analyst"
               value={targetRole}
               onChange={(e) => setTargetRole(e.target.value)}
-              className="mt-2"
+              className="mt-2 border border-gray-100 focus:outline-none ring-0 focus:ring-0"
             />
           </div>
 
@@ -161,7 +161,7 @@ interface DropHandler {
                     type="button"
                     variant="outline"
                     onClick={handleFilePick}
-                    className="border-gray-300 hover:border-gray-400"
+                    className="border-gray-300 hover:border-gray-400 hover:text-gray-400"
                   >
                     Change
                   </Button>
@@ -188,7 +188,7 @@ interface DropHandler {
               type="button"
               onClick={onClose}
               variant="outline"
-        className="border-gray-300 hover:border-gray-400"
+        className="border-gray-300 hover:border-gray-400 hover:text-gray-400"
               disabled={isProcessing}
             >
               Cancel

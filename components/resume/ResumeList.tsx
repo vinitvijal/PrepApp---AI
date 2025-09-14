@@ -8,9 +8,9 @@ import { Button } from '../ui/button'
 
 function ResumeList({ resumes }: { resumes: Resume[] }) {
   const getScoreStyle = (score: number) => {
-    if (score >= 80) return 'bg-emerald-50 text-emerald-700 border-emerald-200'
-    if (score >= 60) return 'bg-amber-50 text-amber-700 border-amber-200'
-    return 'bg-rose-50 text-rose-700 border-rose-200'
+    if (score >= 80) return 'bg-emerald-200 text-emerald-900 border-emerald-400'
+    if (score >= 60) return 'bg-amber-200 text-amber-700 border-amber-400'
+    return 'bg-rose-200 text-rose-700 border-rose-400'
   }
 
   const copyShareLink = (shareLink: string) => {

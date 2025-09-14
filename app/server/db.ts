@@ -27,7 +27,7 @@ export async function AnalyzeAndStoreResume(resumeUrl: string, targetRole: strin
     }
 
     try {
-        analyzeResume(resumeUrl, targetRole).then(async (result) => {
+        return analyzeResume(resumeUrl, targetRole).then(async (result) => {
             if (!result) {
                 console.log("Failed to analyze resume");
                 return;
@@ -50,15 +50,33 @@ export async function AnalyzeAndStoreResume(resumeUrl: string, targetRole: strin
                     suggestions: result.data.suggestions,
                 },
             });
-
             console.log("Resume analysis stored successfully");
             return {
                 success: true,
                 data: result.data,
             }
+            
         });
     } catch (error) {
         console.error("Error analyzing resume:", error);
+        return {
+            success: false,
+            error: "Failed to analyze resume.",
+        }
     }
 
+}
+
+
+
+export async function getUserResumes() {
+    const user = await getCurrentUser();
+    if (!user) {
+        console.log("No user logged in");
+        return [];
+    }
+    return prisma.resume.findMany({
+        where: { userId: user.id },
+        orderBy: { createdDate: 'desc' },
+    });
 }

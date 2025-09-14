@@ -1,63 +1,32 @@
 'use client'
-import { AnalyzeAndStoreResume } from '@/app/server/db'
+import { AnalyzeAndStoreResume, getUserResumes } from '@/app/server/db'
 import { getPresignedUploadUrl } from '@/app/server/r2'
 // import ResumeCard from '@/app/components/ResumeCard'
 import ResumeList from '@/components/resume/ResumeList'
 import ResumeUpload from '@/components/resume/ResumeUpload'
 import { Button } from '@/components/ui/button'
+import { Resume } from '@prisma/client'
 import { Plus, Upload } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 
-export interface Resume {
-    id: string
-    title: string;
-    target_role: string;
-    file_url: string;
-    ats_score: number;
-    created_date: string;
-    strengths?: string[];
-    weaknesses?: string[];
-    suggestions?: string[];
-    share_link: string;
-}
 
 
-const resumes: Resume[] = [
-  {
-    id: '1',
-    title: "Senior Frontend Engineer",
-    target_role: "Frontend Engineer",
-    file_url: "/uploads/resume_frontend_engineer.pdf",
-    ats_score: 82,
-    created_date: new Date('2025-09-01').toISOString(),
-    strengths: ["Clear project impact", "Strong React/TypeScript usage", "Good metrics included"],
-    weaknesses: ["Lacks testing details", "No accessibility highlights"],
-    suggestions: ["Add unit/integration testing section", "Mention a11y improvements", "Quantify performance optimizations"],
-    share_link: "/resume/demo123fe"
-  },
-  {
-    id: '2',
-    title: "Data Scientist Resume",
-    target_role: "Data Scientist",
-    file_url: "/uploads/resume_data_scientist.pdf",
-    ats_score: 76,
-    created_date: new Date('2025-09-02').toISOString(),
-    strengths: ["Relevant ML stack", "Good problem statements", "Shows collaboration"],
-    weaknesses: ["Sparse model evaluation metrics", "No MLOps tooling listed"],
-    suggestions: ["Include ROC/AUC or F1 scores", "List model monitoring tools", "Add brief on data pipeline scaling"],
-    share_link: "/resume/demo456ds"
-  }
-]
 
 
 function Page() {
   const [showUpload, setShowUpload] = useState(false);
   const [showBuilder, setShowBuilder] = useState(false);
+  const [resumes, setResumes] = useState<Resume[]>([]);
 
 
 
-  
+  async function loadResumes() {
+    const res = await getUserResumes();
+    setResumes(res);
+  }
+
+
   const handleUpload = async (file: File, targetRole: string) => {
     try {
 
@@ -88,25 +57,30 @@ function Page() {
           throw new Error("Upload failed");
       }
       console.log("File uploaded successfully");
-
-      // const { file_url } = await UploadFile({ file });
-      
       console.log("Response After Upload:", response);
 
       const filePath = url.split('/').slice(3).join('/').split('?')[0]; 
 
-      const share_link = `https://pub-2466a4abe0de40d4b2f7b5ede85b5b21.r2.dev/${filePath}`
+      const share_link = `https://prepapp.vinucode.in//${filePath}`
 
 
       const Analysis = await AnalyzeAndStoreResume(share_link, targetRole, file.name);
       console.log(Analysis);
-
+      loadResumes();
       setShowUpload(false);
     } catch (error) {
       console.error("Error processing resume:", error);
     }
   };
 
+
+  
+
+
+  useEffect(() => {
+
+    loadResumes();
+  }, []);
 
   return (
     <main className=' h-screen flex flex-col bg-zinc-50 text-zinc-900 p-4 md:p-8 space-y-8'>

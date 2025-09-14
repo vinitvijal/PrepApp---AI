@@ -1,8 +1,8 @@
-import { Resume } from '@/app/(home)/resume-manager/page'
 import { format } from 'date-fns'
 import { AlertTriangle, ExternalLink, FileUser, Pencil, Share, Star, Trophy } from 'lucide-react'
 import React from 'react'
 import { Button } from '../ui/button'
+import { Resume } from '@prisma/client'
 
 
 
@@ -53,27 +53,27 @@ function ResumeList({ resumes }: { resumes: Resume[] }) {
                   <h3 className="text-lg font-semibold tracking-tight text-gray-900">
                     {resume.title}
                   </h3>
-                  <p className="text-sm font-medium text-gray-600">{resume.target_role}</p>
+                  <p className="text-sm font-medium text-gray-600">{resume.targetRole}</p>
                   <p className="text-xs text-gray-500 mt-1">
-                    Created {format(new Date(resume.created_date), 'MMM d, yyyy')}
+                    Created {format(new Date(resume.createdDate), 'MMM d, yyyy')}
                   </p>
                 </div>
               </div>
 
-              {resume.ats_score && (
-                <div className={`${getScoreStyle(resume.ats_score)} border rounded-lg p-4 mb-4`}> 
+                {resume.atsScore !== null && resume.atsScore !== undefined && (
+                <div className={`${getScoreStyle(resume.atsScore)} border rounded-lg p-4 mb-4`}>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Trophy className="w-5 h-5 text-current" />
-                      <span className="font-semibold text-sm tracking-wide">ATS Score</span>
-                    </div>
-                    <span className="text-xl font-bold">
-                      {resume.ats_score}
-                      <span className="text-sm font-medium text-gray-500"> /100</span>
-                    </span>
+                  <div className="flex items-center gap-2">
+                    <Trophy className="w-5 h-5 text-current" />
+                    <span className="font-semibold text-sm tracking-wide">ATS Score</span>
+                  </div>
+                  <span className="text-xl font-bold">
+                    {resume.atsScore}
+                    <span className="text-sm font-medium text-gray-500"> /100</span>
+                  </span>
                   </div>
                 </div>
-              )}
+                )}
 
                 <div className="space-y-3">
                   {resume.strengths && resume.strengths?.length > 0 && (
@@ -119,14 +119,14 @@ function ResumeList({ resumes }: { resumes: Resume[] }) {
 
             <div className="flex flex-row md:flex-col gap-3 md:w-40">
               <Button
-                onClick={() => window.open(resume.file_url, '_blank')}
+                onClick={() => window.open(resume.fileUrl, '_blank')}
                 className="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 font-medium rounded-md shadow-sm hover:shadow transition-colors"
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
                 View
               </Button>
               <Button
-                onClick={() => copyShareLink(resume.share_link)}
+                onClick={() => copyShareLink(resume.fileUrl)}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm hover:shadow"
               >
                 <Share className="w-4 h-4 mr-2" />

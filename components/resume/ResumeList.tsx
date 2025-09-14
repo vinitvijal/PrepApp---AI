@@ -1,6 +1,6 @@
 import { Resume } from '@/app/(home)/resume-manager/page'
 import { format } from 'date-fns'
-import { AlertTriangle, ExternalLink, FileUser, Share, Star, Trophy } from 'lucide-react'
+import { AlertTriangle, ExternalLink, FileUser, Pencil, Share, Star, Trophy } from 'lucide-react'
 import React from 'react'
 import { Button } from '../ui/button'
 
@@ -105,7 +105,7 @@ function ResumeList({ resumes }: { resumes: Resume[] }) {
                     {resume.suggestions && resume.suggestions?.length > 0 && (
                     <div className="rounded-lg border border-amber-100 bg-amber-50 p-4">
                       <h4 className="font-semibold text-amber-800 mb-2 flex items-center gap-2 text-sm uppercase tracking-wide">
-                        <AlertTriangle className="w-4 h-4" /> Suggestions
+                        <Pencil className="w-4 h-4" /> Suggestions
                         </h4>
                         <ul className="text-sm text-amber-800 space-y-1 list-disc list-inside">
                         {resume.suggestions.slice(0, 2).map((suggestion, i) => (

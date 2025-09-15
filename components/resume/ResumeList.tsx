@@ -82,7 +82,7 @@ function ResumeList({ resumes }: { resumes: Resume[] }) {
                         <Star className="w-4 h-4" /> Strengths
                       </h4>
                       <ul className="text-sm text-emerald-800 space-y-1 list-disc list-inside">
-                        {resume.strengths.slice(0, 2).map((strength, i) => (
+                        {resume.strengths.map((strength, i) => (
                           <li key={i}>{strength}</li>
                         ))}
                       </ul>
@@ -95,7 +95,7 @@ function ResumeList({ resumes }: { resumes: Resume[] }) {
                         <AlertTriangle className="w-4 h-4" /> Improvements
                       </h4>
                       <ul className="text-sm text-rose-800 space-y-1 list-disc list-inside">
-                        {resume.weaknesses.slice(0, 2).map((weakness, i) => (
+                        {resume.weaknesses.map((weakness, i) => (
                           <li key={i}>{weakness}</li>
                         ))}
                       </ul>
@@ -108,7 +108,7 @@ function ResumeList({ resumes }: { resumes: Resume[] }) {
                         <Pencil className="w-4 h-4" /> Suggestions
                         </h4>
                         <ul className="text-sm text-amber-800 space-y-1 list-disc list-inside">
-                        {resume.suggestions.slice(0, 2).map((suggestion, i) => (
+                        {resume.suggestions.map((suggestion, i) => (
                             <li key={i}>{suggestion}</li>
                         ))}
                         </ul>   

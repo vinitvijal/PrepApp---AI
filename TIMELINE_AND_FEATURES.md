@@ -24,9 +24,9 @@
 | Custom Test Settings           | ⬜ Unticked |
 | Test History & Analytics       | ⬜ Unticked |
 | Resume Builder                 | ⬜ Unticked |
-| ATS Scoring                    | ⬜ Unticked |
+| ATS Scoring                    | ✅ Ticked   |
 | Resume Versioning              | ⬜ Unticked |
-| Sharable Resume Links          | ⬜ Unticked |
+| Sharable Resume Links          | ✅ Ticked   |
 | Placement Tracker              | ⬜ Unticked |
 | Reminders & Notifications      | ⬜ Unticked |
 | Notes for Applications         | ⬜ Unticked |

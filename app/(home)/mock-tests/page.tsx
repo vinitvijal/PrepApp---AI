@@ -6,6 +6,70 @@ import { Label } from '@/components/ui/label'
 import React from 'react'
 
 
+
+const questions = [
+  {
+    quesID: 'DBMS001',
+    quesTitle: 'What does DBMS stand for?',
+    Options: ["Array", "B", "C", "D"],
+    correct: 1
+  },
+  {
+    quesID: 'DBMS002',
+    quesTitle: 'Which of the following is a type of DBMS?',
+    Options: ["Array", "B", "C", "D"],
+    correct: 3
+  },
+  {
+    quesID: 'DBMS003',
+    quesTitle: 'What is the primary purpose of a DBMS?',
+    Options: ["Array", "B", "C", "D"],
+    correct: 3
+  },
+  {
+    quesID: 'DBMS004',
+    quesTitle: 'Which of the following is NOT a DBMS?',
+    Options: ["Array", "B", "C", "D"],
+    correct: 2
+  },
+  {
+    quesID: 'DBMS005',
+    quesTitle: 'What is a primary key?',
+    Options: ["Array", "B", "C", "D"],
+    correct: 0
+  },
+  {
+    quesID: 'DBMS006',
+    quesTitle: 'Which SQL command is used to retrieve data from a database?',
+    Options: ["Array", "B", "C", "D"],
+    correct: 0
+  },
+  {
+    quesID: 'DBMS007',
+    quesTitle: 'What is normalization in DBMS?',
+    Options: ["Array", "B", "C", "D"],
+    correct: 0
+  },
+  {
+    quesID: 'DBMS008',
+    quesTitle: 'Which of the following is a disadvantage of a DBMS?',
+    Options: ["Array", "B", "C", "D"],
+    correct: 3
+  },
+  {
+    quesID: 'DBMS009',
+    quesTitle: 'What is a foreign key?',
+    Options: ["Array", "B", "C", "D"],
+    correct: 1
+  },
+  {
+    quesID: 'DBMS010',
+    quesTitle: 'Which of the following is a feature of a DBMS?',
+    Options: ["Array", "B", "C", "D"],
+    correct: 3
+  }
+]
+
 function page() {
   return (
     <main className=' w-full h-screen p-4 bg-white flex flex-col'>

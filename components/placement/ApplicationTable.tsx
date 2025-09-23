@@ -1,7 +1,6 @@
 import React from "react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { 
   Table,
   TableBody,
@@ -29,22 +28,22 @@ export default function ApplicationTable({ applications, onEdit, onUpdate }:
 ) {
   const getStatusColor = (status: ApplicationStatus) => {
     switch (status) {
-      case 'applied': return 'bg-blue-100 text-blue-800';
-      case 'under_review': return 'bg-yellow-100 text-yellow-800';
-      case 'interview_scheduled': return 'bg-purple-100 text-purple-800';
-      case 'rejected': return 'bg-red-100 text-red-800';
-      case 'offer_received': return 'bg-green-100 text-green-800';
-      case 'accepted': return 'bg-green-200 text-green-900';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'applied': return 'bg-blue-50 text-blue-700 border-blue-200';
+      case 'under_review': return 'bg-amber-50 text-amber-700 border-amber-200';
+      case 'interview_scheduled': return 'bg-purple-50 text-purple-700 border-purple-200';
+      case 'rejected': return 'bg-rose-50 text-rose-700 border-rose-200';
+      case 'offer_received': return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+      case 'accepted': return 'bg-emerald-100 text-emerald-800 border-emerald-300';
+      default: return 'bg-gray-50 text-gray-700 border-gray-200';
     }
   };
 
   const getPriorityColor = (priority: Priority) => {
     switch (priority) {
-      case 'high': return 'bg-red-100 text-red-800';
-      case 'medium': return 'bg-yellow-100 text-yellow-800';
-      case 'low': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'high': return 'bg-rose-50 text-rose-700 border-rose-200';
+      case 'medium': return 'bg-amber-50 text-amber-700 border-amber-200';
+      case 'low': return 'bg-gray-50 text-gray-600 border-gray-200';
+      default: return 'bg-gray-50 text-gray-600 border-gray-200';
     }
   };
 
@@ -56,41 +55,41 @@ export default function ApplicationTable({ applications, onEdit, onUpdate }:
 
   if (applications.length === 0) {
     return (
-      <div className="text-center py-12">
-        <div className="flex justify-center mb-4">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
-            <Building className="w-8 h-8 text-gray-400" />
-          </div>
+      <div className="bg-white border border-gray-200 rounded-xl p-10 text-center shadow-sm">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50">
+          <Building className="h-8 w-8 text-blue-500" />
         </div>
-        <h3 className="text-lg font-medium text-gray-900 mb-2">No applications yet</h3>
-        <p className="text-gray-500">Start tracking your job applications to see them here.</p>
+        <h3 className="text-xl font-semibold text-gray-900 mb-2">No applications yet</h3>
+        <p className="text-sm text-gray-600 max-w-sm mx-auto">
+          Start tracking your job applications to see them here.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="border rounded-lg overflow-hidden">
+    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow className="bg-gray-50">
-              <TableHead className="font-semibold">Company</TableHead>
-              <TableHead className="font-semibold">Role</TableHead>
-              <TableHead className="font-semibold">Status</TableHead>
-              <TableHead className="font-semibold">Type</TableHead>
-              <TableHead className="font-semibold">Priority</TableHead>
-              <TableHead className="font-semibold">Applied Date</TableHead>
-              <TableHead className="font-semibold">Follow-up</TableHead>
-              <TableHead className="font-semibold">Recruiter</TableHead>
-              <TableHead className="font-semibold text-center">Actions</TableHead>
+            <TableRow className="bg-gray-50 border-b hover:bg-white border-gray-200">
+              <TableHead className="font-semibold text-gray-700">Company</TableHead>
+              <TableHead className="font-semibold text-gray-700">Role</TableHead>
+              <TableHead className="font-semibold text-gray-700">Status</TableHead>
+              <TableHead className="font-semibold text-gray-700">Type</TableHead>
+              <TableHead className="font-semibold text-gray-700">Priority</TableHead>
+              <TableHead className="font-semibold text-gray-700">Applied Date</TableHead>
+              <TableHead className="font-semibold text-gray-700">Follow-up</TableHead>
+              <TableHead className="font-semibold text-gray-700">Recruiter</TableHead>
+              <TableHead className="font-semibold text-gray-700 text-center">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {applications.map((app) => (
-              <TableRow key={app.id} className="hover:bg-gray-50 transition-colors">
+              <TableRow key={app.id} className="hover:bg-gray-100 transition-colors border-b border-gray-100">
                 <TableCell className="font-medium">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center border border-blue-100">
                       <Building className="w-4 h-4 text-blue-600" />
                     </div>
                     {app.companyName}
@@ -105,23 +104,19 @@ export default function ApplicationTable({ applications, onEdit, onUpdate }:
                   </div>
                 </TableCell>
                 <TableCell>
-                  <Badge 
-                    className={`${getStatusColor(app.status)} text-xs font-medium`}
-                  >
+                  <span className={`${getStatusColor(app.status)} border rounded-lg px-2 py-1 text-xs font-medium`}>
                     {app.status?.replace('_', ' ')}
-                  </Badge>
+                  </span>
                 </TableCell>
                 <TableCell>
-                  <Badge variant="outline" className="text-xs">
+                  <span className="bg-gray-50 border border-gray-200 text-gray-600 rounded-lg px-2 py-1 text-xs font-medium">
                     {formatApplicationType(app.applicationType)}
-                  </Badge>
+                  </span>
                 </TableCell>
                 <TableCell>
-                  <Badge 
-                    className={`${getPriorityColor(app.priority)} text-xs font-medium`}
-                  >
+                  <span className={`${getPriorityColor(app.priority)} border rounded-lg px-2 py-1 text-xs font-medium`}>
                     {app.priority}
-                  </Badge>
+                  </span>
                 </TableCell>
                 <TableCell className="text-sm text-gray-600">
                   {app.applicationDate ? format(new Date(app.applicationDate), "MMM d, yyyy") : 'N/A'}
@@ -129,12 +124,12 @@ export default function ApplicationTable({ applications, onEdit, onUpdate }:
                 <TableCell>
                   {app.followUpDate ? (
                     <div className="flex items-center gap-1">
-                      <Calendar className="w-3 h-3 text-orange-500" />
+                      <Calendar className="w-3 h-3 text-amber-500" />
                       <span className="text-xs text-gray-600">
                         {format(new Date(app.followUpDate), "MMM d")}
                       </span>
                       {new Date(app.followUpDate) <= new Date() && (
-                        <AlertTriangle className="w-3 h-3 text-red-500" />
+                        <AlertTriangle className="w-3 h-3 text-rose-500" />
                       )}
                     </div>
                   ) : (
@@ -159,7 +154,7 @@ export default function ApplicationTable({ applications, onEdit, onUpdate }:
                       onClick={() => onEdit(app)}
                       variant="ghost"
                       size="sm"
-                      className="h-8 w-8 p-0 hover:bg-blue-50 hover:text-blue-600"
+                      className="h-8 w-8 p-0 hover:text-white"
                     >
                       <Edit className="w-3 h-3" />
                     </Button>
@@ -168,7 +163,7 @@ export default function ApplicationTable({ applications, onEdit, onUpdate }:
                         onClick={() => window.open(`mailto:${app.recruiterEmail}`, '_blank')}
                         variant="ghost"
                         size="sm"
-                        className="h-8 w-8 p-0 hover:bg-green-50 hover:text-green-600"
+                        className="h-8 w-8 p-0 hover:text-white"
                       >
                         <Mail className="w-3 h-3" />
                       </Button>

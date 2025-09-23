@@ -16,56 +16,54 @@ export default function ApplicationStats({ applications }: { applications: Appli
 
   const statItems = [
     {
-      title: "TOTAL APPS",
+      title: "Total Applications",
       value: stats.total,
       icon: Building,
-      color: "bg-blue-400"
+      color: "bg-blue-50 border-blue-200 text-blue-700"
     },
     {
-      title: "APPLIED",
+      title: "Applied",
       value: stats.applied,
       icon: Clock,
-      color: "bg-yellow-400"
+      color: "bg-amber-50 border-amber-200 text-amber-700"
     },
     {
-      title: "INTERVIEWS",
+      title: "Interviews",
       value: stats.interviews,
       icon: Calendar,
-      color: "bg-purple-400"
+      color: "bg-purple-50 border-purple-200 text-purple-700"
     },
     {
-      title: "OFFERS",
+      title: "Offers",
       value: stats.offers,
       icon: Trophy,
-      color: "bg-green-400"
+      color: "bg-emerald-50 border-emerald-200 text-emerald-700"
     },
     {
-      title: "REJECTED",
+      title: "Rejected",
       value: stats.rejected,
       icon: XCircle,
-      color: "bg-red-400"
+      color: "bg-rose-50 border-rose-200 text-rose-700"
     },
     {
-      title: "FOLLOW-UPS",
+      title: "Follow-ups Due",
       value: stats.pending_followups,
       icon: CheckCircle,
-      color: "bg-orange-400"
+      color: "bg-orange-50 border-orange-200 text-orange-700"
     }
   ];
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-      {statItems.map((stat, index) => (
+      {statItems.map((stat) => (
         <div
           key={stat.title}
-          className={`${stat.color} brutalist-border brutalist-shadow p-4 transform transition-all duration-200 hover:scale-105 ${
-            index % 2 === 0 ? 'rotate-1' : '-rotate-1'
-          } hover:rotate-0`}
+          className={`${stat.color} border rounded-lg p-4 transition-all duration-200 hover:shadow-md`}
         >
           <div className="flex flex-col items-center text-center space-y-2">
-            <stat.icon className="w-6 h-6 text-black" />
-            <div className="text-2xl font-black text-black">{stat.value}</div>
-            <div className="text-xs font-bold text-black tracking-wider">{stat.title}</div>
+            <stat.icon className="w-5 h-5" />
+            <div className="text-2xl font-bold">{stat.value}</div>
+            <div className="text-xs font-medium tracking-wide">{stat.title}</div>
           </div>
         </div>
       ))}

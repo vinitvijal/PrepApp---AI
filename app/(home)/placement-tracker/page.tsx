@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Briefcase, Plus, Building, Grid3X3, List } from "lucide-react";
 
@@ -70,23 +69,20 @@ export default function PlacementTracker() {
   };
 
   return (
-    <div className="p-6 space-y-8">
+    <main className="h-screen flex flex-col bg-zinc-50 text-zinc-900 p-4 md:p-8 space-y-8">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
-              <Briefcase className="w-6 h-6 text-white" />
-            </div>
-            <h1 className="text-3xl font-bold text-gray-900">Placement Tracker</h1>
-          </div>
-          <p className="text-gray-600">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div className="space-y-2">
+          <h1 className="text-2xl md:text-4xl font-semibold tracking-tight text-gray-900">
+            Placement Tracker
+          </h1>
+          <p className="text-sm text-gray-600">
             Track your job applications, follow-ups, and interview schedules
           </p>
         </div>
         <Button
           onClick={() => setShowForm(true)}
-          className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm hover:shadow"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Application
@@ -110,13 +106,13 @@ export default function PlacementTracker() {
       )}
 
       {/* View Toggle & Applications */}
-      <Card className="shadow-sm">
-        <CardHeader className="pb-0">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm">
+        <div className="p-6 pb-0">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <CardTitle className="flex items-center gap-2">
+            <h2 className="text-lg font-semibold tracking-tight text-gray-900 flex items-center gap-2">
               <Building className="w-5 h-5 text-gray-600" />
               Your Applications ({applications.length})
-            </CardTitle>
+            </h2>
             
             {/* View Toggle */}
             <Tabs value={currentView} onValueChange={setCurrentView} className="w-auto">
@@ -132,28 +128,28 @@ export default function PlacementTracker() {
               </TabsList>
             </Tabs>
           </div>
-        </CardHeader>
+        </div>
 
-        <CardContent className="pt-6">
+        <div className="p-6 pt-6">
           <Tabs value={currentView} onValueChange={setCurrentView}>
             <TabsContent value="cards" className="mt-0">
-              {/* <ApplicationList 
+              <ApplicationList 
                 applications={applications}
                 onEdit={handleEdit}
                 onUpdate={loadData}
-              /> */}
+              />
             </TabsContent>
             
             <TabsContent value="table" className="mt-0">
-              {/* <ApplicationTable 
+              <ApplicationTable 
                 applications={applications}
                 onEdit={handleEdit}
                 onUpdate={loadData}
-              /> */}
+              />
             </TabsContent>
           </Tabs>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      </div>
+    </main>
   );
 }

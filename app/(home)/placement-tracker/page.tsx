@@ -97,7 +97,7 @@ export default function PlacementTracker() {
       <ApplicationStats applications={applications} />
 
       {/* Application Form */}
-      {showForm && editingApp && (
+      {showForm && user && (
         <ApplicationForm
           application={editingApp}
           onSave={handleSave}
@@ -105,6 +105,7 @@ export default function PlacementTracker() {
             setShowForm(false);
             setEditingApp(null);
           }}
+          userId={user.id}
         />
       )}
 

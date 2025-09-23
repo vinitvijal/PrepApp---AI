@@ -1,4 +1,4 @@
-
+'use client'
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,12 +7,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { X, Save } from "lucide-react";
 import { Application, ApplicationStatus, ApplicationType, Priority } from "@prisma/client";
-import { randomUUID } from "crypto";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function ApplicationForm({ application, onSave, onClose, userId }: { application: Application | null, onSave: (data: Application) => void, onClose: () => void, userId: string }) {
   const [formData, setFormData] = useState<Application>(application || 
       {
-        id: randomUUID().toString(),
+        id: uuidv4(),
         userId: userId,
         companyName: "ABC",
         role: "SDE Intern",

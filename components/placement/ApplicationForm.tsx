@@ -6,32 +6,39 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { X, Save } from "lucide-react";
-import { Application } from "@prisma/client";
+import { Application, ApplicationStatus, ApplicationType, Priority } from "@prisma/client";
+import { randomUUID } from "crypto";
 
-export default function ApplicationForm({ application, onSave, onClose }: { application: Application, onSave: () => void, onClose: () => void }) {
-  const [formData, setFormData] = useState(application || {
-    company_name: "",
-    role: "",
-    application_date: new Date().toISOString().split('T')[0],
-    status: "applied",
-    application_type: "full_time",
-    recruiter_name: "",
-    recruiter_email: "",
-    job_description: "", 
-    salary_range: "",    
-    priority: "medium",
-    notes: "",
-    application_url: "",
-    follow_up_date: "",
-    interview_date: ""
-  });
+export default function ApplicationForm({ application, onSave, onClose, userId }: { application: Application | null, onSave: (data: Application) => void, onClose: () => void, userId: string }) {
+  const [formData, setFormData] = useState<Application>(application || 
+      {
+        id: randomUUID().toString(),
+        userId: userId,
+        companyName: "ABC",
+        role: "SDE Intern",
+        applicationDate: null,
+        status: "applied",
+        applicationType: "internship",
+        recruiterName: '',
+        recruiterEmail: '',
+        jobDescription: '',
+        salaryRange: '',
+        interviewDate: null,
+        followUpDate: null,
+        notes: '',
+        priority: "medium",
+        applicationUrl: '',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+  );
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSave(formData);
   };
 
-  const statusOptions = [
+  const statusOptions: { value: ApplicationStatus, label: string }[] = [
     { value: "applied", label: "Applied" },
     { value: "under_review", label: "Under Review" },
     { value: "interview_scheduled", label: "Interview Scheduled" },
@@ -61,8 +68,8 @@ export default function ApplicationForm({ application, onSave, onClose }: { appl
             <div>
               <Label className="text-sm font-medium text-gray-700 mb-2 block">Company Name *</Label>
               <Input
-                value={formData.company_name}
-                onChange={(e) => setFormData({...formData, company_name: e.target.value})}
+                value={formData.companyName}
+                onChange={(e) => setFormData({...formData, companyName: e.target.value})}
                 required
               />
             </div>
@@ -81,7 +88,7 @@ export default function ApplicationForm({ application, onSave, onClose }: { appl
               <Label className="text-sm font-medium text-gray-700 mb-2 block">Status</Label>
               <Select
                 value={formData.status}
-                onValueChange={(value) => setFormData({...formData, status: value})}
+                onValueChange={(value) => setFormData({...formData, status: value as ApplicationStatus})}
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -98,8 +105,8 @@ export default function ApplicationForm({ application, onSave, onClose }: { appl
             <div>
               <Label className="text-sm font-medium text-gray-700 mb-2 block">Type</Label>
               <Select
-                value={formData.application_type}
-                onValueChange={(value) => setFormData({...formData, application_type: value})}
+                value={formData.applicationType}
+                onValueChange={(value) => setFormData({...formData, applicationType: value as ApplicationType})}
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -116,7 +123,7 @@ export default function ApplicationForm({ application, onSave, onClose }: { appl
               <Label className="text-sm font-medium text-gray-700 mb-2 block">Priority</Label>
               <Select
                 value={formData.priority}
-                onValueChange={(value) => setFormData({...formData, priority: value})}
+                onValueChange={(value) => setFormData({...formData, priority: value as Priority})}
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -135,16 +142,16 @@ export default function ApplicationForm({ application, onSave, onClose }: { appl
               <Label className="text-sm font-medium text-gray-700 mb-2 block">Application Date</Label>
               <Input
                 type="date"
-                value={formData.application_date}
-                onChange={(e) => setFormData({...formData, application_date: e.target.value})}
+                value={formData.applicationDate ? formData.applicationDate.toISOString().split('T')[0] : ''}
+                onChange={(e) => setFormData({...formData, applicationDate: new Date(e.target.value)})}
               />
             </div>
             <div>
               <Label className="text-sm font-medium text-gray-700 mb-2 block">Follow-up Date</Label>
               <Input
                 type="date"
-                value={formData.follow_up_date}
-                onChange={(e) => setFormData({...formData, follow_up_date: e.target.value})}
+                value={formData.followUpDate ? formData.followUpDate.toISOString().split('T')[0] : ''}
+                onChange={(e) => setFormData({...formData, followUpDate: new Date(e.target.value)})}
               />
             </div>
           </div>
@@ -153,16 +160,16 @@ export default function ApplicationForm({ application, onSave, onClose }: { appl
             <div>
               <Label className="text-sm font-medium text-gray-700 mb-2 block">Recruiter Name</Label>
               <Input
-                value={formData.recruiter_name}
-                onChange={(e) => setFormData({...formData, recruiter_name: e.target.value})}
+                value={formData.recruiterName || ''}
+                onChange={(e) => setFormData({...formData, recruiterName: e.target.value})}
               />
             </div>
             <div>
               <Label className="text-sm font-medium text-gray-700 mb-2 block">Recruiter Email</Label>
               <Input
                 type="email"
-                value={formData.recruiter_email}
-                onChange={(e) => setFormData({...formData, recruiter_email: e.target.value})}
+                value={formData.recruiterEmail || ''}
+                onChange={(e) => setFormData({...formData, recruiterEmail: e.target.value})}
               />
             </div>
           </div>
@@ -172,8 +179,8 @@ export default function ApplicationForm({ application, onSave, onClose }: { appl
             <Input
               type="url"
               placeholder="Link to job posting or application portal"
-              value={formData.application_url}
-              onChange={(e) => setFormData({...formData, application_url: e.target.value})}
+              value={formData.applicationUrl || ''}
+              onChange={(e) => setFormData({...formData, applicationUrl: e.target.value})}
             />
           </div>
 
@@ -182,8 +189,8 @@ export default function ApplicationForm({ application, onSave, onClose }: { appl
               <Label className="text-sm font-medium text-gray-700 mb-2 block">Interview Date & Time</Label>
               <Input
                 type="datetime-local"
-                value={formData.interview_date}
-                onChange={(e) => setFormData({...formData, interview_date: e.target.value})}
+                value={formData.interviewDate ? formData.interviewDate.toISOString().split('T')[0] : ''}
+                onChange={(e) => setFormData({...formData, interviewDate: new Date(e.target.value)})}
               />
             </div>
           )}
@@ -191,7 +198,7 @@ export default function ApplicationForm({ application, onSave, onClose }: { appl
           <div>
             <Label className="text-sm font-medium text-gray-700 mb-2 block">Notes</Label>
             <Textarea
-              value={formData.notes}
+              value={formData.notes || ''}
               onChange={(e) => setFormData({...formData, notes: e.target.value})}
               rows={3}
               placeholder="Additional notes, preparation steps, etc."

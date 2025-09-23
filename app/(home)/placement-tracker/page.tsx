@@ -97,16 +97,16 @@ export default function PlacementTracker() {
       <ApplicationStats applications={applications} />
 
       {/* Application Form */}
-      {/* {showForm && (
-        // <ApplicationForm
-        //   application={editingApp}
-        //   onSave={handleSave}
-        //   onClose={() => {
-        //     setShowForm(false);
-        //     setEditingApp(null);
-        //   }}
-        // />
-      )} */}
+      {showForm && editingApp && (
+        <ApplicationForm
+          application={editingApp}
+          onSave={handleSave}
+          onClose={() => {
+            setShowForm(false);
+            setEditingApp(null);
+          }}
+        />
+      )}
 
       {/* View Toggle & Applications */}
       <Card className="shadow-sm">

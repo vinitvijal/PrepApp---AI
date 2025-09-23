@@ -6,8 +6,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { X, Save } from "lucide-react";
+import { Application } from "@prisma/client";
 
-export default function ApplicationForm({ application, onSave, onClose }) {
+export default function ApplicationForm({ application, onSave, onClose }: { application: Application, onSave: () => void, onClose: () => void }) {
   const [formData, setFormData] = useState(application || {
     company_name: "",
     role: "",

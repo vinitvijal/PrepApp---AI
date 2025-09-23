@@ -14,9 +14,14 @@ import {
   Clock,
   User
 } from "lucide-react";
+import { Application, ApplicationStatus, Priority } from "@prisma/client";
 
-export default function ApplicationList({ applications, onEdit, onUpdate }) {
-  const getStatusColor = (status: string) => {
+export default function ApplicationList({ applications, onEdit, onUpdate }: { 
+    applications: Application[],
+    onEdit: (app: Application) => void,
+    onUpdate: (app: Application) => void
+}) {
+  const getStatusColor = (status: ApplicationStatus) => {
     switch (status) {
       case 'applied': return 'bg-blue-100 text-blue-800';
       case 'under_review': return 'bg-yellow-100 text-yellow-800';
@@ -28,7 +33,7 @@ export default function ApplicationList({ applications, onEdit, onUpdate }) {
     }
   };
 
-  const getPriorityColor = (priority) => {
+  const getPriorityColor = (priority: Priority) => {
     switch (priority) {
       case 'high': return 'bg-red-100 text-red-800 border-red-200';
       case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
@@ -64,11 +69,11 @@ export default function ApplicationList({ applications, onEdit, onUpdate }) {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-1">
-                      {app.company_name}
+                      {app.companyName}
                     </h3>
                     <p className="text-gray-600 text-lg">{app.role}</p>
                     <p className="text-sm text-gray-500">
-                      Applied on {format(new Date(app.application_date), "MMM d, yyyy")}
+                      Applied on {app.applicationDate ? format(new Date(app.applicationDate), "MMM d, yyyy") : 'N/A'}
                     </p>
                   </div>
                 </div>
@@ -81,53 +86,53 @@ export default function ApplicationList({ applications, onEdit, onUpdate }) {
                     {app.priority?.toUpperCase()} PRIORITY
                   </Badge>
                   <Badge variant="outline" className="font-medium">
-                    {app.application_type?.replace('_', ' ').toUpperCase()}
+                    {app.applicationType?.replace('_', ' ').toUpperCase()}
                   </Badge>
                 </div>
 
-                {app.recruiter_name && (
+                {app.recruiterName && (
                   <div className="bg-gray-50 rounded-lg p-4 mb-4">
                     <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
                       <User className="w-4 h-4 text-gray-600" />
                       Recruiter Contact
                     </h4>
-                    <p className="text-gray-700 font-medium">{app.recruiter_name}</p>
-                    {app.recruiter_email && (
-                      <p className="text-sm text-blue-600 font-medium">{app.recruiter_email}</p>
+                    <p className="text-gray-700 font-medium">{app.recruiterName}</p>
+                    {app.recruiterEmail && (
+                      <p className="text-sm text-blue-600 font-medium">{app.recruiterEmail}</p>
                     )}
                   </div>
                 )}
 
-                {app.follow_up_date && (
+                {app.followUpDate && (
                   <div className={`rounded-lg p-4 mb-4 border ${
-                    new Date(app.follow_up_date) <= new Date() 
+                    new Date(app.followUpDate) <= new Date() 
                       ? 'bg-red-50 border-red-200' 
                       : 'bg-yellow-50 border-yellow-200'
                   }`}>
                     <div className="flex items-center gap-2">
-                      {new Date(app.follow_up_date) <= new Date() ? (
+                      {new Date(app.followUpDate) <= new Date() ? (
                         <AlertCircle className="w-4 h-4 text-red-600" />
                       ) : (
                         <Calendar className="w-4 h-4 text-yellow-600" />
                       )}
                       <span className={`font-semibold text-sm ${
-                        new Date(app.follow_up_date) <= new Date() 
-                          ? 'text-red-800' 
+                        new Date(app.followUpDate) <= new Date() 
+                          ? 'text-red-800'
                           : 'text-yellow-800'
                       }`}>
-                        Follow-up {new Date(app.follow_up_date) <= new Date() ? 'Overdue' : 'Scheduled'}: {' '}
-                        {format(new Date(app.follow_up_date), "MMM d, yyyy")}
+                        Follow-up {new Date(app.followUpDate) <= new Date() ? 'Overdue' : 'Scheduled'}: {' '}
+                        {format(new Date(app.followUpDate), "MMM d, yyyy")}
                       </span>
                     </div>
                   </div>
                 )}
 
-                {app.interview_date && (
+                {app.interviewDate && (
                   <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-4">
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4 text-purple-600" />
                       <span className="font-semibold text-sm text-purple-800">
-                        Interview: {format(new Date(app.interview_date), "MMM d, yyyy 'at' h:mm a")}
+                        Interview: {format(new Date(app.interviewDate), "MMM d, yyyy 'at' h:mm a")}
                       </span>
                     </div>
                   </div>
@@ -152,9 +157,9 @@ export default function ApplicationList({ applications, onEdit, onUpdate }) {
                   <Edit className="w-4 h-4 mr-2" />
                   Edit
                 </Button>
-                {app.recruiter_email && (
+                {app.recruiterEmail && (
                   <Button
-                    onClick={() => window.open(`mailto:${app.recruiter_email}`, '_blank')}
+                    onClick={() => window.open(`mailto:${app.recruiterEmail}`, '_blank')}
                     variant="outline"
                     size="sm"
                     className="flex-1 md:flex-none hover:bg-green-50 hover:text-green-700 hover:border-green-300"
@@ -163,9 +168,9 @@ export default function ApplicationList({ applications, onEdit, onUpdate }) {
                     Email
                   </Button>
                 )}
-                {app.application_url && (
+                {app.applicationUrl && (
                   <Button
-                    onClick={() => window.open(app.application_url, '_blank')}
+                    onClick={() => {app.applicationUrl && window.open(app.applicationUrl, '_blank')}}
                     variant="outline"
                     size="sm"
                     className="flex-1 md:flex-none hover:bg-purple-50 hover:text-purple-700 hover:border-purple-300"

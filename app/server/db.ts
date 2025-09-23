@@ -225,3 +225,18 @@ export async function updateApplication(id: string, data: Application) {
         return { success: false };
     }
 }
+
+
+
+// get applications for the current user
+export async function getUserApplications() {
+    const user = await getCurrentUser();
+    if (!user) {
+        console.log("No user logged in");
+        return [];
+    }
+    return prisma.application.findMany({
+        where: { userId: user.id },
+        orderBy: { createdAt: 'desc' },
+    });
+}

@@ -11,11 +11,13 @@ import ApplicationTable from "@/components/placement/ApplicationTable";
 import ApplicationStats from "@/components/placement/ApplicationStats";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
+import { addApplication, getUserApplications, updateApplication } from "@/app/server/db";
+import { Application } from "@prisma/client";
 
 export default function PlacementTracker() {
-  const [applications, setApplications] = useState([]);
+  const [applications, setApplications] = useState<Application[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [editingApp, setEditingApp] = useState(null);
+  const [editingApp, setEditingApp] = useState<Application | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [currentView, setCurrentView] = useState("cards");
   const supabase = createClient();
@@ -25,32 +27,47 @@ export default function PlacementTracker() {
       loadData();
     }, []);
   
+
   
   
 
 
   const loadData = async () => {
     const { data} = await supabase.auth.getUser();
+    if (!data.user) {
+      setUser(null);
+      setApplications([]);
+      return;
+    }
     setUser(data.user);
-    
-    // Load applications from Supabase
+
+    const applications = await getUserApplications();
+    setApplications(applications);
+
   };
 
-  // const handleSave = async (appData) => {
-  //   if (editingApp) {
-  //     await Application.update(editingApp.id, appData);
-  //   } else {
-  //     await Application.create(appData);
-  //   }
-  //   setShowForm(false);
-  //   setEditingApp(null);
-  //   loadData();
-  // };
+  const handleSave = async (appData: Application) => {
+    if (editingApp) {
+      const res = await updateApplication(editingApp.id, appData);
+      if (!res) {
+        console.error("Failed to update application");
+      }
+    } else {
+      const res = await addApplication(appData);
+      if (!res) {
+        console.error("Failed to add application");
+      }
+    }
 
-  // const handleEdit = (app) => {
-  //   setEditingApp(app);
-  //   setShowForm(true);
-  // };
+    setShowForm(false);
+    setEditingApp(null);
+    loadData();
+  };
+
+  const handleEdit = (app: Application) => {
+    setEditingApp(app);
+    setShowForm(true);
+  };
 
   return (
     <div className="p-6 space-y-8">

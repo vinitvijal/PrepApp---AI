@@ -18,9 +18,16 @@ import {
   AlertTriangle,
   Building
 } from "lucide-react";
+import { Application, ApplicationStatus, ApplicationType, Priority } from "@prisma/client";
 
-export default function ApplicationTable({ applications, onEdit, onUpdate }) {
-  const getStatusColor = (status) => {
+export default function ApplicationTable({ applications, onEdit, onUpdate }: 
+    {
+    applications: Application[],
+    onEdit: (app: Application) => void,
+    onUpdate: (app: Application) => void
+    }
+) {
+  const getStatusColor = (status: ApplicationStatus) => {
     switch (status) {
       case 'applied': return 'bg-blue-100 text-blue-800';
       case 'under_review': return 'bg-yellow-100 text-yellow-800';
@@ -32,7 +39,7 @@ export default function ApplicationTable({ applications, onEdit, onUpdate }) {
     }
   };
 
-  const getPriorityColor = (priority) => {
+  const getPriorityColor = (priority: Priority) => {
     switch (priority) {
       case 'high': return 'bg-red-100 text-red-800';
       case 'medium': return 'bg-yellow-100 text-yellow-800';
@@ -41,7 +48,7 @@ export default function ApplicationTable({ applications, onEdit, onUpdate }) {
     }
   };
 
-  const formatApplicationType = (type) => {
+  const formatApplicationType = (type: ApplicationType) => {
     return type?.replace('_', ' ').split(' ').map(word => 
       word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ');
@@ -86,14 +93,14 @@ export default function ApplicationTable({ applications, onEdit, onUpdate }) {
                     <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                       <Building className="w-4 h-4 text-blue-600" />
                     </div>
-                    {app.company_name}
+                    {app.companyName}
                   </div>
                 </TableCell>
                 <TableCell>
                   <div>
                     <div className="font-medium text-gray-900">{app.role}</div>
                     <div className="text-sm text-gray-500">
-                      {formatApplicationType(app.application_type)}
+                      {formatApplicationType(app.applicationType)}
                     </div>
                   </div>
                 </TableCell>
@@ -106,7 +113,7 @@ export default function ApplicationTable({ applications, onEdit, onUpdate }) {
                 </TableCell>
                 <TableCell>
                   <Badge variant="outline" className="text-xs">
-                    {formatApplicationType(app.application_type)}
+                    {formatApplicationType(app.applicationType)}
                   </Badge>
                 </TableCell>
                 <TableCell>
@@ -117,16 +124,16 @@ export default function ApplicationTable({ applications, onEdit, onUpdate }) {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-sm text-gray-600">
-                  {format(new Date(app.application_date), "MMM d, yyyy")}
+                  {app.applicationDate ? format(new Date(app.applicationDate), "MMM d, yyyy") : 'N/A'}
                 </TableCell>
                 <TableCell>
-                  {app.follow_up_date ? (
+                  {app.followUpDate ? (
                     <div className="flex items-center gap-1">
                       <Calendar className="w-3 h-3 text-orange-500" />
                       <span className="text-xs text-gray-600">
-                        {format(new Date(app.follow_up_date), "MMM d")}
+                        {format(new Date(app.followUpDate), "MMM d")}
                       </span>
-                      {new Date(app.follow_up_date) <= new Date() && (
+                      {new Date(app.followUpDate) <= new Date() && (
                         <AlertTriangle className="w-3 h-3 text-red-500" />
                       )}
                     </div>
@@ -135,11 +142,11 @@ export default function ApplicationTable({ applications, onEdit, onUpdate }) {
                   )}
                 </TableCell>
                 <TableCell>
-                  {app.recruiter_name ? (
+                  {app.recruiterName ? (
                     <div className="text-sm">
-                      <div className="font-medium text-gray-900">{app.recruiter_name}</div>
-                      {app.recruiter_email && (
-                        <div className="text-xs text-gray-500">{app.recruiter_email}</div>
+                      <div className="font-medium text-gray-900">{app.recruiterName}</div>
+                      {app.recruiterEmail && (
+                        <div className="text-xs text-gray-500">{app.recruiterEmail}</div>
                       )}
                     </div>
                   ) : (
@@ -156,9 +163,9 @@ export default function ApplicationTable({ applications, onEdit, onUpdate }) {
                     >
                       <Edit className="w-3 h-3" />
                     </Button>
-                    {app.recruiter_email && (
+                    {app.recruiterEmail && (
                       <Button
-                        onClick={() => window.open(`mailto:${app.recruiter_email}`, '_blank')}
+                        onClick={() => window.open(`mailto:${app.recruiterEmail}`, '_blank')}
                         variant="ghost"
                         size="sm"
                         className="h-8 w-8 p-0 hover:bg-green-50 hover:text-green-600"
@@ -166,9 +173,9 @@ export default function ApplicationTable({ applications, onEdit, onUpdate }) {
                         <Mail className="w-3 h-3" />
                       </Button>
                     )}
-                    {app.application_url && (
+                    {app.applicationUrl && (
                       <Button
-                        onClick={() => window.open(app.application_url, '_blank')}
+                        onClick={() => {app.applicationUrl && window.open(app.applicationUrl, '_blank')}}
                         variant="ghost"
                         size="sm"
                         className="h-8 w-8 p-0 hover:bg-purple-50 hover:text-purple-600"

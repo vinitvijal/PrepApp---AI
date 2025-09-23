@@ -7,7 +7,6 @@ import {
   Briefcase, 
   Menu,
   X,
-  GraduationCap
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
@@ -26,23 +25,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const supabase = createClient();
 
+  // Load user on component mount
   React.useEffect(() => {
     loadUser();
   }, []);
 
+
+
+  // Load current authenticated user from Supabase
   const loadUser = async () => {
     try {
-    //   const { data: userData } = await SupabaseClient.auth.getUser();
-    //   setUser(userData);
-    const { data 
-        
-    } = await supabase.auth.getUser();
-    setUser(data.user);
+      const { data} = await supabase.auth.getUser();
+      setUser(data.user);
     } catch (error) {
       console.log("User not logged in");
     }
   };
 
+
+  // Navigation items for the sidebar
   const navigationItems = [
     {
       title: "Dashboard",
@@ -70,6 +71,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     }
   ];
 
+
+
+  // Check if a navigation item is active based on the current location
   const isActive = (url: string) => location.startsWith(url);
 
   return (

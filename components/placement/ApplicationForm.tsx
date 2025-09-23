@@ -16,8 +16,8 @@ export default function ApplicationForm({ application, onSave, onClose }) {
     application_type: "full_time",
     recruiter_name: "",
     recruiter_email: "",
-    job_description: "", // Preserving existing field
-    salary_range: "",    // Preserving existing field
+    job_description: "", 
+    salary_range: "",    
     priority: "medium",
     notes: "",
     application_url: "",

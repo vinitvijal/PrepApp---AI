@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Facebook, Twitter, Instagram, Linkedin, Mail, ArrowRight } from 'lucide-react';
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import React from 'react'
+import { Students } from '../dummy/page';
 
 
 
@@ -72,9 +73,17 @@ const questions = [
 ]
 /*END-> question card schema*/
 
+interface footerType {
+    title: string;
+    links: {
+        name: string;
+        href: string;
+    }[];
+}
+
 
 /*START-> footer schema*/
-const footerData = [
+const footerData: footerType[]  = [
   {
     title: 'Interview Prep',
     links: [
@@ -109,11 +118,11 @@ const socialLinks = [
 ];
 
 // Reusable component for a footer column
-const FooterColumn = ({ title, links }) => (
+const FooterColumn = ({ col }: { col: footerType}) => (
   <div className="flex flex-col">
-    <h3 className="text-lg font-bold text-gray-200 mb-4">{title}</h3>
+    <h3 className="text-lg font-bold text-gray-200 mb-4">{col.title}</h3>
     <ul className="space-y-3">
-      {links.map((link, index) => (
+      {col.links.map((link, index) => (
         <li key={index}>
           <a
             href={link.href}
@@ -131,18 +140,18 @@ const FooterColumn = ({ title, links }) => (
 );
 
 // Reusable component for a social media link with a glowing effect
-const SocialLink = ({ icon: Icon, href, label }) => (
-  <a
-    href={href}
-    aria-label={label}
-    className="group transform transition-all duration-300 hover:scale-125 hover:drop-shadow-[0_0px_5px_rgba(255,255,255,0.7)]"
-  >
-    <Icon
-      size={24}
-      className="text-gray-400 transition-colors duration-300 group-hover:text-white"
-    />
-  </a>
-);
+// const SocialLink = ({ icon, href, label }) => (
+//   <a
+//     href={href}
+//     aria-label={label}
+//     className="group transform transition-all duration-300 hover:scale-125 hover:drop-shadow-[0_0px_5px_rgba(255,255,255,0.7)]"
+//   >
+//     {/* <Icon
+//       size={24}
+//       className="text-gray-400 transition-colors duration-300 group-hover:text-white"
+//     /> */}
+//   </a>
+// );
 /*END-> footer schema*/
 
 
@@ -159,9 +168,36 @@ function page() {
           <p className=' text-xs text-gray-500'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
         </div>
 
-        <div className=''>          
-           <button className=' text-white bg-[#0A1828] font-extrabold px-4 py-2.5 rounded-md shadow-[0_4px_5px_rgba(10,24,40,1),inset_0_0_5px_rgba(255,255,255,0.8)] border-white border-2 '>+ Create Mock Test</button>
-        </div>
+        <Dialog> 
+          <DialogTrigger asChild>
+            <button className=' text-white bg-[#0A1828] font-extrabold px-4 py-2.5 rounded-md shadow-[0_4px_5px_rgba(10,24,40,1),inset_0_0_5px_rgba(255,255,255,0.8)] border-white border-2 '>+ Create Mock Test</button>
+          </DialogTrigger>   
+           <DialogContent className="sm:max-w-[425px] text-gray-950 bg-gray-100">
+          <DialogHeader>
+            <DialogTitle>Edit profile</DialogTitle>
+            <DialogDescription>
+              Make changes to your profile here. Click save when you&apos;re
+              done.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4">
+            <div className="grid gap-3">
+              <Label htmlFor="name-1">Name</Label>
+              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="username-1">Username</Label>
+              <Input id="username-1" name="username" defaultValue="@peduarte" />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button type="submit">Save changes</Button>
+          </DialogFooter>
+        </DialogContent>    
+        </Dialog>
       </header>
 {/*END Header*/}
 
@@ -218,9 +254,9 @@ function page() {
                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis iure animi aperiam non ut, similique accusantium quia.
               </p>
               <div className="flex space-x-4 mt-6">
-                {socialLinks.map((link, index) => (
+                {/* {socialLinks.map((link, index) => (
                   <SocialLink key={index} icon={link.icon} href={link.href} label={link.label} />
-                ))}
+                ))} */}
               </div>
             </div>
 
@@ -228,7 +264,7 @@ function page() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:col-span-3 gap-y-12 gap-x-12">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-y-12 sm:gap-x-12 sm:col-span-2">
                 {footerData.map((column, index) => (
-                  <FooterColumn key={index} title={column.title} links={column.links} />
+                  <FooterColumn key={index} col={column} />
                 ))}
               </div>
 

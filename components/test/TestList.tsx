@@ -4,9 +4,10 @@ import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Brain, Play, Eye, Trophy, Clock, Target } from "lucide-react";
+import { Difficulty, Subject, Test } from "@prisma/client";
 
-export default function TestList({ tests, onStartTest, onViewResults }) {
-  const getDifficultyColor = (difficulty: string) => {
+export default function TestList({ tests, onStartTest, onViewResults }: {tests: Test[]}) {
+  const getDifficultyColor = (difficulty: Difficulty) => {
     switch (difficulty) {
       case 'easy': return 'bg-green-400 text-black';
       case 'medium': return 'bg-yellow-400 text-black';
@@ -15,7 +16,7 @@ export default function TestList({ tests, onStartTest, onViewResults }) {
     }
   };
 
-  const getSubjectColor = (subject) => {
+  const getSubjectColor = (subject: Subject) => {
     const colors = {
       quantitative: 'bg-blue-400',
       logical_reasoning: 'bg-purple-400', 
@@ -68,11 +69,11 @@ export default function TestList({ tests, onStartTest, onViewResults }) {
                 </Badge>
                 <Badge className="bg-gray-200 text-black brutalist-border font-bold">
                   <Clock className="w-3 h-3 mr-1" />
-                  {test.duration_minutes}MIN
+                  {test.durationMinutes}MIN
                 </Badge>
                 <Badge className="bg-gray-200 text-black brutalist-border font-bold">
                   <Target className="w-3 h-3 mr-1" />
-                  {test.total_questions}Q
+                  {test.totalQuestions}Q
                 </Badge>
                 {test.status === 'completed' && (
                   <Badge className="bg-green-400 text-black brutalist-border font-bold">
@@ -83,7 +84,7 @@ export default function TestList({ tests, onStartTest, onViewResults }) {
               </div>
 
               <p className="text-sm font-bold text-gray-600">
-                Created on {format(new Date(test.created_date), "MMM d, yyyy")}
+                Created on {format(new Date(test.createdAt), "MMM d, yyyy")}
               </p>
             </div>
 

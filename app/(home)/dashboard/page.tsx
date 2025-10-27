@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { 
   Brain, 
   Briefcase, 
@@ -9,14 +9,14 @@ import {
   Crown,
 } from "lucide-react";
 
-import DashboardStats from "@/components/dashboard/stats";
+import DashboardStats, { Stats } from "@/components/dashboard/stats";
 import RecentActivity from "@/components/dashboard/RecentActivity";
 import QuickActions from "@/components/dashboard/QuickActions"; 
 import { getApplications, getCurrentUser, getDashboardStats, getTests, getUser } from "@/app/server/db";
 import { Application, Test, User } from "@prisma/client";
 
 export default function Dashboard() {
-  const [stats, setStats] = useState({});
+  const [stats, setStats] = useState<Stats | null>(null);
   const [recentTests, setRecentTests] = useState<Test[]>([]);
   const [recentApps, setRecentApps] = useState<Application[]>([]);
   const [user, setUser] = useState<User | null>(null);
@@ -106,8 +106,7 @@ export default function Dashboard() {
       )}
 
       {/* Stats Grid */}
-      <DashboardStats stats={stats} />
-
+      {stats && <DashboardStats stats={stats} />}
       {/* Quick Actions */}
       {user && <QuickActions userType={user.subscription} />}
 

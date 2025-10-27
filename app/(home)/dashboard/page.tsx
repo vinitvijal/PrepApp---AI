@@ -12,7 +12,7 @@ import {
 import DashboardStats, { Stats } from "@/components/dashboard/stats";
 import RecentActivity from "@/components/dashboard/RecentActivity";
 import QuickActions from "@/components/dashboard/QuickActions"; 
-import { getApplications, getCurrentUser, getDashboardStats, getTests, getUser } from "@/app/server/db";
+import { getApplications, getDashboardStats, getTests, getUser } from "@/app/server/db";
 import { Application, Test, User } from "@prisma/client";
 
 export default function Dashboard() {

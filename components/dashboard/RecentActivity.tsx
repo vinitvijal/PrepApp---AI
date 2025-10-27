@@ -2,7 +2,7 @@ import React from "react";
 import { format } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, ChevronRight, Trophy, Calendar } from "lucide-react";
+import { ChevronRight, Trophy } from "lucide-react";
 import { Application, Test } from "@prisma/client";
 
 interface RecentActivityProps {

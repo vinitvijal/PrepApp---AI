@@ -17,35 +17,35 @@ interface RecentActivityProps {
 export default function RecentActivity({ title, items, type, emptyMessage, icon: Icon }: RecentActivityProps) {
   if (items.length === 0) {
     return (
-      <Card className="shadow-sm">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Icon className="w-5 h-5 text-gray-600" />
+      <Card className="bg-white border border-gray-200 shadow-sm">
+        <CardHeader className="border-b border-gray-100">
+          <CardTitle className="flex items-center gap-2 text-gray-900">
+            <Icon className="w-5 h-5 text-gray-700" />
             {title}
           </CardTitle>
         </CardHeader>
         <CardContent className="text-center py-8">
-          <div className="text-gray-400 mb-2">
+          <div className="text-gray-300 mb-2">
             <Icon className="w-12 h-12 mx-auto" />
           </div>
-          <p className="text-gray-500">{emptyMessage}</p>
+          <p className="text-gray-600">{emptyMessage}</p>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="shadow-sm">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Icon className="w-5 h-5 text-gray-600" />
+    <Card className="bg-white border border-gray-200 shadow-sm">
+      <CardHeader className="border-b border-gray-100">
+        <CardTitle className="flex items-center gap-2 text-gray-900">
+          <Icon className="w-5 h-5 text-gray-700" />
           {title}
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <div className="space-y-0">
           {items.map((item, index) => (
-            <div 
+            <div
               key={item.id}
               className={`p-4 hover:bg-gray-50 transition-colors duration-200 ${
                 index !== items.length - 1 ? 'border-b border-gray-100' : ''

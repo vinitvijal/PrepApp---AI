@@ -12,24 +12,21 @@ export default function QuickActions({ userType }: { userType: Subscription }) {
       description: "AI-generated questions tailored to your level",
       icon: Brain,
       url: "/mock-tests",
-      gradient: "from-blue-500 to-blue-600",
-      bgColor: "bg-blue-50"
+      accent: "text-blue-700"
     },
     {
       title: "Manage Resume",
       description: "Upload and get ATS compatibility scores",
       icon: FileUser,
       url: "/resume-manager",
-      gradient: "from-green-500 to-green-600",
-      bgColor: "bg-green-50"
+      accent: "text-green-700"
     },
     {
       title: "Track Applications",
       description: "Monitor your job application progress",
       icon: Briefcase,
       url: "/placement-tracker",
-      gradient: "from-purple-500 to-purple-600",
-      bgColor: "bg-purple-50"
+      accent: "text-purple-700"
     }
   ];
 
@@ -43,11 +40,11 @@ export default function QuickActions({ userType }: { userType: Subscription }) {
       <div className="grid md:grid-cols-3 gap-6">
         {actions.map((action) => (
           <Link key={action.title} href={action.url} className="group">
-            <Card className={`${action.bgColor} border-0 shadow-sm hover:shadow-lg transition-all duration-300 group-hover:scale-105 h-full`}>
+            <Card className={`bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 h-full`}>
               <CardContent className="p-6">
                 <div className="flex flex-col items-center text-center space-y-4">
-                  <div className={`w-16 h-16 bg-gradient-to-r ${action.gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                    <action.icon className="w-8 h-8 text-white" />
+                  <div className={`w-14 h-14 rounded-xl bg-gray-100 ring-1 ring-gray-200 flex items-center justify-center`}>
+                    <action.icon className="w-7 h-7 text-gray-700" />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">
@@ -69,21 +66,21 @@ export default function QuickActions({ userType }: { userType: Subscription }) {
       </div>
 
       {userType !== 'pro' && (
-        <Card className="bg-gradient-to-r from-indigo-500 to-purple-600 border-0 shadow-lg">
-          <CardContent className="p-6 text-center text-white">
+        <Card className="bg-white border border-gray-200 shadow-sm">
+          <CardContent className="p-6 text-center">
             <div className="space-y-4">
               <div className="flex justify-center">
-                <div className="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
-                  <Target className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 bg-gray-100 rounded-xl ring-1 ring-gray-200 flex items-center justify-center">
+                  <Target className="w-6 h-6 text-gray-700" />
                 </div>
               </div>
-              <h3 className="text-xl font-semibold">Unlock Pro Features</h3>
-              <div className="grid md:grid-cols-3 gap-4 text-sm">
-                <div>✨ Unlimited AI Tests</div>
-                <div>📊 Advanced Analytics</div>
-                <div>🎯 Premium Content</div>
+              <h3 className="text-xl font-semibold text-gray-900">Unlock Pro Features</h3>
+              <div className="grid md:grid-cols-3 gap-4 text-sm text-gray-700">
+                <div>Unlimited AI Tests</div>
+                <div>Advanced Analytics</div>
+                <div>Premium Content</div>
               </div>
-              <Button variant="secondary" className="bg-white text-indigo-600 hover:bg-gray-100">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm hover:shadow">
                 <Zap className="w-4 h-4 mr-2" />
                 Upgrade Now
               </Button>

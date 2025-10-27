@@ -11,12 +11,14 @@ import {
 import DashboardStats from "@/components/dashboard/stats";
 import RecentActivity from "@/components/dashboard/RecentActivity";
 import QuickActions from "@/components/dashboard/QuickActions"; 
+import { getCurrentUser } from "@/app/server/db";
+import { User } from "@supabase/supabase-js";
 
 export default function Dashboard() {
   const [stats, setStats] = useState({});
   const [recentTests, setRecentTests] = useState([]);
   const [recentApps, setRecentApps] = useState([]);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     loadDashboardData();
@@ -24,7 +26,7 @@ export default function Dashboard() {
 
   const loadDashboardData = async () => {
     try {
-      const userData = await User.me();
+      const userData = await getCurrentUser();
       setUser(userData);
 
       const tests = await MockTest.filter({ created_by: userData.email }, '-created_date', 5);

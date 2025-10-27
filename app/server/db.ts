@@ -272,3 +272,66 @@ export async function updateTest(testId: string, status: TestStatus, score: numb
         }
     });
 }
+
+
+
+
+
+export async function getUser() {
+    const user = await getCurrentUser();
+    if (!user) {
+        console.log("No user logged in");
+        return null;
+    }
+    const userId = user.id;
+    return prisma.user.findUnique({
+        where: { uid: userId },
+    });
+}
+
+
+
+
+export async function getDashboardStats() {
+    const user = await getCurrentUser();
+    if (!user) {
+        console.log("No user logged in");
+        return null;
+    }
+    const userId = user.id;
+
+    const totalTests = await prisma.test.count({
+        where: { userId: userId },
+    });
+    
+    const completedTests = await prisma.test.count({
+        where: { userId: userId, status: 'completed' },
+    });
+    const avgScore = await prisma.test.aggregate({
+        where: { userId: userId, status: 'completed' },
+        _avg: { score: true },
+    });
+    const totalResumes = await prisma.resume.count({
+        where: { userId: userId },
+    });
+    const totalApplications = await prisma.application.count({
+        where: { userId: userId },
+    });
+    const pendingFollowups = await prisma.application.count({
+        where: { 
+            userId: userId,
+            followUpDate: {
+                lte: new Date(),
+            },
+        },
+    });
+
+    return {
+        totalTests,
+        completedTests,
+        avgScore: avgScore._avg.score || 0,
+        totalResumes,
+        totalApplications,
+        pendingFollowups
+    };
+}

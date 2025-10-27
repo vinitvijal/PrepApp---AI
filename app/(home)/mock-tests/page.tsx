@@ -8,7 +8,7 @@ import TestList from "@/components/test/TestList";
 import TestInterface, { TestResults } from "@/components/test/TestInterface";
 import { generateMocktest } from "@/app/server/ai";
 import { Test } from "@prisma/client";
-import { getCurrentUser, getMockTests } from "@/app/server/db";
+import { getCurrentUser, getMockTests, updateTest } from "@/app/server/db";
 import { User } from "@supabase/supabase-js";
 
 export default function MockTests() {
@@ -23,9 +23,9 @@ export default function MockTests() {
 
   const UpdateMockTest = async (testId: string, results: TestResults) => {
     try {
-      // Update the test with results
-      // Assuming you have a function updateTest in your db.ts
-      // await updateTest(testId, results);
+      await updateTest(testId, results.status, results.score, results.correct_answers, results.wrong_answers, results.weak_areas, results.time_taken_minutes);
+      setActiveTest(null);
+      loadData();
       console.log("Test updated with results:", results);
     } catch (error) {
       console.error("Error updating test:", error);
@@ -69,11 +69,7 @@ export default function MockTests() {
     return (
       <TestInterface 
         test={activeTest}
-        onComplete={async (results) => {
-          await MockTest.update(activeTest.id, results);
-          setActiveTest(null);
-          loadData();
-        }}
+        onComplete={async (testId: string, results: TestResults) => await UpdateMockTest(testId, results)}
         onExit={() => setActiveTest(null)}
       />
     );

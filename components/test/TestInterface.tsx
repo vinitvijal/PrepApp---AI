@@ -3,12 +3,12 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Clock, Flag, ArrowLeft, ArrowRight } from "lucide-react";
-import { Question, Test } from "@prisma/client";
+import { Question, Test, TestStatus } from "@prisma/client";
 import { getQuestionsByTestId } from "@/app/server/db";
 
 
 export interface TestResults {
-    status: string;
+    status: TestStatus;
     score: number;
     correct_answers: number;
     wrong_answers: number;

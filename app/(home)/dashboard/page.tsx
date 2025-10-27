@@ -11,9 +11,8 @@ import {
 import DashboardStats from "@/components/dashboard/stats";
 import RecentActivity from "@/components/dashboard/RecentActivity";
 import QuickActions from "@/components/dashboard/QuickActions"; 
-import { getApplications, getCurrentUser, getDashboardStats, getTests } from "@/app/server/db";
-import { User } from "@supabase/supabase-js";
-import { Application, Test } from "@prisma/client";
+import { getApplications, getCurrentUser, getDashboardStats, getTests, getUser } from "@/app/server/db";
+import { Application, Test, User } from "@prisma/client";
 
 export default function Dashboard() {
   const [stats, setStats] = useState({});
@@ -27,7 +26,11 @@ export default function Dashboard() {
 
   const loadDashboardData = async () => {
     try {
-      const userData = await getCurrentUser();
+      const userData = await getUser();
+      if (!userData){
+        console.log("User not found");
+        return;
+      }
       setUser(userData);
 
       if (!userData) {
@@ -85,13 +88,13 @@ export default function Dashboard() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
                 <h2 className="text-2xl font-semibold text-gray-900">
-                  Welcome back, {user?.full_name}!
+                  Welcome back, {user.name}!
                 </h2>
                 <p className="text-gray-600">
-                  {user.course} • {user.year} Year • {user.university}
+                  {user.course} • {user.graduationYear} Year • {user.university}
                 </p>
               </div>
-              {user.subscription_status !== 'pro' && (
+              {user.subscription !== 'pro' && (
                 <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
                   <Crown className="w-4 h-4 mr-2" />
                   Upgrade to Pro
@@ -106,7 +109,7 @@ export default function Dashboard() {
       <DashboardStats stats={stats} />
 
       {/* Quick Actions */}
-      <QuickActions userType={user?.subscription_status} />
+      {user && <QuickActions userType={user.subscription} />}
 
       {/* Recent Activity */}
       <div className="grid lg:grid-cols-2 gap-6">

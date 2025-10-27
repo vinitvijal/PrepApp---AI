@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Brain, FileUser, Briefcase, Plus, Zap, Target, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { Subscription } from "@prisma/client";
 
-export default function QuickActions({ userType }: { userType: 'free' | 'pro' }) {
+export default function QuickActions({ userType }: { userType: Subscription }) {
   const actions = [
     {
       title: "Take Mock Test",

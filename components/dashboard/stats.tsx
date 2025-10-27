@@ -2,7 +2,16 @@ import React from "react";
 import { Brain, Trophy, FileUser, Briefcase, Clock, Target } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
-export default function DashboardStats({ stats }) {
+
+interface StatsProps {
+    totalTests: number;
+    completedTests: number;
+    avgScore: string;
+    totalResumes: number;
+    totalApplications: number;
+    pendingFollowups: number;
+}
+export default function DashboardStats({ stats }: { stats: StatsProps }) {
   const statItems = [
     {
       title: "Tests Taken",

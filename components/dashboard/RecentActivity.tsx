@@ -3,8 +3,18 @@ import { format } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Clock, ChevronRight, Trophy, Calendar } from "lucide-react";
+import { Application, Test } from "@prisma/client";
 
-export default function RecentActivity({ title, items, type, emptyMessage, icon: Icon }) {
+interface RecentActivityProps {
+    title: string;
+    items: Test[] | Application[];
+    type: 'tests' | 'applications';
+    emptyMessage: string;
+    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+}
+
+
+export default function RecentActivity({ title, items, type, emptyMessage, icon: Icon }: RecentActivityProps) {
   if (items.length === 0) {
     return (
       <Card className="shadow-sm">
@@ -46,11 +56,11 @@ export default function RecentActivity({ title, items, type, emptyMessage, icon:
                   {type === 'tests' ? (
                     <>
                       <h4 className="font-medium text-gray-900 mb-1">
-                        {item.title}
+                        {(item as Test).title}
                       </h4>
                       <div className="flex gap-2 mb-2">
                         <Badge variant="secondary" className="text-xs">
-                          {item.subject?.replace('_', ' ')}
+                          {(item as Test).subject?.replace('_', ' ')}
                         </Badge>
                         {item.status === 'completed' && (
                           <Badge className="text-xs bg-green-100 text-green-800">
@@ -63,14 +73,14 @@ export default function RecentActivity({ title, items, type, emptyMessage, icon:
                   ) : (
                     <>
                       <h4 className="font-medium text-gray-900 mb-1">
-                        {item.company_name}
+                        {(item as Application).companyName}
                       </h4>
-                      <p className="text-sm text-gray-600 mb-2">{item.role}</p>
-                      <Badge 
+                      <p className="text-sm text-gray-600 mb-2">{(item as Application).role}</p>
+                      <Badge
                         variant={
-                          item.status === 'applied' ? 'secondary' :
-                          item.status === 'interview_scheduled' ? 'default' :
-                          item.status === 'offer_received' ? 'default' :
+                          (item as Application).status === 'applied' ? 'secondary' :
+                          (item as Application).status === 'interview_scheduled' ? 'default' :
+                          (item as Application).status === 'offer_received' ? 'default' :
                           'secondary'
                         }
                         className="text-xs"
@@ -82,7 +92,7 @@ export default function RecentActivity({ title, items, type, emptyMessage, icon:
                 </div>
                 <div className="text-right flex items-center gap-2">
                   <div className="text-xs text-gray-500">
-                    {format(new Date(item.created_date), "MMM d")}
+                    {format(new Date(item.createdAt), "MMM d")}
                   </div>
                   <ChevronRight className="w-4 h-4 text-gray-400" />
                 </div>

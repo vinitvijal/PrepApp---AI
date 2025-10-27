@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -50,7 +51,6 @@ export default function Dashboard() {
       setRecentTests(tests);
       setRecentApps(applications);
 
-     
       setStats({
         totalTests: dashboardData?.totalTests,
         completedTests: dashboardData?.completedTests,

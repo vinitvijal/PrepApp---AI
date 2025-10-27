@@ -8,22 +8,29 @@ import TestList from "@/components/test/TestList";
 import TestInterface from "@/components/test/TestInterface";
 import { generateMocktest } from "@/app/server/ai";
 import { Test } from "@prisma/client";
+import { getCurrentUser, getMockTests } from "@/app/server/db";
+import { User } from "@supabase/supabase-js";
 
 export default function MockTests() {
   const [tests, setTests] = useState<Test[]>([]);
   const [activeTest, setActiveTest] = useState<Test | null>(null);
   const [showCreator, setShowCreator] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     loadData();
   }, []);
 
   const loadData = async () => {
-    const userData = await User.me();
+    const userData = await getCurrentUser();
     setUser(userData);
+
+    if (!userData) {
+      console.log("User not logged in");
+      return;
+    }
     
-    const userTests = await MockTest.filter({ created_by: userData.email }, '-created_date');
+    const userTests = await getMockTests(userData.id);
     setTests(userTests);
   };
 

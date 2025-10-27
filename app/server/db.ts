@@ -28,6 +28,8 @@ export async function getCurrentUser() {
 
 
 
+
+
 /**
  * Analyze a resume from a given URL for a specified target role and persist the analysis for the current user.
  *
@@ -237,6 +239,15 @@ export async function getUserApplications() {
     }
     return prisma.application.findMany({
         where: { userId: user.id },
+        orderBy: { createdAt: 'desc' },
+    });
+}
+
+
+// get mock tests for the current user
+export async function getMockTests(userId: string) {
+    return prisma.test.findMany({
+        where: { userId: userId },
         orderBy: { createdAt: 'desc' },
     });
 }

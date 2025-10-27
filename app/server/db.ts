@@ -1,6 +1,6 @@
 'use server'
 
-import { Application, PrismaClient } from '@prisma/client';  
+import { Application, PrismaClient, TestStatus } from '@prisma/client';  
 import { createClient } from '@/utils/supabase/server';
 import { analyzeResume } from './ai';
 
@@ -256,5 +256,19 @@ export async function getMockTests(userId: string) {
 export async function getQuestionsByTestId(testId: string) {
     return prisma.question.findMany({
         where: { testId: testId },
+    });
+}
+
+export async function updateTest(testId: string, status: TestStatus, score: number, correctAnswers: number, wrongAnswers: number, weakAreas: string[], timeTakenMinutes: number) {
+    return prisma.test.update({
+        where: { id: testId },
+        data: {
+            status,
+            score,
+            correctAnswers,
+            wrongAnswers,
+            weakAreas,
+            timeTakenMinutes
+        }
     });
 }

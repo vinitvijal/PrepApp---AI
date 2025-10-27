@@ -78,6 +78,27 @@ enum Priority {
   high
 }
 
+enum Subject {
+  quantitative
+  logical_reasoning
+  verbal
+  programming
+  general_knowledge
+  technical
+}
+
+enum Difficulty {
+  easy
+  medium
+  hard
+}
+
+enum TestStatus {
+  draft
+  in_progress
+  completed
+}
+
 
 model Question {
   id              String   @id @default(cuid())
@@ -93,15 +114,20 @@ model Question {
 
 
 model Test {
-  id               String     @id @default(cuid())
+  id               String       @id @default(cuid())
   title            String
-  subject          String
-  difficulty       String
-  durationMinutes  Int
-  totalQuestions   Int
+  subject          Subject
+  difficulty       Difficulty
+  durationMinutes  Int          @default(60)
+  totalQuestions   Int          @default(20)
   questions        Question[]
-  status           String
-  isAIGenerated    Boolean    @default(false)
-  createdAt        DateTime   @default(now())
-  updatedAt        DateTime   @updatedAt
+  status           TestStatus   @default(draft)
+  isAIGenerated    Boolean      @default(true)
+  score            Int?
+  correctAnswers   Int?
+  wrongAnswers     Int?
+  timeTakenMinutes Int?
+  weakAreas        String[]
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
 }

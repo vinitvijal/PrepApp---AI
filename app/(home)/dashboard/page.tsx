@@ -11,13 +11,14 @@ import {
 import DashboardStats from "@/components/dashboard/stats";
 import RecentActivity from "@/components/dashboard/RecentActivity";
 import QuickActions from "@/components/dashboard/QuickActions"; 
-import { getCurrentUser } from "@/app/server/db";
+import { getApplications, getCurrentUser, getDashboardStats, getTests } from "@/app/server/db";
 import { User } from "@supabase/supabase-js";
+import { Application, Test } from "@prisma/client";
 
 export default function Dashboard() {
   const [stats, setStats] = useState({});
-  const [recentTests, setRecentTests] = useState([]);
-  const [recentApps, setRecentApps] = useState([]);
+  const [recentTests, setRecentTests] = useState<Test[]>([]);
+  const [recentApps, setRecentApps] = useState<Application[]>([]);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -29,25 +30,31 @@ export default function Dashboard() {
       const userData = await getCurrentUser();
       setUser(userData);
 
-      const tests = await MockTest.filter({ created_by: userData.email }, '-created_date', 5);
-      const resumes = await Resume.filter({ created_by: userData.email });
-      const applications = await Application.filter({ created_by: userData.email }, '-created_date', 5);
+      if (!userData) {
+        console.log("User not logged in");
+        return;
+      }
+
+      const dashboardData = await getDashboardStats();
+
+      if (!dashboardData) {
+        console.log("No dashboard data available");
+        return;
+      }
+      const tests = await getTests(5);
+      const applications = await getApplications(5);
 
       setRecentTests(tests);
       setRecentApps(applications);
 
-      const completedTests = tests.filter(t => t.status === 'completed');
-      const avgScore = completedTests.length > 0 
-        ? completedTests.reduce((sum, t) => sum + (t.score || 0), 0) / completedTests.length 
-        : 0;
-
+     
       setStats({
-        totalTests: tests.length,
-        completedTests: completedTests.length,
-        avgScore: avgScore.toFixed(1),
-        totalResumes: resumes.length,
-        totalApplications: applications.length,
-        pendingFollowups: applications.filter(a => a.follow_up_date && new Date(a.follow_up_date) <= new Date()).length
+        totalTests: dashboardData?.totalTests,
+        completedTests: dashboardData?.completedTests,
+        avgScore: dashboardData?.avgScore.toFixed(1),
+        totalResumes: dashboardData?.totalResumes,
+        totalApplications: dashboardData?.totalApplications,
+        pendingFollowups: dashboardData?.pendingFollowups
       });
     } catch (error) {
       console.error("Error loading dashboard:", error);
@@ -78,7 +85,7 @@ export default function Dashboard() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
                 <h2 className="text-2xl font-semibold text-gray-900">
-                  Welcome back, {user.full_name}!
+                  Welcome back, {user?.full_name}!
                 </h2>
                 <p className="text-gray-600">
                   {user.course} • {user.year} Year • {user.university}

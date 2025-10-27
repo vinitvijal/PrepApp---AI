@@ -1,66 +1,37 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
-
 model Resume {
-  id        String   @id @default(cuid())
-  userId    String
-  title     String
-  targetRole String
-  fileUrl   String   @unique
-  atsScore  Int?
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  targetRole  String
+  fileUrl     String   @unique
+  atsScore    Int?
   createdDate DateTime @default(now())
-  strengths String[]
-  weaknesses String[]
+  strengths   String[]
+  weaknesses  String[]
   suggestions String[]
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [uid])
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [uid])
 }
+
 model User {
-  uid        String   @id @default(cuid())
-  clerkId   String   @unique
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  resumes   Resume[]
+  uid          String        @id @default(cuid())
+  clerkId      String        @unique
+  email        String        @unique
+  name         String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   applications Application[]
-}
-
-
-enum ApplicationStatus {
-  applied
-  under_review
-  interview_scheduled
-  rejected
-  offer_received
-  accepted
-}
-
-enum ApplicationType {
-  internship
-  full_time
-  part_time
-  contract
-}
-
-enum Priority {
-  low
-  medium
-  high
+  resumes      Resume[]
 }
 
 model Application {
@@ -82,6 +53,27 @@ model Application {
   applicationUrl  String?
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
+  user            User              @relation(fields: [userId], references: [uid])
+}
 
-  user User @relation(fields: [userId], references: [uid])
+enum ApplicationStatus {
+  applied
+  under_review
+  interview_scheduled
+  rejected
+  offer_received
+  accepted
+}
+
+enum ApplicationType {
+  internship
+  full_time
+  part_time
+  contract
+}
+
+enum Priority {
+  low
+  medium
+  high
 }

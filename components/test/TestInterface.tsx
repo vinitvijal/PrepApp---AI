@@ -3,11 +3,12 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Clock, Flag, ArrowLeft, ArrowRight } from "lucide-react";
+import { Test } from "@prisma/client";
 
-export default function TestInterface({ test, onComplete, onExit }) {
+export default function TestInterface({ test, onComplete, onExit }: { test: Test}) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [timeLeft, setTimeLeft] = useState(test.duration_minutes * 60);
+  const [timeLeft, setTimeLeft] = useState(test.durationMinutes * 60);
   const [showResults, setShowResults] = useState(false);
 
   const handleSubmit = useCallback(async () => {

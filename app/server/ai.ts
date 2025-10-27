@@ -24,12 +24,6 @@ const resumeSchema = z.object({
 
 
 
-
-
-
-
-
-
 /**
  * Analyze a PDF resume against a target role using an LLM-backed ATS-style evaluator.
  *
@@ -152,3 +146,12 @@ export async function analyzeResume(resumeUrl: string, targetRole: string) {
 }
 
 
+
+
+
+const questionSchema = z.object({
+    question: z.string().describe("The question text in Markdown format"),
+    options: z.array(z.string()).length(4).describe("Array of 4 multiple choice options"),
+    correct_answer: z.number().min(0).describe("Index of the correct answer option (0-3)"),
+    explanation: z.string().describe("Explanation for the correct answer"),
+})

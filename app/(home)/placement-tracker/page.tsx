@@ -1,8 +1,8 @@
 'use client';
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Briefcase, Plus, Building, Grid3X3, List } from "lucide-react";
+import { Plus, Building, Grid3X3, List } from "lucide-react";
 
 import ApplicationForm from "@/components/placement/ApplicationForm";
 import ApplicationList from "@/components/placement/ApplicationList";

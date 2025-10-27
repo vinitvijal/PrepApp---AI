@@ -23,11 +23,22 @@ model Resume {
   user        User     @relation(fields: [userId], references: [uid])
 }
 
+
+enum Subscription {
+  free
+  pro
+}
+
 model User {
   uid          String        @id @default(cuid())
   clerkId      String        @unique
   email        String        @unique
   name         String?
+  university     String?
+  course         String?
+  graduationYear Int?
+  subscription     Subscription  @default(free)  
+  college     String?
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   applications Application[]

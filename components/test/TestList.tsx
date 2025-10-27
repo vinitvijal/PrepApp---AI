@@ -40,7 +40,7 @@ export default function TestList({ tests, onStartTest, onViewResults }: {tests: 
 
   return (
     <div className="grid gap-6">
-      {tests.map((test, index) => (
+      {tests.map((test) => (
         <div
           key={test.id}
           className={`bg-white border rounded-lg shadow-sm p-6`}

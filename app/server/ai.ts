@@ -3,7 +3,9 @@
 
 import { WebPDFLoader } from '@langchain/community/document_loaders/web/pdf'
 import { ChatOpenAI } from '@langchain/openai'
+import { Difficulty, PrismaClient, Subject } from '@prisma/client'
 import z from 'zod'
+const prisma = new PrismaClient();
 
 
 // Initialize the ChatOpenAI model with 0 temperature for deterministic outputs and gpt-4o-mini model
@@ -154,4 +156,74 @@ const questionSchema = z.object({
     options: z.array(z.string()).length(4).describe("Array of 4 multiple choice options"),
     correct_answer: z.number().min(0).describe("Index of the correct answer option (0-3)"),
     explanation: z.string().describe("Explanation for the correct answer"),
-})
+}).array()
+
+export async function generateQuestions(subject: Subject, difficulty: Difficulty, totalQuestions: number) {
+    try {
+
+
+        const systemPrompt = `You are an expert test creator specializing in generating mock tests for placement preparation. You create questions that are relevant, challenging, and aligned with the specified subject and difficulty level.`;
+        const userPrompt = `Generate a ${difficulty} difficulty mock test for ${subject} with ${totalQuestions} questions. Each question should have 4 multiple choice options with explanations. Make questions relevant for placement preparation.`;
+
+        const structuredModel = model.withStructuredOutput(questionSchema)
+        const response = await structuredModel.invoke([
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userPrompt },
+        ])
+
+        // Validation to be safe
+        const validated = questionSchema.parse(response)
+
+        return {
+            ok: true as const,
+            questions: validated,
+        }
+
+    }
+    catch (error) {
+        console.error('generateQuestions error:', error)
+        return {
+            ok: false as const,
+            error: 'AI Error',
+        }
+    }
+}
+
+export async function generateMocktest(subject: Subject, difficulty: Difficulty, totalQuestions: number, durationMinutes: number) {
+    const questionResult = await generateQuestions(subject, difficulty, totalQuestions)
+    if (!questionResult.ok) {
+        return {
+            ok: false as const,
+            error: 'Failed to generate questions',
+        }
+    }
+
+    const newTest = await prisma.test.create({
+        data: {
+            title: `${subject} - ${difficulty} Test`,
+            subject: subject,
+            difficulty: difficulty,
+            durationMinutes: durationMinutes,
+            totalQuestions: totalQuestions,
+            status: 'draft',
+            isAIGenerated: true,
+        }
+    })
+
+    await prisma.question.createMany({
+        data: questionResult.questions.map(q => ({
+            questionText: q.question,
+            options: q.options,
+            correctAnswer: q.correct_answer,
+            explanation: q.explanation,
+            testId: newTest.id,
+        }))
+    })
+
+    return {
+        ok: true as const,
+        test: newTest,
+        questions: questionResult.questions,
+    }
+
+}

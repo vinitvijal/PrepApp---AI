@@ -251,3 +251,10 @@ export async function getMockTests(userId: string) {
         orderBy: { createdAt: 'desc' },
     });
 }
+
+
+export async function getQuestionsByTestId(testId: string) {
+    return prisma.question.findMany({
+        where: { testId: testId },
+    });
+}

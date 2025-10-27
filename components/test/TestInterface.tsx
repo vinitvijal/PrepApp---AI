@@ -4,12 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Clock, Flag, ArrowLeft, ArrowRight } from "lucide-react";
 import { Test } from "@prisma/client";
+import { getQuestionsByTestId } from "@/app/server/db";
 
 export default function TestInterface({ test, onComplete, onExit }: { test: Test}) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
   const [timeLeft, setTimeLeft] = useState(test.durationMinutes * 60);
   const [showResults, setShowResults] = useState(false);
+  const [questionset, setQuestionset] = useState<any[]>([]);
 
   const handleSubmit = useCallback(async () => {
     const questions = test.questions || [];
@@ -58,7 +60,17 @@ export default function TestInterface({ test, onComplete, onExit }: { test: Test
     }));
   };
 
-  const formatTime = (seconds) => {
+  const fetchQuestions = async () => {
+    const questionsFromDB = await getQuestionsByTestId(test.id);
+    setQuestionset(questionsFromDB);
+
+  }
+
+    useEffect(() => {
+        fetchQuestions();
+    }, [test.id]);
+
+  const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;

@@ -5,6 +5,7 @@ import { WebPDFLoader } from '@langchain/community/document_loaders/web/pdf'
 import { ChatOpenAI } from '@langchain/openai'
 import { Difficulty, PrismaClient, Subject } from '@prisma/client'
 import z from 'zod'
+import { getCurrentUser } from './db'
 const prisma = new PrismaClient();
 
 
@@ -190,6 +191,14 @@ export async function generateQuestions(subject: Subject, difficulty: Difficulty
 }
 
 export async function generateMocktest(subject: Subject, difficulty: Difficulty, totalQuestions: number, durationMinutes: number) {
+    const user = await getCurrentUser();
+    if (!user) {
+        return {
+            ok: false as const,
+            error: 'No user logged in',
+        }
+    }
+
     const questionResult = await generateQuestions(subject, difficulty, totalQuestions)
     if (!questionResult.ok) {
         return {
@@ -197,6 +206,7 @@ export async function generateMocktest(subject: Subject, difficulty: Difficulty,
             error: 'Failed to generate questions',
         }
     }
+    console.log(user)
 
     const newTest = await prisma.test.create({
         data: {
@@ -207,6 +217,7 @@ export async function generateMocktest(subject: Subject, difficulty: Difficulty,
             totalQuestions: totalQuestions,
             status: 'draft',
             isAIGenerated: true,
+            userId: user.id
         }
     })
 

@@ -18,7 +18,7 @@ const prisma = new PrismaClient();
  *          to the authenticated user object, or `null` if there is no active session.
  * @throws Propagates any errors thrown by `createClient()` or `supabase.auth.getUser()`.
  */
-async function getCurrentUser() {
+export async function getCurrentUser() {
     const supabase = await createClient()
     const { data } = await supabase.auth.getUser()
     return data.user

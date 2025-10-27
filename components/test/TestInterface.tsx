@@ -3,23 +3,33 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Clock, Flag, ArrowLeft, ArrowRight } from "lucide-react";
-import { Test } from "@prisma/client";
+import { Question, Test } from "@prisma/client";
 import { getQuestionsByTestId } from "@/app/server/db";
 
+
+export interface TestResults {
+    status: string;
+    score: number;
+    correct_answers: number;
+    wrong_answers: number;
+    time_taken_minutes: number;
+    weak_areas: string[];
+    [key: number]: number;
+}
 export default function TestInterface({ test, onComplete, onExit }: { test: Test}) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState({});
+  const [answers, setAnswers] = useState<{ [key: number]: number }>({});
   const [timeLeft, setTimeLeft] = useState(test.durationMinutes * 60);
-  const [showResults, setShowResults] = useState(false);
-  const [questionset, setQuestionset] = useState<any[]>([]);
+  const [showResults, setShowResults] = useState<TestResults | null>(null);
+  const [questionset, setQuestionset] = useState<Question[]>([]);
 
   const handleSubmit = useCallback(async () => {
-    const questions = test.questions || [];
+    const questions = questionset || [];
     let correct = 0;
-    const weakAreas = [];
+    const weakAreas: string[] = [];
 
     questions.forEach((question, index) => {
-      if (answers[index] === question.correct_answer) {
+      if (answers[index] === question.correctAnswer) {
         correct++;
       } else {
         weakAreas.push(test.subject);
@@ -27,16 +37,16 @@ export default function TestInterface({ test, onComplete, onExit }: { test: Test
     });
 
     const score = Math.round((correct / questions.length) * 100);
-    const results = {
+    const results: TestResults = {
       status: "completed",
       score: score,
       correct_answers: correct,
       wrong_answers: questions.length - correct,
-      time_taken_minutes: test.duration_minutes - Math.floor(timeLeft / 60),
+      time_taken_minutes: test.durationMinutes - Math.floor(timeLeft / 60),
       weak_areas: [...new Set(weakAreas)]
     };
 
-    setShowResults({...results, answers});
+    setShowResults(results);
   }, [answers, test, timeLeft]); // Dependencies for useCallback
 
   useEffect(() => {
@@ -53,7 +63,7 @@ export default function TestInterface({ test, onComplete, onExit }: { test: Test
     return () => clearInterval(timer);
   }, [handleSubmit]); // Add handleSubmit to useEffect dependencies
 
-  const handleAnswer = (questionIndex, answerIndex) => {
+  const handleAnswer = (questionIndex: number, answerIndex: number) => {
     setAnswers(prev => ({
       ...prev,
       [questionIndex]: answerIndex
@@ -114,7 +124,7 @@ export default function TestInterface({ test, onComplete, onExit }: { test: Test
     );
   }
 
-  const questions = test.questions || [];
+  const questions = questionset || [];
   const currentQ = questions[currentQuestion];
 
   return (
@@ -161,7 +171,7 @@ export default function TestInterface({ test, onComplete, onExit }: { test: Test
         {currentQ && (
           <div className="bg-white brutalist-border brutalist-shadow p-8 transform rotate-1">
             <h2 className="text-2xl font-black text-black mb-6 leading-tight">
-              {currentQ.question}
+              {currentQ.questionText}
             </h2>
             
             <div className="space-y-4">

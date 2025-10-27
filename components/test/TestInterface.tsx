@@ -16,7 +16,7 @@ export interface TestResults {
     weak_areas: string[];
     [key: number]: number;
 }
-export default function TestInterface({ test, onComplete, onExit }: { test: Test}) {
+export default function TestInterface({ test, onComplete, onExit }: { test: Test, onComplete: (testId: string, results: TestResults) => void, onExit: () => void }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
   const [timeLeft, setTimeLeft] = useState(test.durationMinutes * 60);
@@ -112,7 +112,7 @@ export default function TestInterface({ test, onComplete, onExit }: { test: Test
               </div>
 
               <Button
-                onClick={() => onComplete(showResults)}
+                onClick={() => onComplete(test.id, showResults)}
                 className="bg-black text-white brutalist-border brutalist-shadow font-black"
               >
                 SAVE RESULTS

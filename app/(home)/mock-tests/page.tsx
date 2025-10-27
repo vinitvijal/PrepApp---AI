@@ -5,7 +5,7 @@ import { Brain, Plus, Trophy, Clock, Target, Zap, BookOpen } from "lucide-react"
 
 import TestCreator, { TestConfig } from "@/components/test/TestCreator";
 import TestList from "@/components/test/TestList";
-import TestInterface from "@/components/test/TestInterface";
+import TestInterface, { TestResults } from "@/components/test/TestInterface";
 import { generateMocktest } from "@/app/server/ai";
 import { Test } from "@prisma/client";
 import { getCurrentUser, getMockTests } from "@/app/server/db";
@@ -21,6 +21,17 @@ export default function MockTests() {
     loadData();
   }, []);
 
+  const UpdateMockTest = async (testId: string, results: TestResults) => {
+    try {
+      // Update the test with results
+      // Assuming you have a function updateTest in your db.ts
+      // await updateTest(testId, results);
+      console.log("Test updated with results:", results);
+    } catch (error) {
+      console.error("Error updating test:", error);
+    }
+  
+  };
   const loadData = async () => {
     const userData = await getCurrentUser();
     setUser(userData);

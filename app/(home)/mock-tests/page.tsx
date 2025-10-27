@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { MockTest, User } from "@/entities/all";
-import { InvokeLLM } from "@/integrations/Core";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Brain, Plus, Trophy, Clock, Target, Zap, BookOpen } from "lucide-react";
 
-import TestCreator from "@/components/test/TestCreator";
+import TestCreator, { TestConfig } from "@/components/test/TestCreator";
 import TestList from "@/components/test/TestList";
 import TestInterface from "@/components/test/TestInterface";
+import { generateMocktest } from "@/app/server/ai";
+import { Test } from "@prisma/client";
 
 export default function MockTests() {
-  const [tests, setTests] = useState([]);
-  const [activeTest, setActiveTest] = useState(null);
+  const [tests, setTests] = useState<Test[]>([]);
+  const [activeTest, setActiveTest] = useState<Test | null>(null);
   const [showCreator, setShowCreator] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -27,64 +27,23 @@ export default function MockTests() {
     setTests(userTests);
   };
 
-  const generateAITest = async (config) => {
+  const generateAITest = async (config: TestConfig) => {
     try {
-      const prompt = `Generate a ${config.difficulty} difficulty mock test for ${config.subject} with ${config.total_questions} questions. 
-      Each question should have 4 multiple choice options with explanations.
-      Make questions relevant for placement preparation.
-      Return in this exact format:
-      {
-        "questions": [
-          {
-            "question": "Question text here?",
-            "options": ["Option A", "Option B", "Option C", "Option D"],
-            "correct_answer": 0,
-            "explanation": "Why this answer is correct"
-          }
-        ]
-      }`;
-
-      const result = await InvokeLLM({
-        prompt: prompt,
-        response_json_schema: {
-          type: "object",
-          properties: {
-            questions: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  question: { type: "string" },
-                  options: { type: "array", items: { type: "string" } },
-                  correct_answer: { type: "number" },
-                  explanation: { type: "string" }
-                }
-              }
-            }
-          }
-        }
-      });
-
-      const testData = {
-        title: `${config.subject} - ${config.difficulty} Test`,
-        subject: config.subject,
-        difficulty: config.difficulty,
-        duration_minutes: config.duration_minutes,
-        total_questions: config.total_questions,
-        questions: result.questions,
-        status: "draft",
-        is_ai_generated: true
-      };
-
-      const newTest = await MockTest.create(testData);
-      setActiveTest(newTest);
-      loadData();
+      const newTest = await generateMocktest(config.subject, config.difficulty, config.total_questions, config.duration_minutes);
+      if (!newTest.ok) {
+        console.log(newTest)
+        throw new Error('Failed to generate test');
+      }
+      if (newTest.ok){
+        setActiveTest(newTest.test);
+        loadData();
+      }
     } catch (error) {
       console.error("Error generating test:", error);
     }
   };
 
-  const startTest = (test) => {
+  const startTest = (test: Test) => {
     setActiveTest({...test, status: "in_progress"});
   };
 

@@ -153,11 +153,13 @@ export async function analyzeResume(resumeUrl: string, targetRole: string) {
 
 
 const questionSchema = z.object({
-    question: z.string().describe("The question text in Markdown format"),
-    options: z.array(z.string()).length(4).describe("Array of 4 multiple choice options"),
-    correct_answer: z.number().min(0).describe("Index of the correct answer option (0-3)"),
-    explanation: z.string().describe("Explanation for the correct answer"),
-}).array()
+    questions: z.array(z.object({
+        question: z.string().describe("The question text in Markdown format"),
+        options: z.array(z.string()).length(4).describe("Array of 4 multiple choice options"),
+        correct_answer: z.number().min(0).describe("Index of the correct answer option (0-3)"),
+        explanation: z.string().describe("Explanation for the correct answer"),
+    })).describe("Array of questions"),
+}).describe("Schema for generated mock test questions")
 
 export async function generateQuestions(subject: Subject, difficulty: Difficulty, totalQuestions: number) {
     try {
@@ -177,7 +179,7 @@ export async function generateQuestions(subject: Subject, difficulty: Difficulty
 
         return {
             ok: true as const,
-            questions: validated,
+            questionset: validated,
         }
 
     }
@@ -222,7 +224,7 @@ export async function generateMocktest(subject: Subject, difficulty: Difficulty,
     })
 
     await prisma.question.createMany({
-        data: questionResult.questions.map(q => ({
+        data: questionResult.questionset.questions.map(q => ({
             questionText: q.question,
             options: q.options,
             correctAnswer: q.correct_answer,
@@ -234,7 +236,7 @@ export async function generateMocktest(subject: Subject, difficulty: Difficulty,
     return {
         ok: true as const,
         test: newTest,
-        questions: questionResult.questions,
+        questions: questionResult.questionset,
     }
 
 }

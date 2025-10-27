@@ -139,7 +139,7 @@ export default function TestCreator({ onGenerate, onClose, userType }: { onGener
           <Button
             onClick={handleGenerate}
             disabled={isGenerating}
-            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
           >
             {isGenerating ? (
               <>

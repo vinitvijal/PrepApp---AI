@@ -1,7 +1,8 @@
+'use client';
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Brain, Plus, Trophy, Clock, Target, Zap, BookOpen } from "lucide-react";
+import { Brain, Plus, Target, Zap } from "lucide-react";
 
 import TestCreator, { TestConfig } from "@/components/test/TestCreator";
 import TestList from "@/components/test/TestList";
@@ -81,10 +82,10 @@ export default function MockTests() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
               <Brain className="w-6 h-6 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900">Mock Tests</h1>
+            <h1 className="text-3xl font-semibold text-gray-900">Mock Tests</h1>
           </div>
           <p className="text-gray-600">
             AI-powered practice tests with adaptive difficulty and detailed analytics
@@ -92,7 +93,7 @@ export default function MockTests() {
         </div>
         <Button
           onClick={() => setShowCreator(true)}
-          className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white"
         >
           <Plus className="w-4 h-4 mr-2" />
           Create New Test
@@ -117,19 +118,19 @@ export default function MockTests() {
 
       {/* Pro Upsell */}
       {user?.user_metadata.subscription_status !== 'pro' && (
-        <Card className="bg-gradient-to-r from-indigo-500 to-purple-600 border-0 shadow-lg">
-          <CardContent className="p-6 text-center text-white">
+        <Card className="border border-gray-200 shadow-sm">
+          <CardContent className="p-6 text-center text-gray-900">
             <div className="space-y-4">
               <div className="flex justify-center">
-                <div className="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
-                  <Zap className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                  <Zap className="w-6 h-6 text-indigo-700" />
                 </div>
               </div>
               <h3 className="text-xl font-semibold">Unlock Unlimited Tests</h3>
-              <p className="text-indigo-100">
-                Get unlimited AI-generated mock tests with detailed analytics and performance tracking
+              <p className="text-gray-600">
+                Get unlimited AI-generated mock tests with detailed analytics and performance tracking.
               </p>
-              <Button variant="secondary" className="bg-white text-indigo-600 hover:bg-gray-100">
+              <Button variant="secondary" className="bg-white text-indigo-700 hover:bg-gray-100 border border-gray-200">
                 <Target className="w-4 h-4 mr-2" />
                 Upgrade to Pro
               </Button>

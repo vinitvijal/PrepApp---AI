@@ -90,32 +90,32 @@ export default function TestInterface({ test, onComplete, onExit }: { test: Test
     return (
       <div className="p-4 md:p-8">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white brutalist-border brutalist-shadow p-8 transform -rotate-1">
+          <div className="bg-white border rounded-lg shadow-sm p-8">
             <div className="text-center space-y-6">
-              <h1 className="text-4xl font-black tracking-tight">
-                TEST COMPLETED!
+              <h1 className="text-3xl font-semibold tracking-tight text-gray-900">
+                Test completed
               </h1>
-              
+
               <div className="grid md:grid-cols-3 gap-4">
-                <div className="bg-green-400 brutalist-border p-4">
-                  <div className="text-3xl font-black text-black">{showResults.score}%</div>
-                  <div className="font-bold text-black">SCORE</div>
+                <div className="bg-green-50 border border-green-200 rounded-md p-4">
+                  <div className="text-3xl font-semibold text-green-700">{showResults.score}%</div>
+                  <div className="text-sm font-medium text-green-800">Score</div>
                 </div>
-                <div className="bg-blue-400 brutalist-border p-4">
-                  <div className="text-3xl font-black text-black">{showResults.correct_answers}</div>
-                  <div className="font-bold text-black">CORRECT</div>
+                <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
+                  <div className="text-3xl font-semibold text-blue-700">{showResults.correct_answers}</div>
+                  <div className="text-sm font-medium text-blue-800">Correct</div>
                 </div>
-                <div className="bg-red-400 brutalist-border p-4">
-                  <div className="text-3xl font-black text-black">{showResults.wrong_answers}</div>
-                  <div className="font-bold text-black">WRONG</div>
+                <div className="bg-red-50 border border-red-200 rounded-md p-4">
+                  <div className="text-3xl font-semibold text-red-700">{showResults.wrong_answers}</div>
+                  <div className="text-sm font-medium text-red-800">Wrong</div>
                 </div>
               </div>
 
               <Button
                 onClick={() => onComplete(test.id, showResults)}
-                className="bg-black text-white brutalist-border brutalist-shadow font-black"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white"
               >
-                SAVE RESULTS
+                Save results
               </Button>
             </div>
           </div>
@@ -131,46 +131,40 @@ export default function TestInterface({ test, onComplete, onExit }: { test: Test
     <div className="p-4 md:p-8 min-h-screen">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
-        <div className="bg-black text-white brutalist-border brutalist-shadow p-4">
+        <div className="bg-white border rounded-lg p-4 shadow-sm">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
-              <Button
-                onClick={onExit}
-                className="bg-red-400 hover:bg-red-500 text-black brutalist-border font-black"
-              >
+              <Button onClick={onExit} variant="outline" className="border-gray-300 text-gray-700">
                 <ArrowLeft className="w-4 h-4" />
               </Button>
               <div>
-                <h1 className="text-xl font-black">{test.title?.toUpperCase()}</h1>
-                <p className="font-bold text-gray-300">
+                <h1 className="text-xl font-semibold text-gray-900">{test.title?.toUpperCase()}</h1>
+                <p className="text-sm font-medium text-gray-600">
                   Question {currentQuestion + 1} of {questions.length}
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-yellow-400">
+              <div className="flex items-center gap-2 text-gray-700">
                 <Clock className="w-5 h-5" />
-                <span className="text-xl font-black">{formatTime(timeLeft)}</span>
+                <span className="text-lg font-semibold">{formatTime(timeLeft)}</span>
               </div>
-              <Button
-                onClick={handleSubmit}
-                className="bg-yellow-400 hover:bg-yellow-500 text-black brutalist-border brutalist-shadow font-black"
-              >
+              <Button onClick={handleSubmit} className="bg-indigo-600 hover:bg-indigo-700 text-white">
                 <Flag className="w-4 h-4 mr-2" />
-                FINISH
+                Finish
               </Button>
             </div>
           </div>
           <Progress 
             value={(currentQuestion + 1) / questions.length * 100} 
-            className="mt-4 h-3 brutalist-border" 
+            className="mt-4 h-2" 
           />
         </div>
 
         {/* Question */}
         {currentQ && (
-          <div className="bg-white brutalist-border brutalist-shadow p-8 transform rotate-1">
-            <h2 className="text-2xl font-black text-black mb-6 leading-tight">
+          <div className="bg-white border rounded-lg shadow-sm p-6">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-6 leading-tight">
               {currentQ.questionText}
             </h2>
             
@@ -179,14 +173,16 @@ export default function TestInterface({ test, onComplete, onExit }: { test: Test
                 <button
                   key={index}
                   onClick={() => handleAnswer(currentQuestion, index)}
-                  className={`w-full text-left p-4 brutalist-border font-bold transition-all hover:scale-105 ${
+                  className={`w-full text-left p-4 rounded-md border transition-colors ${
                     answers[currentQuestion] === index
-                      ? 'bg-yellow-400 text-black'
-                      : 'bg-gray-100 hover:bg-gray-200 text-black'
+                      ? 'bg-indigo-50 border-indigo-300 text-indigo-900'
+                      : 'bg-white hover:bg-gray-50 border-gray-200 text-gray-900'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="w-8 h-8 bg-black text-white brutalist-border flex items-center justify-center font-black">
+                    <span className={`w-8 h-8 rounded-md flex items-center justify-center text-sm font-semibold ${
+                      answers[currentQuestion] === index ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700'
+                    }`}>
                       {String.fromCharCode(65 + index)}
                     </span>
                     <span>{option}</span>
@@ -202,17 +198,18 @@ export default function TestInterface({ test, onComplete, onExit }: { test: Test
           <Button
             onClick={() => setCurrentQuestion(prev => Math.max(0, prev - 1))}
             disabled={currentQuestion === 0}
-            className="bg-gray-400 hover:bg-gray-500 text-black brutalist-border brutalist-shadow font-black"
+            variant="outline"
+            className="border-gray-300 text-gray-700 disabled:opacity-50"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            PREVIOUS
+            Previous
           </Button>
           <Button
             onClick={() => setCurrentQuestion(prev => Math.min(questions.length - 1, prev + 1))}
             disabled={currentQuestion === questions.length - 1}
-            className="bg-blue-400 hover:bg-blue-500 text-black brutalist-border brutalist-shadow font-black"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white disabled:opacity-50"
           >
-            NEXT
+            Next
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
         </div>

@@ -1,6 +1,6 @@
 'use server'
 
-import { Application, PrismaClient } from '@prisma/client';  
+import { Application, PrismaClient, TestStatus } from '@prisma/client';  
 import { createClient } from '@/utils/supabase/server';
 import { analyzeResume } from './ai';
 
@@ -18,11 +18,13 @@ const prisma = new PrismaClient();
  *          to the authenticated user object, or `null` if there is no active session.
  * @throws Propagates any errors thrown by `createClient()` or `supabase.auth.getUser()`.
  */
-async function getCurrentUser() {
+export async function getCurrentUser() {
     const supabase = await createClient()
     const { data } = await supabase.auth.getUser()
     return data.user
 } 
+
+
 
 
 
@@ -238,5 +240,35 @@ export async function getUserApplications() {
     return prisma.application.findMany({
         where: { userId: user.id },
         orderBy: { createdAt: 'desc' },
+    });
+}
+
+
+// get mock tests for the current user
+export async function getMockTests(userId: string) {
+    return prisma.test.findMany({
+        where: { userId: userId },
+        orderBy: { createdAt: 'desc' },
+    });
+}
+
+
+export async function getQuestionsByTestId(testId: string) {
+    return prisma.question.findMany({
+        where: { testId: testId },
+    });
+}
+
+export async function updateTest(testId: string, status: TestStatus, score: number, correctAnswers: number, wrongAnswers: number, weakAreas: string[], timeTakenMinutes: number) {
+    return prisma.test.update({
+        where: { id: testId },
+        data: {
+            status,
+            score,
+            correctAnswers,
+            wrongAnswers,
+            weakAreas,
+            timeTakenMinutes
+        }
     });
 }

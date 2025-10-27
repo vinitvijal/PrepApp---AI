@@ -1,45 +1,61 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
-
 model Resume {
-  id        String   @id @default(cuid())
-  userId    String
-  title     String
-  targetRole String
-  fileUrl   String   @unique
-  atsScore  Int?
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  targetRole  String
+  fileUrl     String   @unique
+  atsScore    Int?
   createdDate DateTime @default(now())
-  strengths String[]
-  weaknesses String[]
+  strengths   String[]
+  weaknesses  String[]
   suggestions String[]
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [uid])
-}
-model User {
-  uid        String   @id @default(cuid())
-  clerkId   String   @unique
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  resumes   Resume[]
-  applications Application[]
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [uid])
 }
 
+model User {
+  uid          String        @id @default(cuid())
+  clerkId      String        @unique
+  email        String        @unique
+  name         String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  applications Application[]
+  resumes      Resume[]
+  tests        Test[]
+}
+
+model Application {
+  id              String            @id @default(cuid())
+  userId          String
+  companyName     String
+  role            String
+  applicationDate DateTime?
+  status          ApplicationStatus @default(applied)
+  applicationType ApplicationType   @default(full_time)
+  recruiterName   String?
+  recruiterEmail  String?
+  jobDescription  String?
+  salaryRange     String?
+  interviewDate   DateTime?
+  followUpDate    DateTime?
+  notes           String?
+  priority        Priority          @default(medium)
+  applicationUrl  String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  user            User              @relation(fields: [userId], references: [uid])
+}
 
 enum ApplicationStatus {
   applied
@@ -63,25 +79,58 @@ enum Priority {
   high
 }
 
-model Application {
-  id              String            @id @default(cuid())
-  userId          String
-  companyName     String
-  role            String
-  applicationDate DateTime?
-  status          ApplicationStatus @default(applied)
-  applicationType ApplicationType   @default(full_time)
-  recruiterName   String?
-  recruiterEmail  String?
-  jobDescription  String?
-  salaryRange     String?
-  interviewDate   DateTime?
-  followUpDate    DateTime?
-  notes           String?
-  priority        Priority          @default(medium)
-  applicationUrl  String?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
+enum Subject {
+  quantitative
+  logical_reasoning
+  verbal
+  programming
+  general_knowledge
+  technical
+}
 
-  user User @relation(fields: [userId], references: [uid])
+enum Difficulty {
+  easy
+  medium
+  hard
+}
+
+enum TestStatus {
+  draft
+  in_progress
+  completed
+}
+
+
+model Question {
+  id              String   @id @default(cuid())
+  testId          String
+  questionText    String
+  options         String[]
+  correctAnswer   Int
+  explanation     String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  test            Test     @relation(fields: [testId], references: [id])
+}
+
+
+model Test {
+  id               String       @id @default(cuid())
+  userId           String
+  title            String
+  subject          Subject
+  difficulty       Difficulty
+  durationMinutes  Int          @default(60)
+  totalQuestions   Int          @default(20)
+  questions        Question[]
+  status           TestStatus   @default(draft)
+  isAIGenerated    Boolean      @default(true)
+  score            Int?
+  correctAnswers   Int?
+  wrongAnswers     Int?
+  timeTakenMinutes Int?
+  weakAreas        String[]
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  user             User         @relation(fields: [userId], references: [uid])
 }

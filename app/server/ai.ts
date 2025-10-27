@@ -3,7 +3,10 @@
 
 import { WebPDFLoader } from '@langchain/community/document_loaders/web/pdf'
 import { ChatOpenAI } from '@langchain/openai'
+import { Difficulty, PrismaClient, Subject } from '@prisma/client'
 import z from 'zod'
+import { getCurrentUser } from './db'
+const prisma = new PrismaClient();
 
 
 // Initialize the ChatOpenAI model with 0 temperature for deterministic outputs and gpt-4o-mini model
@@ -20,12 +23,6 @@ const resumeSchema = z.object({
     weaknesses: z.array(z.string()).default([]),
     suggestions: z.array(z.string()).default([]),
 })
-
-
-
-
-
-
 
 
 
@@ -152,3 +149,94 @@ export async function analyzeResume(resumeUrl: string, targetRole: string) {
 }
 
 
+
+
+
+const questionSchema = z.object({
+    questions: z.array(z.object({
+        question: z.string().describe("The question text in Markdown format"),
+        options: z.array(z.string()).length(4).describe("Array of 4 multiple choice options"),
+        correct_answer: z.number().min(0).describe("Index of the correct answer option (0-3)"),
+        explanation: z.string().describe("Explanation for the correct answer"),
+    })).describe("Array of questions"),
+}).describe("Schema for generated mock test questions")
+
+export async function generateQuestions(subject: Subject, difficulty: Difficulty, totalQuestions: number) {
+    try {
+
+
+        const systemPrompt = `You are an expert test creator specializing in generating mock tests for placement preparation. You create questions that are relevant, challenging, and aligned with the specified subject and difficulty level.`;
+        const userPrompt = `Generate a ${difficulty} difficulty mock test for ${subject} with ${totalQuestions} questions. Each question should have 4 multiple choice options with explanations. Make questions relevant for placement preparation.`;
+
+        const structuredModel = model.withStructuredOutput(questionSchema)
+        const response = await structuredModel.invoke([
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userPrompt },
+        ])
+
+        // Validation to be safe
+        const validated = questionSchema.parse(response)
+
+        return {
+            ok: true as const,
+            questionset: validated,
+        }
+
+    }
+    catch (error) {
+        console.error('generateQuestions error:', error)
+        return {
+            ok: false as const,
+            error: 'AI Error',
+        }
+    }
+}
+
+export async function generateMocktest(subject: Subject, difficulty: Difficulty, totalQuestions: number, durationMinutes: number) {
+    const user = await getCurrentUser();
+    if (!user) {
+        return {
+            ok: false as const,
+            error: 'No user logged in',
+        }
+    }
+
+    const questionResult = await generateQuestions(subject, difficulty, totalQuestions)
+    if (!questionResult.ok) {
+        return {
+            ok: false as const,
+            error: 'Failed to generate questions',
+        }
+    }
+    console.log(user)
+
+    const newTest = await prisma.test.create({
+        data: {
+            title: `${subject} - ${difficulty} Test`,
+            subject: subject,
+            difficulty: difficulty,
+            durationMinutes: durationMinutes,
+            totalQuestions: totalQuestions,
+            status: 'draft',
+            isAIGenerated: true,
+            userId: user.id
+        }
+    })
+
+    await prisma.question.createMany({
+        data: questionResult.questionset.questions.map(q => ({
+            questionText: q.question,
+            options: q.options,
+            correctAnswer: q.correct_answer,
+            explanation: q.explanation,
+            testId: newTest.id,
+        }))
+    })
+
+    return {
+        ok: true as const,
+        test: newTest,
+        questions: questionResult.questionset,
+    }
+
+}

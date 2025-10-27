@@ -77,3 +77,31 @@ enum Priority {
   medium
   high
 }
+
+
+model Question {
+  id              String   @id @default(cuid())
+  testId          String
+  questionText    String
+  options         String[]
+  correctAnswer   Int
+  explanation     String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  test            Test     @relation(fields: [testId], references: [id])
+}
+
+
+model Test {
+  id               String     @id @default(cuid())
+  title            String
+  subject          String
+  difficulty       String
+  durationMinutes  Int
+  totalQuestions   Int
+  questions        Question[]
+  status           String
+  isAIGenerated    Boolean    @default(false)
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+}

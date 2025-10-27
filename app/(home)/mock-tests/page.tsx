@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Brain, Plus, Trophy, Clock, Target, Zap, BookOpen } from "lucide-react";
 
-import TestCreator from "../components/tests/TestCreator";
-import TestList from "../components/tests/TestList";
-import TestInterface from "../components/tests/TestInterface";
+import TestCreator from "@/components/test/TestCreator";
+import TestList from "@/components/test/TestList";
+import TestInterface from "@/components/test/TestInterface";
 
 export default function MockTests() {
   const [tests, setTests] = useState([]);

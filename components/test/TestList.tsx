@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Brain, Play, Eye, Trophy, Clock, Target } from "lucide-react";
 import { Difficulty, Subject, Test } from "@prisma/client";
 
-export default function TestList({ tests, onStartTest, onViewResults }: {tests: Test[]}) {
+export default function TestList({ tests, onStartTest, onViewResults }: {tests: Test[], onViewResults: (test: Test) => void, onStartTest: (test: Test) => void}) {
   const getDifficultyColor = (difficulty: Difficulty) => {
     switch (difficulty) {
       case 'easy': return 'bg-green-400 text-black';

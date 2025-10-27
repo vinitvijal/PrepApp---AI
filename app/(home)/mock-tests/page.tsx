@@ -97,7 +97,7 @@ export default function MockTests() {
         <TestCreator 
           onGenerate={generateAITest}
           onClose={() => setShowCreator(false)}
-          userType={user?.subscription_status}
+          userType={'free'}
         />
       )}
 
@@ -105,11 +105,11 @@ export default function MockTests() {
       <TestList 
         tests={tests}
         onStartTest={startTest}
-        onViewResults={(test) => setActiveTest(test)}
+        onViewResults={(test: Test) => setActiveTest(test)}
       />
 
       {/* Pro Upsell */}
-      {user?.subscription_status !== 'pro' && (
+      {user?.user_metadata.subscription_status !== 'pro' && (
         <Card className="bg-gradient-to-r from-indigo-500 to-purple-600 border-0 shadow-lg">
           <CardContent className="p-6 text-center text-white">
             <div className="space-y-4">

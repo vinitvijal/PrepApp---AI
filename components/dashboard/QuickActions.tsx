@@ -12,21 +12,24 @@ export default function QuickActions({ userType }: { userType: Subscription }) {
       description: "AI-generated questions tailored to your level",
       icon: Brain,
       url: "/mock-tests",
-      accent: "text-blue-700"
+      tileBg: "bg-blue-50 ring-blue-100",
+      iconColor: "text-blue-700"
     },
     {
       title: "Manage Resume",
       description: "Upload and get ATS compatibility scores",
       icon: FileUser,
       url: "/resume-manager",
-      accent: "text-green-700"
+      tileBg: "bg-green-50 ring-green-100",
+      iconColor: "text-green-700"
     },
     {
       title: "Track Applications",
       description: "Monitor your job application progress",
       icon: Briefcase,
       url: "/placement-tracker",
-      accent: "text-purple-700"
+      tileBg: "bg-purple-50 ring-purple-100",
+      iconColor: "text-purple-700"
     }
   ];
 
@@ -43,8 +46,8 @@ export default function QuickActions({ userType }: { userType: Subscription }) {
             <Card className={`bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 h-full`}>
               <CardContent className="p-6">
                 <div className="flex flex-col items-center text-center space-y-4">
-                  <div className={`w-14 h-14 rounded-xl bg-gray-100 ring-1 ring-gray-200 flex items-center justify-center`}>
-                    <action.icon className="w-7 h-7 text-gray-700" />
+                  <div className={`w-14 h-14 rounded-xl ring-1 flex items-center justify-center ${action.tileBg}`}>
+                    <action.icon className={`w-7 h-7 ${action.iconColor}`} />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">
@@ -66,12 +69,12 @@ export default function QuickActions({ userType }: { userType: Subscription }) {
       </div>
 
       {userType !== 'pro' && (
-        <Card className="bg-white border border-gray-200 shadow-sm">
+        <Card className="bg-blue-50 border border-blue-100 shadow-sm">
           <CardContent className="p-6 text-center">
             <div className="space-y-4">
               <div className="flex justify-center">
-                <div className="w-12 h-12 bg-gray-100 rounded-xl ring-1 ring-gray-200 flex items-center justify-center">
-                  <Target className="w-6 h-6 text-gray-700" />
+                <div className="w-12 h-12 bg-white rounded-xl ring-1 ring-blue-100 flex items-center justify-center">
+                  <Target className="w-6 h-6 text-blue-700" />
                 </div>
               </div>
               <h3 className="text-xl font-semibold text-gray-900">Unlock Pro Features</h3>

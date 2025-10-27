@@ -15,12 +15,16 @@ interface RecentActivityProps {
 
 
 export default function RecentActivity({ title, items, type, emptyMessage, icon: Icon }: RecentActivityProps) {
+  const headerIconColor = type === 'tests' ? 'text-blue-700' : 'text-purple-700';
+  const headerTileBg = type === 'tests' ? 'bg-blue-50 ring-blue-100' : 'bg-purple-50 ring-purple-100';
   if (items.length === 0) {
     return (
       <Card className="bg-white border border-gray-200 shadow-sm">
         <CardHeader className="border-b border-gray-100">
           <CardTitle className="flex items-center gap-2 text-gray-900">
-            <Icon className="w-5 h-5 text-gray-700" />
+            <span className={`w-7 h-7 rounded-md ring-1 flex items-center justify-center ${headerTileBg}`}>
+              <Icon className={`w-4 h-4 ${headerIconColor}`} />
+            </span>
             {title}
           </CardTitle>
         </CardHeader>
@@ -38,7 +42,9 @@ export default function RecentActivity({ title, items, type, emptyMessage, icon:
     <Card className="bg-white border border-gray-200 shadow-sm">
       <CardHeader className="border-b border-gray-100">
         <CardTitle className="flex items-center gap-2 text-gray-900">
-          <Icon className="w-5 h-5 text-gray-700" />
+          <span className={`w-7 h-7 rounded-md ring-1 flex items-center justify-center ${headerTileBg}`}>
+            <Icon className={`w-4 h-4 ${headerIconColor}`} />
+          </span>
           {title}
         </CardTitle>
       </CardHeader>

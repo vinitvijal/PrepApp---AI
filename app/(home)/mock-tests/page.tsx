@@ -1,8 +1,8 @@
 'use client';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Brain, Plus, Target, Zap } from "lucide-react";
+import { Plus, Target, Zap, History } from "lucide-react";
 
 import TestCreator, { TestConfig } from "@/components/test/TestCreator";
 import TestList from "@/components/test/TestList";
@@ -17,6 +17,7 @@ export default function MockTests() {
   const [activeTest, setActiveTest] = useState<Test | null>(null);
   const [showCreator, setShowCreator] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const listRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     loadData();
@@ -79,25 +80,24 @@ export default function MockTests() {
   return (
     <div className="p-6 space-y-8">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <Brain className="w-6 h-6 text-white" />
-            </div>
-            <h1 className="text-3xl font-semibold text-gray-900">Mock Tests</h1>
-          </div>
-          <p className="text-gray-600">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div className="space-y-2">
+          <h1 className="text-2xl md:text-4xl font-semibold tracking-tight text-gray-900">
+            Mock Tests
+          </h1>
+          <p className="text-sm text-gray-600">
             AI-powered practice tests with adaptive difficulty and detailed analytics
           </p>
         </div>
-        <Button
-          onClick={() => setShowCreator(true)}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white"
-        >
-          <Plus className="w-4 h-4 mr-2" />
-          Create New Test
-        </Button>
+        <div className="flex gap-3">
+          <Button
+            onClick={() => setShowCreator(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm hover:shadow"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Create New Test
+          </Button>
+        </div>
       </div>
 
       {/* Test Creator */}
@@ -110,15 +110,17 @@ export default function MockTests() {
       )}
 
       {/* Tests List */}
-      <TestList 
-        tests={tests}
-        onStartTest={startTest}
-        onViewResults={(test: Test) => setActiveTest(test)}
-      />
+      <div ref={listRef}>
+        <TestList 
+          tests={tests}
+          onStartTest={startTest}
+          onViewResults={(test: Test) => setActiveTest(test)}
+        />
+      </div>
 
       {/* Pro Upsell */}
       {user?.user_metadata.subscription_status !== 'pro' && (
-        <Card className="border border-gray-200 shadow-sm">
+        <Card className="border border-gray-200 bg-indigo-500 shadow-sm">
           <CardContent className="p-6 text-center text-gray-900">
             <div className="space-y-4">
               <div className="flex justify-center">
@@ -126,8 +128,8 @@ export default function MockTests() {
                   <Zap className="w-6 h-6 text-indigo-700" />
                 </div>
               </div>
-              <h3 className="text-xl font-semibold">Unlock Unlimited Tests</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl text-white font-semibold">Unlock Unlimited Tests</h3>
+              <p className="text-gray-100">
                 Get unlimited AI-generated mock tests with detailed analytics and performance tracking.
               </p>
               <Button variant="secondary" className="bg-white text-indigo-700 hover:bg-gray-100 border border-gray-200">

@@ -335,3 +335,32 @@ export async function getDashboardStats() {
         pendingFollowups
     };
 }
+
+
+
+export async function getTests(numberOfTests: number) {
+    const user = await getCurrentUser();
+    if (!user) {
+        console.log("No user logged in");
+        return [];
+    }
+    return prisma.test.findMany({
+        where: { userId: user.id },
+        orderBy: { createdAt: 'desc' },
+        take: numberOfTests,
+    });
+}
+
+
+export async function getApplications(numberOfApplications: number) {
+    const user = await getCurrentUser();
+    if (!user) {
+        console.log("No user logged in");
+        return [];
+    }
+    return prisma.application.findMany({
+        where: { userId: user.id },
+        orderBy: { createdAt: 'desc' },
+        take: numberOfApplications,
+    });
+}

@@ -17,7 +17,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 
 interface MockTestDetailPageProps {
-  params: { mockid: string }
+  params: Promise<{ mockid: string }>
 }
 
 const difficultyStyles: Record<string, string> = {
@@ -49,7 +49,7 @@ const titleCase = (input: string) =>
     .join(" ")
 
 export default async function MockTestDetailPage({ params }: MockTestDetailPageProps) {
-  const { mockid } = params
+  const { mockid } = await params
   const mockData = await getMockData(mockid)
 
   if (!mockData) {

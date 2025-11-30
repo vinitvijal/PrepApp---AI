@@ -372,3 +372,11 @@ export async function getMockData(mockid: string) {
         where: { id: mockid },
     });
 }
+
+
+
+export async function getResumeProfile(resumeId: string) {
+    return prisma.resume.findUnique({
+        where: { id: resumeId },
+    });
+}

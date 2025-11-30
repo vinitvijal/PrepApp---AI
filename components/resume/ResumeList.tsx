@@ -126,7 +126,7 @@ function ResumeList({ resumes }: { resumes: Resume[] }) {
                 View
               </Button>
               <Button
-                onClick={() => copyShareLink(resume.fileUrl)}
+                onClick={() => copyShareLink(`${window.location.origin}/resume/${resume.id}`)}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm hover:shadow"
               >
                 <Share className="w-4 h-4 mr-2" />

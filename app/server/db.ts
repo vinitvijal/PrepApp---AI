@@ -230,7 +230,18 @@ export async function updateApplication(id: string, data: Application) {
 
 
 
-// get applications for the current user
+/**
+ * Retrieves the list of applications associated with the currently logged-in user.
+ * 
+ * This function fetches the current user and, if a user is logged in, queries the database
+ * for all applications linked to the user's ID. The results are ordered by their creation
+ * date in descending order.
+ * 
+ * @async
+ * @function
+ * @returns {Promise<object[]>} A promise that resolves to an array of application objects.
+ * If no user is logged in, an empty array is returned.
+ */
 export async function getUserApplications() {
     const user = await getCurrentUser();
     if (!user) {
@@ -244,7 +255,12 @@ export async function getUserApplications() {
 }
 
 
-// get mock tests for the current user
+/**
+ * Retrieves a list of mock tests for a specific user, ordered by creation date in descending order.
+ *
+ * @param userId - The unique identifier of the user whose mock tests are to be retrieved.
+ * @returns A promise that resolves to an array of mock tests associated with the specified user.
+ */
 export async function getMockTests(userId: string) {
     return prisma.test.findMany({
         where: { userId: userId },
@@ -253,12 +269,30 @@ export async function getMockTests(userId: string) {
 }
 
 
+/**
+ * Retrieves a list of questions associated with a specific test ID.
+ *
+ * @param testId - The unique identifier of the test whose questions are to be fetched.
+ * @returns A promise that resolves to an array of questions matching the given test ID.
+ */
 export async function getQuestionsByTestId(testId: string) {
     return prisma.question.findMany({
         where: { testId: testId },
     });
 }
 
+/**
+ * Updates the details of a test in the database.
+ *
+ * @param testId - The unique identifier of the test to be updated.
+ * @param status - The current status of the test (e.g., completed, in-progress).
+ * @param score - The score achieved in the test.
+ * @param correctAnswers - The number of correct answers in the test.
+ * @param wrongAnswers - The number of wrong answers in the test.
+ * @param weakAreas - An array of topics or areas where the user needs improvement.
+ * @param timeTakenMinutes - The total time taken to complete the test, in minutes.
+ * @returns A promise that resolves to the updated test record.
+ */
 export async function updateTest(testId: string, status: TestStatus, score: number, correctAnswers: number, wrongAnswers: number, weakAreas: string[], timeTakenMinutes: number) {
     return prisma.test.update({
         where: { id: testId },
@@ -277,6 +311,17 @@ export async function updateTest(testId: string, status: TestStatus, score: numb
 
 
 
+/**
+ * Retrieves the currently logged-in user's details from the database.
+ *
+ * This function first checks if there is a user currently logged in. If no user
+ * is logged in, it logs a message to the console and returns `null`. If a user
+ * is logged in, it fetches the user's details from the database using their unique ID.
+ *
+ * @returns A promise that resolves to the user's details if found, or `null` if no user is logged in.
+ *
+ * @throws Will propagate any errors encountered during the database query.
+ */
 export async function getUser() {
     const user = await getCurrentUser();
     if (!user) {
@@ -292,6 +337,33 @@ export async function getUser() {
 
 
 
+/**
+ * Retrieves dashboard statistics for the currently logged-in user.
+ * 
+ * This function fetches various statistics related to the user's tests, resumes, 
+ * applications, and follow-ups from the database. If no user is logged in, it 
+ * returns `null`.
+ * 
+ * @async
+ * @function
+ * @returns {Promise<{
+ *   totalTests: number;
+ *   completedTests: number;
+ *   avgScore: number;
+ *   totalResumes: number;
+ *   totalApplications: number;
+ *   pendingFollowups: number;
+ * } | null>} An object containing the following statistics:
+ *   - `totalTests`: Total number of tests created by the user.
+ *   - `completedTests`: Number of tests completed by the user.
+ *   - `avgScore`: Average score of the completed tests (defaults to 0 if no scores are available).
+ *   - `totalResumes`: Total number of resumes created by the user.
+ *   - `totalApplications`: Total number of job applications submitted by the user.
+ *   - `pendingFollowups`: Number of applications with follow-up dates up to the current date.
+ *   Returns `null` if no user is logged in.
+ * 
+ * @throws {Error} If there is an issue with database queries.
+ */
 export async function getDashboardStats() {
     const user = await getCurrentUser();
     if (!user) {
@@ -338,6 +410,19 @@ export async function getDashboardStats() {
 
 
 
+/**
+ * Retrieves a specified number of tests associated with the currently logged-in user.
+ * 
+ * @param numberOfTests - The maximum number of tests to retrieve.
+ * @returns A promise that resolves to an array of tests. If no user is logged in, returns an empty array.
+ * 
+ * @remarks
+ * - The tests are fetched from the database and are ordered by their creation date in descending order.
+ * - This function depends on the `getCurrentUser` function to determine the logged-in user.
+ * - If no user is logged in, a message is logged to the console.
+ * 
+ * @throws Will throw an error if there is an issue with the database query.
+ */
 export async function getTests(numberOfTests: number) {
     const user = await getCurrentUser();
     if (!user) {
@@ -352,6 +437,19 @@ export async function getTests(numberOfTests: number) {
 }
 
 
+/**
+ * Retrieves a specified number of applications for the currently logged-in user.
+ *
+ * @param numberOfApplications - The maximum number of applications to retrieve.
+ * @returns A promise that resolves to an array of applications. If no user is logged in, returns an empty array.
+ *
+ * @remarks
+ * - The applications are fetched from the database and are ordered by their creation date in descending order.
+ * - This function depends on the `getCurrentUser` function to determine the currently logged-in user.
+ * - If no user is logged in, a message is logged to the console.
+ *
+ * @throws Will throw an error if there is an issue with the database query.
+ */
 export async function getApplications(numberOfApplications: number) {
     const user = await getCurrentUser();
     if (!user) {
@@ -367,6 +465,12 @@ export async function getApplications(numberOfApplications: number) {
 
 
 
+/**
+ * Retrieves mock data from the database based on the provided mock ID.
+ *
+ * @param mockid - The unique identifier of the mock data to retrieve.
+ * @returns A promise that resolves to the mock data object if found, or `null` if no matching record exists.
+ */
 export async function getMockData(mockid: string) {
     return prisma.test.findUnique({
         where: { id: mockid },
@@ -375,6 +479,12 @@ export async function getMockData(mockid: string) {
 
 
 
+/**
+ * Retrieves a resume profile from the database based on the provided resume ID.
+ *
+ * @param resumeId - The unique identifier of the resume to retrieve.
+ * @returns A promise that resolves to the resume profile if found, or `null` if no matching resume exists.
+ */
 export async function getResumeProfile(resumeId: string) {
     return prisma.resume.findUnique({
         where: { id: resumeId },

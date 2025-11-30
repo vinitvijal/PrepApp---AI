@@ -152,6 +152,21 @@ export async function analyzeResume(resumeUrl: string, targetRole: string) {
 
 
 
+/**
+ * Schema for validating generated mock test questions.
+ * 
+ * This schema defines the structure of a mock test, which consists of an array of questions.
+ * Each question includes the following properties:
+ * 
+ * - `question` (string): The question text in Markdown format.
+ * - `options` (string[]): An array of 4 multiple choice options.
+ * - `correct_answer` (number): The index of the correct answer option (0-3).
+ * - `explanation` (string): An explanation for the correct answer.
+ * 
+ * The schema ensures that:
+ * - The `options` array always contains exactly 4 strings.
+ * - The `correct_answer` is a number with a minimum value of 0.
+ */
 const questionSchema = z.object({
     questions: z.array(z.object({
         question: z.string().describe("The question text in Markdown format"),
@@ -161,6 +176,24 @@ const questionSchema = z.object({
     })).describe("Array of questions"),
 }).describe("Schema for generated mock test questions")
 
+/**
+ * Generates a set of mock test questions based on the specified subject, difficulty, and total number of questions.
+ * The function uses an AI model to create questions that are relevant for placement preparation,
+ * ensuring they are challenging and aligned with the given parameters.
+ *
+ * @param subject - The subject for which the mock test questions are to be generated.
+ * @param difficulty - The difficulty level of the questions (e.g., easy, medium, hard).
+ * @param totalQuestions - The total number of questions to generate.
+ * @returns A promise that resolves to an object containing the generated question set if successful,
+ *          or an error message if the generation fails.
+ *
+ * The returned object has the following structure:
+ * - `ok`: A boolean indicating whether the operation was successful.
+ * - `questionset`: The validated set of questions (present only if `ok` is true).
+ * - `error`: An error message (present only if `ok` is false).
+ *
+ * @throws Will log an error to the console if the AI model invocation or validation fails.
+ */
 export async function generateQuestions(subject: Subject, difficulty: Difficulty, totalQuestions: number) {
     try {
 
@@ -192,6 +225,24 @@ export async function generateQuestions(subject: Subject, difficulty: Difficulty
     }
 }
 
+/**
+ * Generates a mock test with AI-generated questions and saves it to the database.
+ *
+ * @param {Subject} subject - The subject for which the mock test is to be generated.
+ * @param {Difficulty} difficulty - The difficulty level of the mock test.
+ * @param {number} totalQuestions - The total number of questions in the mock test.
+ * @param {number} durationMinutes - The duration of the mock test in minutes.
+ * @returns {Promise<{
+ *   ok: true,
+ *   test: Test,
+ *   questions: QuestionSet
+ * } | {
+ *   ok: false,
+ *   error: string
+ * }>} - An object indicating the success or failure of the operation. If successful, it includes the created test and the generated questions.
+ *
+ * @throws {Error} If there is an issue with database operations or question generation.
+ */
 export async function generateMocktest(subject: Subject, difficulty: Difficulty, totalQuestions: number, durationMinutes: number) {
     const user = await getCurrentUser();
     if (!user) {

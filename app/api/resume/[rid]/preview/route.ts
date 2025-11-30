@@ -1,9 +1,5 @@
 import { getResumeProfile } from "@/app/server/db"
-import { NextResponse } from "next/server"
-
-interface RouteContext {
-  params: { rid: string }
-}
+import { NextRequest, NextResponse } from "next/server"
 
 /**
  * Handles the GET request to fetch and serve a resume file.
@@ -24,7 +20,7 @@ interface RouteContext {
  *    - `Content-Disposition`: Inline or attachment based on the `download` query parameter.
  *    - `Cache-Control`: Private, no caching.
  */
-export async function GET(request: Request, { params }: RouteContext) {
+export async function GET(request: NextRequest, { params }: { params: { rid: string } }) {
   const { rid } = params
   const resume = await getResumeProfile(rid)
 

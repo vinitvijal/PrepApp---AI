@@ -364,3 +364,11 @@ export async function getApplications(numberOfApplications: number) {
         take: numberOfApplications,
     });
 }
+
+
+
+export async function getMockData(mockid: string) {
+    return prisma.test.findUnique({
+        where: { id: mockid },
+    });
+}

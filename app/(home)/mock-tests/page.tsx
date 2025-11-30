@@ -11,6 +11,7 @@ import { generateMocktest } from "@/app/server/ai";
 import { Test } from "@prisma/client";
 import { getCurrentUser, getMockTests, updateTest } from "@/app/server/db";
 import { User } from "@supabase/supabase-js";
+import { redirect } from "next/navigation";
 
 export default function MockTests() {
   const [tests, setTests] = useState<Test[]>([]);
@@ -114,7 +115,7 @@ export default function MockTests() {
         <TestList 
           tests={tests}
           onStartTest={startTest}
-          onViewResults={(test: Test) => setActiveTest(test)}
+          onViewResults={(test: Test) => redirect(`/mock-tests/${test.id}`)}
         />
       </div>
 

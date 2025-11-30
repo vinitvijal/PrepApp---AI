@@ -1,27 +1,14 @@
 import { getResumeProfile } from "@/app/server/db"
 import { NextRequest, NextResponse } from "next/server"
 
-/**
- * Handles the GET request to fetch and serve a resume file.
- *
- * @param request - The incoming HTTP request object.
- * @param context - The route context containing parameters.
- * @param context.params - The route parameters.
- * @param context.params.rid - The resume ID used to fetch the resume profile.
- * @returns A `NextResponse` object containing the resume file as a PDF or an error response.
- *
- * The function performs the following steps:
- * 1. Retrieves the resume profile using the provided `rid` parameter.
- * 2. If the resume or its file URL is not found, returns a 404 error response.
- * 3. Fetches the resume file from the upstream URL.
- * 4. If the upstream fetch fails, returns a 502 error response.
- * 5. Serves the resume file as a PDF with appropriate headers:
- *    - `Content-Type`: `application/pdf`
- *    - `Content-Disposition`: Inline or attachment based on the `download` query parameter.
- *    - `Cache-Control`: Private, no caching.
- */
-export async function GET(request: NextRequest, { params }: { params: { rid: string } }) {
-  const { rid } = params
+export async function GET(request: NextRequest) {
+  const pathname = new URL(request.url).pathname
+  const segments = pathname.split("/").filter(Boolean)
+  const rid = segments.at(-2)
+
+  if (!rid) {
+    return NextResponse.json({ error: "Missing resume id" }, { status: 400 })
+  }
   const resume = await getResumeProfile(rid)
 
   if (!resume?.fileUrl) {

@@ -1,11 +1,11 @@
 import { getResumeProfile } from "@/app/server/db"
 
 interface ResumePageProps {
-	params: { rid: string }
+	params: Promise<{ rid: string }>
 }
 
 export default async function ResumePage({ params }: ResumePageProps) {
-	const { rid } = params
+	const { rid } = await params
 	const resume = await getResumeProfile(rid)
 
 	if (!resume) {

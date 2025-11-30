@@ -14,6 +14,7 @@ import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import Image from "next/image";
+import { Toaster } from "sonner";
 // import { Badge } from "@/components/ui/badge";
 // import { User } from "@/entities/User";
 
@@ -78,6 +79,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Toaster richColors />
       {/* Mobile Header */}
       <div className="lg:hidden bg-white border-b shadow-sm p-4 relative z-50">
         <div className="flex justify-between items-center">

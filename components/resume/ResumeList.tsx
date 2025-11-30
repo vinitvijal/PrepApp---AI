@@ -3,7 +3,7 @@ import { AlertTriangle, ExternalLink, FileUser, Pencil, Share, Star, Trophy } fr
 import React from 'react'
 import { Button } from '../ui/button'
 import { Resume } from '@prisma/client'
-
+import { toast } from 'sonner'
 
 
 function ResumeList({ resumes }: { resumes: Resume[] }) {
@@ -15,7 +15,7 @@ function ResumeList({ resumes }: { resumes: Resume[] }) {
 
   const copyShareLink = (shareLink: string) => {
     navigator.clipboard.writeText(shareLink)
-    console.log('Share link copied!')
+    toast.success('Share link copied!')
   }
 
 
@@ -119,14 +119,14 @@ function ResumeList({ resumes }: { resumes: Resume[] }) {
 
             <div className="flex flex-row md:flex-col gap-3 md:w-40">
               <Button
-                onClick={() => window.open(resume.fileUrl, '_blank')}
+                onClick={() => window.open(`${window.location.origin}/resume/${resume.id}`, '_blank')}
                 className="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 font-medium rounded-md shadow-sm hover:shadow transition-colors"
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
                 View
               </Button>
               <Button
-                onClick={() => copyShareLink(resume.fileUrl)}
+                onClick={() => copyShareLink(`${window.location.origin}/resume/${resume.id}`)}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm hover:shadow"
               >
                 <Share className="w-4 h-4 mr-2" />

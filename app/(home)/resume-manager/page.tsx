@@ -32,7 +32,7 @@ function Page() {
   const handleUpload = async (file: File, targetRole: string) => {
     try {
       // extract file name and type
-      const fileName = encodeURIComponent(file.name) + '-' + Date.now();
+      const fileName = encodeURIComponent(file.name).split('.').join('_' + Date.now() + '.');
       const fileType = encodeURIComponent(file.type);
       // get presigned URL from the server
       const response = await getPresignedUploadUrl(fileName, fileType, 'resumes');
@@ -109,13 +109,13 @@ function Page() {
             <Upload className="w-4 h-4 mr-2" />
             Upload Resume
           </Button>
-          <Button
+          {/* <Button
             // onClick={() => setShowBuilder(true)}
             className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm hover:shadow"
           >
             <Plus className="w-4 h-4 mr-2" />
             JD Analysis
-          </Button>
+          </Button> */}
         </div>
       </div>
 

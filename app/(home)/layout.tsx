@@ -14,6 +14,7 @@ import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import Image from "next/image";
+import { Toaster } from "sonner";
 // import { Badge } from "@/components/ui/badge";
 // import { User } from "@/entities/User";
 
@@ -78,6 +79,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Toaster richColors />
       {/* Mobile Header */}
       <div className="lg:hidden bg-white border-b shadow-sm p-4 relative z-50">
         <div className="flex justify-between items-center">
@@ -138,10 +140,55 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </nav>
 
         <div className="p-4 border-t border-gray-200">
+
           <p className="text-xs text-gray-500 text-center">
             © 2025 PrepApp for DU Students
           </p>
         </div>
+
+                    <div className="absolute bottom-0 left-0 w-full border-t border-gray-200 p-4 bg-white">
+                      {user && (
+                        <div className="flex flex-col items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+                            {user.user_metadata.avatar_url ? (
+                              <Image
+                                src={user.user_metadata.avatar_url}
+                                alt="User Avatar"
+                                width={40}
+                                height={40}
+                                className="w-10 h-10 object-cover"
+                              />
+                            ) : (
+                              <span className="text-gray-500 font-semibold">
+                                {user.user_metadata.full_name
+                                  ? user.user_metadata.full_name.charAt(0)
+                                  : 'U'}
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-center">
+                            <p className="text-sm font-medium text-gray-900">
+                              {user.user_metadata.full_name || 'Unknown User'}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {user.email || 'No Email'}
+                            </p>
+                          </div>
+                          <Button
+                            onClick={async () => {
+                              await supabase.auth.signOut();
+                              setUser(null);
+                              window.location.reload();
+                            }}
+                            variant="outline"
+                            size="sm"
+                            className="w-full"
+                          >
+                            Sign Out
+                          </Button>
+                        </div>
+                      )}
+                    </div>
       </div>
 
       <div className="lg:ml-64">

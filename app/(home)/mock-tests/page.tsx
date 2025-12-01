@@ -20,10 +20,12 @@ export default function MockTests() {
   const [user, setUser] = useState<User | null>(null);
   const listRef = useRef<HTMLDivElement | null>(null);
 
+  // Load tests on component mount
   useEffect(() => {
     loadData();
   }, []);
 
+  // Update test with results after completion
   const UpdateMockTest = async (testId: string, results: TestResults) => {
     try {
       await updateTest(testId, results.status, results.score, results.correct_answers, results.wrong_answers, results.weak_areas, results.time_taken_minutes);
@@ -35,6 +37,8 @@ export default function MockTests() {
     }
   
   };
+
+  // Load user and tests data
   const loadData = async () => {
     const userData = await getCurrentUser();
     setUser(userData);
@@ -48,8 +52,11 @@ export default function MockTests() {
     setTests(userTests);
   };
 
+
+  // Generate a new AI-powered mock test
   const generateAITest = async (config: TestConfig) => {
     try {
+      // Generate test via AI
       const newTest = await generateMocktest(config.subject, config.difficulty, config.total_questions, config.duration_minutes);
       if (!newTest.ok) {
         console.log(newTest)
@@ -64,6 +71,8 @@ export default function MockTests() {
     }
   };
 
+
+  // Start a test
   const startTest = (test: Test) => {
     setActiveTest({...test, status: "in_progress"});
   };

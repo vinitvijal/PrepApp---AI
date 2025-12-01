@@ -56,6 +56,8 @@ export default async function MockTestDetailPage({ params }: MockTestDetailPageP
     notFound()
   }
 
+
+  //
   const durationMinutes = mockData.durationMinutes ?? 0
   const totalQuestions = mockData.totalQuestions ?? 0
   const correctAnswers = mockData.correctAnswers ?? 0
@@ -79,6 +81,7 @@ export default async function MockTestDetailPage({ params }: MockTestDetailPageP
   const shareLink = shareBaseUrl ? `${shareBaseUrl}/mock-tests/${mockid}` : ""
   const shareHref = `mailto:?subject=${encodeURIComponent(`${mockData.title} – Mock Test Report`)}&body=${encodeURIComponent(`Take a look at my mock test results${shareLink ? `: ${shareLink}` : "."}`)}`
 
+  // Personalized insights
   const accuracyInsight =
     accuracy >= 95
       ? "Flawless accuracy—keep your routine consistent to maintain this level."
@@ -96,6 +99,7 @@ export default async function MockTestDetailPage({ params }: MockTestDetailPageP
     : "No weak spots detected—consider stepping up the difficulty for your next mock."
   const nextSteps = [accuracyInsight, pacingInsight, challengeInsight]
 
+  // Badge styles
   const difficultyBadge = difficultyStyles[mockData.difficulty] || "bg-white/10 text-white border-white/20"
   const statusBadge = statusStyles[mockData.status] || "bg-slate-100 text-slate-700 border-slate-200"
 

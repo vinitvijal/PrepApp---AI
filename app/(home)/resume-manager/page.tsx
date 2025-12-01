@@ -68,7 +68,7 @@ function Page() {
       const filePath = url.split('/').slice(3).join('/').split('?')[0]; 
 
       // Construct the shareable link
-      const share_link = `https://www.eduscope.online/${filePath}`;
+      const share_link = `https://prepapp.vinucode.in/${filePath}`;
 
 
       // Call the AnalyzeAndStoreResume function to analyze and store the resume

@@ -11,8 +11,8 @@ const prisma = new PrismaClient();
 
 // Initialize the ChatOpenAI model with 0 temperature for deterministic outputs and gpt-4o-mini model
 const model = new ChatOpenAI({
-    model: 'gpt-4o-mini',
-    temperature: 0,
+    model: 'gpt-4o',
+    temperature: 1,
 })
 
 

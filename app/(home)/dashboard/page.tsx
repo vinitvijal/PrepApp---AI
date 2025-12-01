@@ -25,6 +25,33 @@ export default function Dashboard() {
     loadDashboardData();
   }, []);
 
+  /**
+   * Loads dashboard data and updates component state.
+   *
+   * Fetches the current user, dashboard statistics, recent tests, and recent applications,
+   * then writes the results into the local component state via the following setters:
+   *  - setUser
+   *  - setRecentTests
+   *  - setRecentApps
+   *  - setStats
+   *
+   * Control flow and behavior:
+   *  - Calls getUser(). If it returns a falsy value, logs "User not found" and returns early.
+   *  - Calls getDashboardStats(). If it returns a falsy value, logs "No dashboard data available" and returns early.
+   *  - Calls getTests(5) and getApplications(5) to load up to five recent items of each type.
+   *  - Sets stats fields using values from dashboardData; avgScore is formatted to one decimal place via toFixed(1),
+   *    which produces a string value for avgScore in the stats object.
+   *  - Any runtime error thrown by the async calls is caught and logged via console.error; the function does not rethrow.
+   *
+   * Important assumptions:
+   *  - The following functions and setters exist in the enclosing scope and are callable:
+   *      getUser, getDashboardStats, getTests, getApplications, setUser, setRecentTests, setRecentApps, setStats.
+   *  - Because avgScore is converted using toFixed(1), consumers expecting a numeric avgScore should parse it back to a number.
+   *
+   * @async
+   * @function loadDashboardData
+   * @returns {Promise<void>} Resolves after state has been updated or after an early return; errors are logged and swallowed.
+   */
   const loadDashboardData = async () => {
     try {
       const userData = await getUser();

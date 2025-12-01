@@ -31,6 +31,24 @@ export default function PlacementTracker() {
   
 
 
+  /**
+   * Loads the current authenticated user and their applications into component state.
+   *
+   * Queries Supabase for the current user. If no user is present, clears user and applications state.
+   * If a user is found, updates the user state then fetches the user's applications via getUserApplications()
+   * and stores them in the applications state.
+   *
+   * @async
+   * @returns {Promise<void>} Resolves once user and applications state have been updated.
+   *
+   * @remarks
+   * - Calls `supabase.auth.getUser()` to determine authentication state.
+   * - Calls `getUserApplications()` to retrieve application records for the authenticated user.
+   * - Side effects: invokes `setUser(...)` and `setApplications(...)`.
+   * - Intended to be used in an effect or event handler; ensure the component is still mounted when the promise resolves to avoid state updates on unmounted components.
+   *
+   * @throws Will propagate errors from Supabase or `getUserApplications()` (e.g., network or API errors); callers should handle errors as appropriate.
+   */
   const loadData = async () => {
     const { data} = await supabase.auth.getUser();
     if (!data.user) {
@@ -45,6 +63,20 @@ export default function PlacementTracker() {
 
   };
 
+  /**
+   * Save handler that either updates an existing application or adds a new one.
+   *
+   * If an application is currently being edited (determined by `editingApp` in the surrounding scope),
+   * this function calls `updateApplication` with the existing application's id and the provided `appData`.
+   * Otherwise, it calls `addApplication` to create a new application record.
+   *
+   * On a failed add/update (indicated by a falsy response from the called function), an error is logged to the console.
+   * After attempting the add/update the function closes the form UI (`setShowForm(false)`), clears the editing state
+   * (`setEditingApp(null)`), and reloads the displayed data by calling `loadData()`.
+   *
+   * @param appData - The Application object containing data to add or update. Must conform to the `Application` type.
+   * @returns A Promise that resolves once the save operation has been attempted and the UI/state updates have been applied.
+   */
   const handleSave = async (appData: Application) => {
     if (editingApp) {
       const res = await updateApplication(editingApp.id, appData);
@@ -63,6 +95,16 @@ export default function PlacementTracker() {
     loadData();
   };
 
+  /**
+   * Prepares the UI to edit a given application.
+   *
+   * Sets the provided Application as the currently editing item and makes the edit form visible.
+   *
+   * @param app - The Application to edit; becomes the active editing context.
+   * @returns void
+   * @remarks
+   * This function has side effects: it updates component state (e.g., sets the editing app and toggles form visibility).
+   */
   const handleEdit = (app: Application) => {
     setEditingApp(app);
     setShowForm(true);

@@ -11,7 +11,7 @@ export default function LoginPage() {
             <Image src='/logo.png' alt="Logo" width={100} height={100} />
           </div>
           <p className="text-2xl text-black font-semibold uppercase tracking-wider">
-            PREPAPP AI
+            EduScope
           </p>
           <p className="text-gray-600 text-sm">
             From Campus To Corporate
@@ -101,7 +101,7 @@ export default function LoginPage() {
                 </div>
                 <div className="relative flex justify-center text-sm">
                   <span className="px-2 bg-white text-gray-500 font-medium">
-                    New to PrepApp?
+                    New to EduScope?
                   </span>
                 </div>
               </div>

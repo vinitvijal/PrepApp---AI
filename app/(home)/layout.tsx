@@ -88,8 +88,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Image src='/logo.png' alt="Logo" width={100} height={100} className="w-10 h-10 text-white" />
             </div>
             <div>
-              <h1 className="text-lg font-semibold text-gray-900">PrepApp</h1>
-              <p className="text-xs text-gray-500">DU Student Portal</p>
+              <h1 className="text-lg font-semibold text-gray-900">EduScope</h1>
+              <p className="text-xs text-gray-500">Student Portal</p>
             </div>
           </div>
           <Button
@@ -113,8 +113,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Image src='/logo.png' alt="Logo" width={100} height={100} className="w-10 h-10 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-semibold text-gray-900">PrepApp</h1>
-              <p className="text-sm text-gray-500">DU Student Portal</p>
+              <h1 className="text-xl font-semibold text-gray-900">EduScope</h1>
+              <p className="text-sm text-gray-500">Student Portal</p>
             </div>
           </div>
         </div>
@@ -142,7 +142,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="p-4 border-t border-gray-200">
 
           <p className="text-xs text-gray-500 text-center">
-            © 2025 PrepApp for DU Students
+            © 2025 EduScope for Students
           </p>
         </div>
 

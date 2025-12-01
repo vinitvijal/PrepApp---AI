@@ -11,7 +11,7 @@ export default function SignUpPage() {
                         <Image src='/logo.png' alt="Logo" width={100} height={100} />
                     </div>
                     <p className="text-2xl text-black font-semibold uppercase tracking-wider">
-                        PREPAPP AI
+                        EduScope
                     </p>
                     <p className="text-gray-600 text-sm">
                         From Campus To Corporate
@@ -24,7 +24,7 @@ export default function SignUpPage() {
                             Create your account
                         </h2>
                         <p className="text-sm text-gray-600 mt-1">
-                            Join PrepApp and start your learning journey today.
+                            Join EduScope and start your learning journey today.
                         </p>
                     </div>
                     {/* Display Name Field */}
@@ -38,7 +38,7 @@ export default function SignUpPage() {
                                     htmlFor="email"
                                     className="block text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wide"
                                 >
-                                    DU Email Address
+                                    Email Address
                                 </label>
                                 <input
                                     id="email"
@@ -152,7 +152,7 @@ export default function SignUpPage() {
                         </Link>
                     </div>
                     <p className="mt-2 text-xs text-gray-400">
-                        © 2025 PrepApp. All rights reserved.
+                        © 2025 EduScope. All rights reserved.
                     </p>
                 </div>
             </div>

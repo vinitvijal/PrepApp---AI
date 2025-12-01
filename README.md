@@ -1,6 +1,6 @@
-# PrepApp AI
+# EduScope
 
-**PrepApp AI** is an AI-powered preparation platform designed specifically for Delhi University (DU) students. It offers smart tools for mock test generation, resume building, placement tracking, and more, helping students prepare efficiently for exams and placements.
+**EduScope** is an AI-powered preparation platform designed specifically for students. It offers smart tools for mock test generation, resume building, placement tracking, and more, helping students prepare efficiently for exams and placements.
 
 ---
 
@@ -69,7 +69,7 @@
 - **Frontend**: React / Next.js 
 - **Backend**: Node.js / Python (Flask)
 - **Database**: MongoDB / PostgreSQL
-- **AI/ML**: OpenAI API, HuggingFace Transformers
+- **AI/ML**: OpenAI APIW
 - **Notifications**: Email, Push (SES, OneSignal)
 
 ---
@@ -90,10 +90,4 @@ This project is licensed under the MIT License.
 
 ---
 
-## Contact
-
-For support or queries, reach out at [vineet.mca25@cs.du.ac.in](mailto:vineet.mca25@cs.du.ac.in).
-
----
-
-**PrepApp AI**: Empowering DU students for exams and placements
+**EduScope**: Empowering students for exams and placements

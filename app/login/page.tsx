@@ -11,10 +11,10 @@ export default function LoginPage() {
             <Image src='/logo.png' alt="Logo" width={100} height={100} />
           </div>
           <p className="text-2xl text-black font-semibold uppercase tracking-wider">
-            PREPAPP
+            PREPAPP AI
           </p>
           <p className="text-gray-600 text-sm">
-            Professional Learning Platform
+            From Campus To Corporate
           </p>
         </div>
 

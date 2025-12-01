@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: " PrepApp - DU Student Portal",
-  description: "Dashboard for DU Students to manage their placements and mock tests",
+  title: " EduScope - Student Portal",
+  description: "Dashboard for Students to manage their placements and mock tests",
 };
 
 export default function RootLayout({

@@ -101,7 +101,7 @@ export default function Dashboard() {
           </div>
         </div>
         <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900">
-          Welcome to PrepApp
+          Welcome to EduScope
         </h1>
         <p className="text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
           Your platform for placement preparation featuring AI-powered mock tests, resume optimization, and application tracking.
